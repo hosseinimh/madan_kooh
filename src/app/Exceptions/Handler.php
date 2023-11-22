@@ -34,7 +34,11 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ValidationException) {
-            return $exception->getResponse();
+            if ($request->expectsJson()) {
+                return $exception->getResponse();
+            }
+            Helper::logError($exception);
+            return redirect(Theme::BASE_URL);
         }
         if ($exception instanceof AuthenticationException || $exception instanceof TokenMismatchException) {
             if ($request->expectsJson()) {

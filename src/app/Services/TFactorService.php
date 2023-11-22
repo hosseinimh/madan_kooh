@@ -10,19 +10,22 @@ use Illuminate\Support\Facades\DB;
 
 class TFactorService
 {
-    public function getPaginate(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?int $factorId, string $repetitionType, int $page, int $pageItems): mixed
+    public function getPaginate(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?string $factorId, ?string $factorDescription1, string $repetitionType, int $page, int $pageItems): mixed
     {
+        $weightBridge = ($weightBridge === WeightBridge::WB_1 || $weightBridge === WeightBridge::WB_2) ? $weightBridge : null;
         $fromDate = Helper::getTimestamp($fromDate);
         $toDate = Helper::getTimestamp($toDate, '23:59:59');
-        $weightBridge = ($weightBridge === WeightBridge::WB_1 || $weightBridge === WeightBridge::WB_2) ? $weightBridge : null;
-        $sql = $this->select($weightBridge, $fromDate, $toDate, $goodsName, $driver, $buyersName, $sellersName, $users, $factorId, $repetitionType);
+        $sql = $this->select($weightBridge, $fromDate, $toDate, $goodsName, $driver, $buyersName, $sellersName, $users, $factorId, $factorDescription1, $repetitionType);
         $sql .= ' LIMIT ' . ($page - 1) * $pageItems . ',' . $pageItems;
         return DB::select(DB::raw($sql));
     }
 
-    public function getAll(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?int $factorId, string $repetitionType): mixed
+    public function getAll(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?string $factorId, ?string $factorDescription1, string $repetitionType): mixed
     {
-        $sql = $this->select($weightBridge, $fromDate, $toDate, $goodsName, $driver, $buyersName, $sellersName, $users, $factorId, $repetitionType);
+        $weightBridge = ($weightBridge === WeightBridge::WB_1 || $weightBridge === WeightBridge::WB_2) ? $weightBridge : null;
+        $fromDate = Helper::getTimestamp($fromDate);
+        $toDate = Helper::getTimestamp($toDate, '23:59:59');
+        $sql = $this->select($weightBridge, $fromDate, $toDate, $goodsName, $driver, $buyersName, $sellersName, $users, $factorId, $factorDescription1, $repetitionType);
         return DB::select(DB::raw($sql));
     }
 
@@ -72,20 +75,20 @@ class TFactorService
         return DB::statement("DELETE FROM `tbl_tfactors` WHERE `id`>=$id");
     }
 
-    private function select(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?int $factorId, string $repetitionType): string
+    private function select(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?string $factorId, ?string $factorDescription1, string $repetitionType): string
     {
-        $sql = $this->handleGetOrSumSql($weightBridge, $fromDate, $toDate, $goodsName, $driver, $buyersName, $sellersName, $users, $factorId, $repetitionType, 'select');
+        $sql = $this->handleGetOrSumSql($weightBridge, $fromDate, $toDate, $goodsName, $driver, $buyersName, $sellersName, $users, $factorId, $factorDescription1, $repetitionType, 'select');
         $sql .= ' ORDER BY tbl_tfactors1.`current_timestamp` DESC,tbl_tfactors1.`id` DESC';
         return $sql;
     }
 
     private function sum(string $weightBridge): string
     {
-        $sql = $this->handleGetOrSumSql($weightBridge, null, null, null, null, null, null, null, null, TFactorRepitionType::LAST, 'sum');
+        $sql = $this->handleGetOrSumSql($weightBridge, null, null, null, null, null, null, null, null, null, TFactorRepitionType::LAST, 'sum');
         return $sql;
     }
 
-    private function handleGetOrSumSql(?string $weightBridge, ?int $fromDate, ?int $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?int $factorId, string $repetitionType, string $operation = 'get'): string
+    private function handleGetOrSumSql(?string $weightBridge, ?int $fromDate, ?int $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?string $factorId, ?string $factorDescription1,  string $repetitionType, string $operation = 'get'): string
     {
         $goodsName = Helper::createORSQL($goodsName, 'tbl_tfactors1.`goods_name`');
         $buyersName = Helper::createORSQL($buyersName, 'tbl_tfactors1.`buyer_name`');
@@ -116,7 +119,7 @@ class TFactorService
         switch ($operation) {
             case 'get':
             default:
-                $sql .= ' WHERE tbl_tfactors1.`current_timestamp`>=' . $fromDate . ' AND tbl_tfactors1.`current_timestamp`<=' . $toDate . ' AND tbl_tfactors1.`driver` LIKE "%' . $driver . '%" AND tbl_tfactors1.`factor_id` LIKE "%' . $factorId . '%"';
+                $sql .= ' WHERE tbl_tfactors1.`current_timestamp`>=' . $fromDate . ' AND tbl_tfactors1.`current_timestamp`<=' . $toDate . ' AND tbl_tfactors1.`driver` LIKE "%' . $driver . '%" AND tbl_tfactors1.`factor_id` LIKE "%' . $factorId . '%" AND tbl_tfactors1.`factor_description1` LIKE "%' . $factorDescription1 . '%"';
                 $sql .= strlen($goodsName) > 0 ? ' AND (' . $goodsName . ')' : '';
                 $sql .= strlen($buyersName) > 0 ? ' AND (' . $buyersName . ')' : '';
                 $sql .= strlen($sellersName) > 0 ? ' AND (' . $sellersName . ')' : '';

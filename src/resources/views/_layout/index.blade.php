@@ -17,28 +17,11 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <title>{{ __('general._title') }}</title>
-    @php
-    try {
-    $filename = 'assets/css/style_rtl.css';
-    $fileModified = substr(md5(filemtime($filename)), 0, 6);
-    } catch (\Exception) {
-    $fileModified = '';
-    }
-    @endphp
-    <link href="{{$THEME::CSS_PATH}}/style_rtl.css?v={{$fileModified}}" rel="stylesheet">
+    @yield('style')
 </head>
 
 <body>
-    <div id="root"></div>
-    @php
-    try {
-    $filename = 'assets/js/index.js';
-    $fileModified = substr(md5(filemtime($filename)), 0, 6);
-    } catch (\Exception) {
-    $fileModified = '';
-    }
-    @endphp
-    <script src="{{$THEME::JS_PATH}}/index.js?v={{$fileModified}}"></script>
+    @yield('content')
 </body>
 
 </html>

@@ -7143,25 +7143,30 @@ var tfactorsPage = {
   goodsNamePlaceholder: "کالا",
   driver: "راننده",
   buyersName: "خریدار",
+  buyersNamePlaceholder: "خریدار",
   sellersName: "فروشنده",
-  user: "کاربر",
-  tfactorId: "شماره قبض",
-  tfactorIdPlaceholder: "شماره قبض",
+  sellersNamePlaceholder: "فروشنده",
+  users: "کاربر",
+  usersPlaceholder: "کاربر",
+  factorId: "شماره قبض",
+  factorIdPlaceholder: "شماره قبض",
+  factorDescription1: "شماره بارنامه",
+  factorDescription1Placeholder: "شماره بارنامه",
   repetitionType: "نحوه نمایش",
-  factorId: "شماره قبض / کاربر",
+  factorIdList: "شماره قبض / کاربر",
   carNumber: "شماره ماشین / راننده",
   carNumber1: "ایران",
   currentDate: "تاریخ توزین",
   currentTime: "ساعت توزین",
-  prevWeight: "وزن خالی",
-  currentWeight: "وزن پر",
+  prevWeightSum: "وزن خالی",
+  currentWeightSum: "وزن پر",
   netWeight: "وزن خالص",
   buyer: "خریدار",
   buyer2: "محدوده استخراج",
   seller: "فروشنده",
-  seller2: "استخراج کننده",
+  seller2: "استخراج‌کننده",
   goodName: "نام کالا",
-  factorDescription1: "ش بارنامه",
+  factorDescription1List: "ش بارنامه",
   removeTFactors: "حذف فاکتورهای صادره",
   excel: "خروجی اکسل",
   print: "چاپ",
@@ -7941,17 +7946,17 @@ var TFactor = /*#__PURE__*/function (_Entity) {
   _createClass(TFactor, [{
     key: "getPaginate",
     value: function () {
-      var _getPaginate = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, repetitionType) {
+      var _getPaginate = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, factorDescription1, repetitionType) {
         var _pn,
           _pi,
           _args = arguments;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _pn = _args.length > 10 && _args[10] !== undefined ? _args[10] : 1;
-              _pi = _args.length > 11 && _args[11] !== undefined ? _args[11] : _constants__WEBPACK_IMPORTED_MODULE_0__.PAGE_ITEMS;
+              _pn = _args.length > 11 && _args[11] !== undefined ? _args[11] : 1;
+              _pi = _args.length > 12 && _args[12] !== undefined ? _args[12] : _constants__WEBPACK_IMPORTED_MODULE_0__.PAGE_ITEMS;
               _context.next = 4;
-              return this.handleGetPaginate(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, repetitionType, _pn, _pi, false);
+              return this.handleGetPaginate(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, factorDescription1, repetitionType, _pn, _pi, false);
             case 4:
               return _context.abrupt("return", _context.sent);
             case 5:
@@ -7960,7 +7965,7 @@ var TFactor = /*#__PURE__*/function (_Entity) {
           }
         }, _callee, this);
       }));
-      function getPaginate(_x, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10) {
+      function getPaginate(_x, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10, _x11) {
         return _getPaginate.apply(this, arguments);
       }
       return getPaginate;
@@ -7968,17 +7973,17 @@ var TFactor = /*#__PURE__*/function (_Entity) {
   }, {
     key: "getPaginateWithProps",
     value: function () {
-      var _getPaginateWithProps = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, repetitionType) {
+      var _getPaginateWithProps = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, factorDescription1, repetitionType) {
         var _pn,
           _pi,
           _args2 = arguments;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _pn = _args2.length > 10 && _args2[10] !== undefined ? _args2[10] : 1;
-              _pi = _args2.length > 11 && _args2[11] !== undefined ? _args2[11] : _constants__WEBPACK_IMPORTED_MODULE_0__.PAGE_ITEMS;
+              _pn = _args2.length > 11 && _args2[11] !== undefined ? _args2[11] : 1;
+              _pi = _args2.length > 12 && _args2[12] !== undefined ? _args2[12] : _constants__WEBPACK_IMPORTED_MODULE_0__.PAGE_ITEMS;
               _context2.next = 4;
-              return this.handleGetPaginate(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, repetitionType, _pn, _pi, true);
+              return this.handleGetPaginate(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, factorDescription1, repetitionType, _pn, _pi, true);
             case 4:
               return _context2.abrupt("return", _context2.sent);
             case 5:
@@ -7987,7 +7992,7 @@ var TFactor = /*#__PURE__*/function (_Entity) {
           }
         }, _callee2, this);
       }));
-      function getPaginateWithProps(_x11, _x12, _x13, _x14, _x15, _x16, _x17, _x18, _x19, _x20) {
+      function getPaginateWithProps(_x12, _x13, _x14, _x15, _x16, _x17, _x18, _x19, _x20, _x21, _x22) {
         return _getPaginateWithProps.apply(this, arguments);
       }
       return getPaginateWithProps;
@@ -7995,7 +8000,7 @@ var TFactor = /*#__PURE__*/function (_Entity) {
   }, {
     key: "handleGetPaginate",
     value: function () {
-      var _handleGetPaginate = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, repetitionType, _pn, _pi, withProps) {
+      var _handleGetPaginate = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(weightBridge, fromDate, toDate, goodsName, driver, buyersName, sellersName, users, factorId, factorDescription1, repetitionType, _pn, _pi, withProps) {
         var data;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
@@ -8010,6 +8015,7 @@ var TFactor = /*#__PURE__*/function (_Entity) {
                 sellers_name: sellersName,
                 users: users,
                 factor_id: factorId,
+                factor_description1: factorDescription1,
                 repetition_type: repetitionType,
                 _pn: _pn,
                 _pi: _pi
@@ -8037,7 +8043,7 @@ var TFactor = /*#__PURE__*/function (_Entity) {
           }
         }, _callee3, this);
       }));
-      function handleGetPaginate(_x21, _x22, _x23, _x24, _x25, _x26, _x27, _x28, _x29, _x30, _x31, _x32, _x33) {
+      function handleGetPaginate(_x23, _x24, _x25, _x26, _x27, _x28, _x29, _x30, _x31, _x32, _x33, _x34, _x35, _x36) {
         return _handleGetPaginate.apply(this, arguments);
       }
       return handleGetPaginate;
@@ -8061,7 +8067,7 @@ var TFactor = /*#__PURE__*/function (_Entity) {
           }
         }, _callee4, this);
       }));
-      function deleteTFactors(_x34) {
+      function deleteTFactors(_x37) {
         return _deleteTFactors.apply(this, arguments);
       }
       return deleteTFactors;
@@ -9354,7 +9360,7 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
     });
     _this = _super.call(this, "TFactors", _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage, form);
     _defineProperty(_assertThisInitialized(_this), "getSearchFields", function () {
-      var _this$useForm$getValu, _this$useForm$getValu2, _this$useForm$getValu3, _this$useForm$getValu4, _this$useForm$getValu5, _this$useForm$getValu6, _this$useForm$getValu7, _this$useForm$getValu8, _this$useForm$getValu9, _this$useForm$getValu10, _searchFields$goodsNa;
+      var _this$useForm$getValu, _this$useForm$getValu2, _this$useForm$getValu3, _this$useForm$getValu4, _this$useForm$getValu5, _this$useForm$getValu6, _this$useForm$getValu7, _this$useForm$getValu8, _this$useForm$getValu9, _this$useForm$getValu10, _this$useForm$getValu11, _searchFields$goodsNa, _searchFields$buyersN, _searchFields$sellers, _searchFields$users;
       var searchFields = {
         weightBridge: (_this$useForm$getValu = _this.useForm.getValues("weightBridge")) !== null && _this$useForm$getValu !== void 0 ? _this$useForm$getValu : "",
         fromDate: (_this$useForm$getValu2 = _this.useForm.getValues("fromDate")) !== null && _this$useForm$getValu2 !== void 0 ? _this$useForm$getValu2 : "",
@@ -9363,9 +9369,10 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
         driver: (_this$useForm$getValu5 = _this.useForm.getValues("driver")) !== null && _this$useForm$getValu5 !== void 0 ? _this$useForm$getValu5 : "",
         buyersName: (_this$useForm$getValu6 = _this.useForm.getValues("buyersName")) !== null && _this$useForm$getValu6 !== void 0 ? _this$useForm$getValu6 : "",
         sellersName: (_this$useForm$getValu7 = _this.useForm.getValues("sellersName")) !== null && _this$useForm$getValu7 !== void 0 ? _this$useForm$getValu7 : "",
-        user: (_this$useForm$getValu8 = _this.useForm.getValues("user")) !== null && _this$useForm$getValu8 !== void 0 ? _this$useForm$getValu8 : "",
-        factorId: (_this$useForm$getValu9 = _this.useForm.getValues("tfactorId")) !== null && _this$useForm$getValu9 !== void 0 ? _this$useForm$getValu9 : "",
-        repetitionType: (_this$useForm$getValu10 = _this.useForm.getValues("repetitionType")) !== null && _this$useForm$getValu10 !== void 0 ? _this$useForm$getValu10 : ""
+        users: (_this$useForm$getValu8 = _this.useForm.getValues("users")) !== null && _this$useForm$getValu8 !== void 0 ? _this$useForm$getValu8 : "",
+        factorId: (_this$useForm$getValu9 = _this.useForm.getValues("factorId")) !== null && _this$useForm$getValu9 !== void 0 ? _this$useForm$getValu9 : "",
+        factorDescription1: (_this$useForm$getValu10 = _this.useForm.getValues("factorDescription1")) !== null && _this$useForm$getValu10 !== void 0 ? _this$useForm$getValu10 : "",
+        repetitionType: (_this$useForm$getValu11 = _this.useForm.getValues("repetitionType")) !== null && _this$useForm$getValu11 !== void 0 ? _this$useForm$getValu11 : ""
       };
       if (searchFields.weightBridge === "") {
         var weightBridge = _this.getPermittedWeightBridges()[0].id;
@@ -9389,6 +9396,27 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
       } else {
         searchFields.goodsName = "";
       }
+      if (((_searchFields$buyersN = searchFields.buyersName) === null || _searchFields$buyersN === void 0 ? void 0 : _searchFields$buyersN.length) > 0) {
+        searchFields.buyersName = searchFields.buyersName.map(function (item) {
+          return item.value;
+        }).join(",");
+      } else {
+        searchFields.buyersName = "";
+      }
+      if (((_searchFields$sellers = searchFields.sellersName) === null || _searchFields$sellers === void 0 ? void 0 : _searchFields$sellers.length) > 0) {
+        searchFields.sellersName = searchFields.sellersName.map(function (item) {
+          return item.value;
+        }).join(",");
+      } else {
+        searchFields.sellersName = "";
+      }
+      if (((_searchFields$users = searchFields.users) === null || _searchFields$users === void 0 ? void 0 : _searchFields$users.length) > 0) {
+        searchFields.users = searchFields.users.map(function (item) {
+          return item.value;
+        }).join(",");
+      } else {
+        searchFields.users = "";
+      }
       return searchFields;
     });
     _this.entity = new _http_entities__WEBPACK_IMPORTED_MODULE_1__.TFactor();
@@ -9398,6 +9426,8 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
       itemsCount: 0,
       item: null,
       items: null,
+      currentWeightSum: 0,
+      prevWeightSum: 0,
       action: null,
       searchFields: null,
       goodsName: null,
@@ -9407,6 +9437,7 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
       users: null
     };
     _this.onExcel = _this.onExcel.bind(_assertThisInitialized(_this));
+    _this.onPrint = _this.onPrint.bind(_assertThisInitialized(_this));
     _this.handlePromptSubmit = _this.handlePromptSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -9466,6 +9497,14 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
       window.open(url, "_blank").focus();
     }
   }, {
+    key: "onPrint",
+    value: function onPrint() {
+      var _this$pageState2, _this$pageState2$prop;
+      var searchFields = (_this$pageState2 = this.pageState) === null || _this$pageState2 === void 0 ? void 0 : (_this$pageState2$prop = _this$pageState2.props) === null || _this$pageState2$prop === void 0 ? void 0 : _this$pageState2$prop.searchFields;
+      var url = "".concat(_constants__WEBPACK_IMPORTED_MODULE_3__.BASE_PATH, "/tfactors/print?weight_bridge=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.weightBridge, "&from_date=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.fromDate, "&to_date=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.toDate, "&goods_name=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.goodsName, "&driver=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.driver, "&buyers_name=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.buyersName, "&sellers_name=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.sellersName, "&users=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.users, "&factor_id=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.factorId, "&factor_description1=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.factorDescription1, "&repetition_type=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.repetitionType);
+      window.open(url, "_blank").focus();
+    }
+  }, {
     key: "onRemove",
     value: function onRemove(e, item) {
       e.stopPropagation();
@@ -9508,7 +9547,7 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
             case 0:
               withProps = _args.length > 1 && _args[1] !== undefined ? _args[1] : false;
               this.withProps = withProps;
-              promise = withProps ? this.entity.getPaginateWithProps(data.weightBridge, data.fromDate, data.toDate, data.goodsName, data.driver, data.buyersName, data.sellersName, data.users, data.factorId, data.repetitionType, (_this$pageState$props2 = (_this$pageState$props3 = this.pageState.props) === null || _this$pageState$props3 === void 0 ? void 0 : _this$pageState$props3.pageNumber) !== null && _this$pageState$props2 !== void 0 ? _this$pageState$props2 : 1) : this.entity.getPaginate(data.weightBridge, data.fromDate, data.toDate, data.goodsName, data.driver, data.buyersName, data.sellersName, data.users, data.factorId, data.repetitionType, (_this$pageState$props4 = (_this$pageState$props5 = this.pageState.props) === null || _this$pageState$props5 === void 0 ? void 0 : _this$pageState$props5.pageNumber) !== null && _this$pageState$props4 !== void 0 ? _this$pageState$props4 : 1);
+              promise = withProps ? this.entity.getPaginateWithProps(data.weightBridge, data.fromDate, data.toDate, data.goodsName, data.driver, data.buyersName, data.sellersName, data.users, data.factorId, data.factorDescription1, data.repetitionType, (_this$pageState$props2 = (_this$pageState$props3 = this.pageState.props) === null || _this$pageState$props3 === void 0 ? void 0 : _this$pageState$props3.pageNumber) !== null && _this$pageState$props2 !== void 0 ? _this$pageState$props2 : 1) : this.entity.getPaginate(data.weightBridge, data.fromDate, data.toDate, data.goodsName, data.driver, data.buyersName, data.sellersName, data.users, data.factorId, data.factorDescription1, data.repetitionType, (_this$pageState$props4 = (_this$pageState$props5 = this.pageState.props) === null || _this$pageState$props5 === void 0 ? void 0 : _this$pageState$props5.pageNumber) !== null && _this$pageState$props4 !== void 0 ? _this$pageState$props4 : 1);
               this.dispatch((0,_state_page_pageActions__WEBPACK_IMPORTED_MODULE_7__.setPagePropsAction)({
                 searchFields: _objectSpread({}, data)
               }));
@@ -9528,11 +9567,13 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
     key: "propsIfOK",
     value: function propsIfOK(result) {
       try {
-        var _this$pageState$props6, _this$pageState2, _this$pageState2$prop, _result$goodsName, _result$drivers, _result$buyersName, _result$sellersName, _result$users, _this$pageState$props7, _this$pageState3, _this$pageState3$prop;
+        var _this$pageState$props6, _this$pageState3, _this$pageState3$prop, _result$goodsName, _result$drivers, _result$buyersName, _result$sellersName, _result$users, _this$pageState$props7, _this$pageState4, _this$pageState4$prop;
         return this.withProps ? {
-          prevPageNumber: (_this$pageState$props6 = (_this$pageState2 = this.pageState) === null || _this$pageState2 === void 0 ? void 0 : (_this$pageState2$prop = _this$pageState2.props) === null || _this$pageState2$prop === void 0 ? void 0 : _this$pageState2$prop.pageNumber) !== null && _this$pageState$props6 !== void 0 ? _this$pageState$props6 : 1,
+          prevPageNumber: (_this$pageState$props6 = (_this$pageState3 = this.pageState) === null || _this$pageState3 === void 0 ? void 0 : (_this$pageState3$prop = _this$pageState3.props) === null || _this$pageState3$prop === void 0 ? void 0 : _this$pageState3$prop.pageNumber) !== null && _this$pageState$props6 !== void 0 ? _this$pageState$props6 : 1,
           items: result.items,
           itemsCount: result.count,
+          currentWeightSum: result.currentWeightSum,
+          prevWeightSum: result.prevWeightSum,
           goodsName: (_result$goodsName = result.goodsName) === null || _result$goodsName === void 0 ? void 0 : _result$goodsName.map(function (item) {
             return {
               value: item.goods_name,
@@ -9547,26 +9588,28 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
           }),
           buyersName: (_result$buyersName = result.buyersName) === null || _result$buyersName === void 0 ? void 0 : _result$buyersName.map(function (item) {
             return {
-              id: item.buyer_name,
-              value: item.buyer_name
+              value: item.buyer_name,
+              label: item.buyer_name
             };
           }),
           sellersName: (_result$sellersName = result.sellersName) === null || _result$sellersName === void 0 ? void 0 : _result$sellersName.map(function (item) {
             return {
-              id: item.seller_name,
-              value: item.seller_name
+              value: item.seller_name,
+              label: item.seller_name
             };
           }),
           users: (_result$users = result.users) === null || _result$users === void 0 ? void 0 : _result$users.map(function (item) {
             return {
-              id: item.user_id,
-              value: "".concat(item.user_name, " ").concat(item.user_family, " [ ").concat(item.user_id, " ]")
+              value: item.user_id,
+              label: "".concat(item.user_name, " ").concat(item.user_family, " [ ").concat(item.user_id, " ]")
             };
           })
         } : {
-          prevPageNumber: (_this$pageState$props7 = (_this$pageState3 = this.pageState) === null || _this$pageState3 === void 0 ? void 0 : (_this$pageState3$prop = _this$pageState3.props) === null || _this$pageState3$prop === void 0 ? void 0 : _this$pageState3$prop.pageNumber) !== null && _this$pageState$props7 !== void 0 ? _this$pageState$props7 : 1,
+          prevPageNumber: (_this$pageState$props7 = (_this$pageState4 = this.pageState) === null || _this$pageState4 === void 0 ? void 0 : (_this$pageState4$prop = _this$pageState4.props) === null || _this$pageState4$prop === void 0 ? void 0 : _this$pageState4$prop.pageNumber) !== null && _this$pageState$props7 !== void 0 ? _this$pageState$props7 : 1,
           items: result.items,
-          itemsCount: result.count
+          itemsCount: result.count,
+          currentWeightSum: result.currentWeightSum,
+          prevWeightSum: result.prevWeightSum
         };
       } catch (_unused) {}
     }
@@ -9630,6 +9673,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var TFactors = function TFactors() {
   var layoutState = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
     return state.layoutReducer;
@@ -9639,70 +9683,114 @@ var TFactors = function TFactors() {
   });
   var columnsCount = 12;
   var pageUtils = new _PageUtils__WEBPACK_IMPORTED_MODULE_3__.PageUtils();
-  var renderSearch = function renderSearch() {
+  var renderTopList = function renderTopList() {
     var _pageUtils$pageState, _pageUtils$pageState$, _pageUtils$pageState2, _pageUtils$pageState3, _pageUtils$pageState4, _pageUtils$pageState5, _pageUtils$pageState6, _pageUtils$pageState7, _pageUtils$pageState8, _pageUtils$pageState9;
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.SearchBox, {
-      pageUtils: pageUtils,
-      onSubmit: pageUtils.onSubmit,
-      onReset: pageUtils.onReset,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
-          field: "weightBridge",
-          showLabel: true,
-          items: pageUtils.getPermittedWeightBridges(),
-          fullRow: false
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputDatePickerColumn, {
-          field: "fromDate",
-          showLabel: true,
-          fullRow: false
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputDatePickerColumn, {
-          field: "toDate",
-          showLabel: true,
-          fullRow: false
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
-          field: "goodsName",
-          showLabel: true,
-          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState = pageUtils.pageState) === null || _pageUtils$pageState === void 0 ? void 0 : (_pageUtils$pageState$ = _pageUtils$pageState.props) === null || _pageUtils$pageState$ === void 0 ? void 0 : _pageUtils$pageState$.goodsName,
-          fullRow: false
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.SearchBox, {
+        pageUtils: pageUtils,
+        onSubmit: pageUtils.onSubmit,
+        onReset: pageUtils.onReset,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
+            field: "weightBridge",
+            showLabel: true,
+            items: pageUtils.getPermittedWeightBridges(),
+            fullRow: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputDatePickerColumn, {
+            field: "fromDate",
+            showLabel: true,
+            fullRow: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputDatePickerColumn, {
+            field: "toDate",
+            showLabel: true,
+            fullRow: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
+            field: "goodsName",
+            showLabel: true,
+            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState = pageUtils.pageState) === null || _pageUtils$pageState === void 0 ? void 0 : (_pageUtils$pageState$ = _pageUtils$pageState.props) === null || _pageUtils$pageState$ === void 0 ? void 0 : _pageUtils$pageState$.goodsName,
+            fullRow: false
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
+            field: "driver",
+            showLabel: true,
+            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState2 = pageUtils.pageState) === null || _pageUtils$pageState2 === void 0 ? void 0 : (_pageUtils$pageState3 = _pageUtils$pageState2.props) === null || _pageUtils$pageState3 === void 0 ? void 0 : _pageUtils$pageState3.drivers,
+            fullRow: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
+            field: "buyersName",
+            showLabel: true,
+            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState4 = pageUtils.pageState) === null || _pageUtils$pageState4 === void 0 ? void 0 : (_pageUtils$pageState5 = _pageUtils$pageState4.props) === null || _pageUtils$pageState5 === void 0 ? void 0 : _pageUtils$pageState5.buyersName,
+            fullRow: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
+            field: "sellersName",
+            showLabel: true,
+            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState6 = pageUtils.pageState) === null || _pageUtils$pageState6 === void 0 ? void 0 : (_pageUtils$pageState7 = _pageUtils$pageState6.props) === null || _pageUtils$pageState7 === void 0 ? void 0 : _pageUtils$pageState7.sellersName,
+            fullRow: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
+            field: "users",
+            showLabel: true,
+            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState8 = pageUtils.pageState) === null || _pageUtils$pageState8 === void 0 ? void 0 : (_pageUtils$pageState9 = _pageUtils$pageState8.props) === null || _pageUtils$pageState9 === void 0 ? void 0 : _pageUtils$pageState9.users,
+            fullRow: false
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputTextColumn, {
+            field: "tfactorId",
+            showLabel: true,
+            fullRow: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputTextColumn, {
+            field: "factorDescription1",
+            showLabel: true,
+            fullRow: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
+            field: "repetitionType",
+            showLabel: true,
+            items: _constants_lists__WEBPACK_IMPORTED_MODULE_5__.repetitionTypes,
+            fullRow: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {})]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
-          field: "driver",
-          showLabel: true,
-          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState2 = pageUtils.pageState) === null || _pageUtils$pageState2 === void 0 ? void 0 : (_pageUtils$pageState3 = _pageUtils$pageState2.props) === null || _pageUtils$pageState3 === void 0 ? void 0 : _pageUtils$pageState3.drivers,
-          fullRow: false
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
-          field: "buyersName",
-          showLabel: true,
-          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState4 = pageUtils.pageState) === null || _pageUtils$pageState4 === void 0 ? void 0 : (_pageUtils$pageState5 = _pageUtils$pageState4.props) === null || _pageUtils$pageState5 === void 0 ? void 0 : _pageUtils$pageState5.buyersName,
-          fullRow: false
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
-          field: "sellersName",
-          showLabel: true,
-          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState6 = pageUtils.pageState) === null || _pageUtils$pageState6 === void 0 ? void 0 : (_pageUtils$pageState7 = _pageUtils$pageState6.props) === null || _pageUtils$pageState7 === void 0 ? void 0 : _pageUtils$pageState7.sellersName,
-          fullRow: false
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
-          field: "user",
-          showLabel: true,
-          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState8 = pageUtils.pageState) === null || _pageUtils$pageState8 === void 0 ? void 0 : (_pageUtils$pageState9 = _pageUtils$pageState8.props) === null || _pageUtils$pageState9 === void 0 ? void 0 : _pageUtils$pageState9.users,
-          fullRow: false
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputTextColumn, {
-          field: "tfactorId",
-          showLabel: true,
-          fullRow: false
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
-          field: "repetitionType",
-          showLabel: true,
-          items: _constants_lists__WEBPACK_IMPORTED_MODULE_5__.repetitionTypes,
-          fullRow: false
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {})]
+      })
+    });
+  };
+  var renderButtons = function renderButtons() {
+    var _pageUtils$pageState$2, _pageUtils$pageState10, _pageUtils$pageState11, _pageUtils$pageState$3, _pageUtils$pageState12, _pageUtils$pageState13;
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+        className: "btn btn-primary mx-5",
+        type: "button",
+        title: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.excel,
+        onClick: pageUtils.onExcel,
+        disabled: layoutState === null || layoutState === void 0 ? void 0 : layoutState.loading,
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.excel
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+        className: "btn btn-primary mx-5",
+        type: "button",
+        title: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.general.print,
+        onClick: pageUtils.onPrint,
+        disabled: layoutState === null || layoutState === void 0 ? void 0 : layoutState.loading,
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.general.print
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
+        className: "mx-5",
+        style: {
+          marginRight: "2rem"
+        },
+        children: [_constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.currentWeightSum, ":"]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        className: "text mx-5",
+        children: _utils_Utils__WEBPACK_IMPORTED_MODULE_7__["default"].addCommas((_pageUtils$pageState$2 = (_pageUtils$pageState10 = pageUtils.pageState) === null || _pageUtils$pageState10 === void 0 ? void 0 : (_pageUtils$pageState11 = _pageUtils$pageState10.props) === null || _pageUtils$pageState11 === void 0 ? void 0 : _pageUtils$pageState11.currentWeightSum) !== null && _pageUtils$pageState$2 !== void 0 ? _pageUtils$pageState$2 : 0)
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
+        className: "mx-5",
+        style: {
+          marginRight: "2rem"
+        },
+        children: [_constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.prevWeightSum, ":"]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        className: "text mx-5",
+        children: _utils_Utils__WEBPACK_IMPORTED_MODULE_7__["default"].addCommas((_pageUtils$pageState$3 = (_pageUtils$pageState12 = pageUtils.pageState) === null || _pageUtils$pageState12 === void 0 ? void 0 : (_pageUtils$pageState13 = _pageUtils$pageState12.props) === null || _pageUtils$pageState13 === void 0 ? void 0 : _pageUtils$pageState13.prevWeightSum) !== null && _pageUtils$pageState$3 !== void 0 ? _pageUtils$pageState$3 : 0)
       })]
     });
   };
   var renderHeader = function renderHeader() {
-    var _pageUtils$pageState10, _pageUtils$pageState11, _pageUtils$pageState12, _pageUtils$pageState13, _pageUtils$pageState14, _pageUtils$pageState15;
+    var _pageUtils$pageState14, _pageUtils$pageState15, _pageUtils$pageState16, _pageUtils$pageState17, _pageUtils$pageState18, _pageUtils$pageState19;
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("tr", {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
         scope: "col",
@@ -9721,7 +9809,7 @@ var TFactors = function TFactors() {
         style: {
           width: "120px"
         },
-        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.factorId
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.factorIdList
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
         scope: "col",
         style: {
@@ -9739,13 +9827,13 @@ var TFactors = function TFactors() {
         style: {
           width: "110px"
         },
-        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.prevWeight
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.prevWeightSum
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
         scope: "col",
         style: {
           width: "110px"
         },
-        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.currentWeight
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.currentWeightSum
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
         scope: "col",
         style: {
@@ -9757,13 +9845,13 @@ var TFactors = function TFactors() {
         style: {
           width: "110px"
         },
-        children: (pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState10 = pageUtils.pageState) === null || _pageUtils$pageState10 === void 0 ? void 0 : (_pageUtils$pageState11 = _pageUtils$pageState10.props) === null || _pageUtils$pageState11 === void 0 ? void 0 : (_pageUtils$pageState12 = _pageUtils$pageState11.searchFields) === null || _pageUtils$pageState12 === void 0 ? void 0 : _pageUtils$pageState12.weightBridge) === _constants__WEBPACK_IMPORTED_MODULE_6__.WEIGHT_BRIDGES.WB_1 ? _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.buyer2 : _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.buyer
+        children: (pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState14 = pageUtils.pageState) === null || _pageUtils$pageState14 === void 0 ? void 0 : (_pageUtils$pageState15 = _pageUtils$pageState14.props) === null || _pageUtils$pageState15 === void 0 ? void 0 : (_pageUtils$pageState16 = _pageUtils$pageState15.searchFields) === null || _pageUtils$pageState16 === void 0 ? void 0 : _pageUtils$pageState16.weightBridge) === _constants__WEBPACK_IMPORTED_MODULE_6__.WEIGHT_BRIDGES.WB_1 ? _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.buyer2 : _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.buyer
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
         scope: "col",
         style: {
           width: "110px"
         },
-        children: (pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState13 = pageUtils.pageState) === null || _pageUtils$pageState13 === void 0 ? void 0 : (_pageUtils$pageState14 = _pageUtils$pageState13.props) === null || _pageUtils$pageState14 === void 0 ? void 0 : (_pageUtils$pageState15 = _pageUtils$pageState14.searchFields) === null || _pageUtils$pageState15 === void 0 ? void 0 : _pageUtils$pageState15.weightBridge) === _constants__WEBPACK_IMPORTED_MODULE_6__.WEIGHT_BRIDGES.WB_2 ? _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.seller2 : _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.seller
+        children: (pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState17 = pageUtils.pageState) === null || _pageUtils$pageState17 === void 0 ? void 0 : (_pageUtils$pageState18 = _pageUtils$pageState17.props) === null || _pageUtils$pageState18 === void 0 ? void 0 : (_pageUtils$pageState19 = _pageUtils$pageState18.searchFields) === null || _pageUtils$pageState19 === void 0 ? void 0 : _pageUtils$pageState19.weightBridge) === _constants__WEBPACK_IMPORTED_MODULE_6__.WEIGHT_BRIDGES.WB_2 ? _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.seller2 : _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.seller
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
         scope: "col",
         style: {
@@ -9775,17 +9863,17 @@ var TFactors = function TFactors() {
         style: {
           width: "110px"
         },
-        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.factorDescription1
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.factorDescription1List
       })]
     });
   };
   var renderItems = function renderItems() {
     var _pageState$props, _pageState$props$item;
     var children = pageState === null || pageState === void 0 ? void 0 : (_pageState$props = pageState.props) === null || _pageState$props === void 0 ? void 0 : (_pageState$props$item = _pageState$props.items) === null || _pageState$props$item === void 0 ? void 0 : _pageState$props$item.map(function (item, index) {
-      var _pageUtils$pageState16, _pageUtils$pageState17, _pageUtils$pageState18, _pageUtils$pageState19;
+      var _pageUtils$pageState20, _pageUtils$pageState21, _pageUtils$pageState22, _pageUtils$pageState23;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("tr", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
-          children: layoutState !== null && layoutState !== void 0 && layoutState.loading ? (((_pageUtils$pageState16 = pageUtils.pageState) === null || _pageUtils$pageState16 === void 0 ? void 0 : (_pageUtils$pageState17 = _pageUtils$pageState16.props) === null || _pageUtils$pageState17 === void 0 ? void 0 : _pageUtils$pageState17.prevPageNumber) - 1) * 50 + index + 1 : (((_pageUtils$pageState18 = pageUtils.pageState) === null || _pageUtils$pageState18 === void 0 ? void 0 : (_pageUtils$pageState19 = _pageUtils$pageState18.props) === null || _pageUtils$pageState19 === void 0 ? void 0 : _pageUtils$pageState19.pageNumber) - 1) * 50 + index + 1
+          children: layoutState !== null && layoutState !== void 0 && layoutState.loading ? (((_pageUtils$pageState20 = pageUtils.pageState) === null || _pageUtils$pageState20 === void 0 ? void 0 : (_pageUtils$pageState21 = _pageUtils$pageState20.props) === null || _pageUtils$pageState21 === void 0 ? void 0 : _pageUtils$pageState21.prevPageNumber) - 1) * 50 + index + 1 : (((_pageUtils$pageState22 = pageUtils.pageState) === null || _pageUtils$pageState22 === void 0 ? void 0 : (_pageUtils$pageState23 = _pageUtils$pageState22.props) === null || _pageUtils$pageState23 === void 0 ? void 0 : _pageUtils$pageState23.pageNumber) - 1) * 50 + index + 1
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
           children: item.weightBridgeText
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("td", {
@@ -9841,7 +9929,8 @@ var TFactors = function TFactors() {
       renderItems: renderItems,
       renderFooter: renderFooter
     },
-    renderTopList: renderSearch,
+    renderTopList: renderTopList,
+    renderButtons: renderButtons,
     hasAdd: false
   });
 };
@@ -16201,7 +16290,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var dateValidator = function dateValidator(schema, field) {
   var required = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-  var regex = required ? /^([1][3-4][0-9]{2}\/((0[1-6]\/(0[1-9]|[1-2][0-9]|3[0-1]))|(0[7-9]\/(0[1-9]|[1-2][0-9]|30))|(1[0-1]\/(0[1-9]|[1-2][0-9]|30))|(12\/(0[1-9]|[1-2][0-9]))))+$/ : /^([1][3-4][0-9]{2}\/((0[1-6]\/(0[1-9]|[1-2][0-9]|3[0-1]))|(0[7-9]\/(0[1-9]|[1-2][0-9]|30))|(1[0-1]\/(0[1-9]|[1-2][0-9]|30))|(12\/(0[1-9]|[1-2][0-9]))))*$/;
+  var regex = required ? /^([1][4][0-9]{2}\/((0[1-6]\/(0[1-9]|[1-2][0-9]|3[0-1]))|(0[7-9]\/(0[1-9]|[1-2][0-9]|30))|(1[0-1]\/(0[1-9]|[1-2][0-9]|30))|(12\/(0[1-9]|[1-2][0-9]))))+$/ : /^([1][4][0-9]{2}\/((0[1-6]\/(0[1-9]|[1-2][0-9]|3[0-1]))|(0[7-9]\/(0[1-9]|[1-2][0-9]|30))|(1[0-1]\/(0[1-9]|[1-2][0-9]|30))|(12\/(0[1-9]|[1-2][0-9]))))*$/;
   schema = (0,_stringValidator__WEBPACK_IMPORTED_MODULE_0__["default"])(schema, field, required ? 10 : null, 10, required).matches(regex, _constants_strings_fa__WEBPACK_IMPORTED_MODULE_1__.validation.notValidMessage.replace(":field", field));
   return required ? schema.nonNullable(_constants_strings_fa__WEBPACK_IMPORTED_MODULE_1__.validation.requiredMessage.replace(":field", field)) : schema.nullable();
 };
@@ -16518,8 +16607,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! yup */ "./node_modules/yup/index.esm.js");
+/* harmony import */ var _CommonValidators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../CommonValidators */ "./resources/js/resources/validations/CommonValidators/index.js");
+/* harmony import */ var _constants_strings_fa__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../constants/strings/fa */ "./resources/js/constants/strings/fa.js");
 
-var searchTFactorsSchema = yup__WEBPACK_IMPORTED_MODULE_0__.object().shape({});
+
+
+var searchTFactorsSchema = yup__WEBPACK_IMPORTED_MODULE_0__.object().shape({
+  fromDate: (0,_CommonValidators__WEBPACK_IMPORTED_MODULE_1__.dateValidator)(yup__WEBPACK_IMPORTED_MODULE_0__.string(), _constants_strings_fa__WEBPACK_IMPORTED_MODULE_2__.tfactorsPage.fromDate, false),
+  toDate: (0,_CommonValidators__WEBPACK_IMPORTED_MODULE_1__.dateValidator)(yup__WEBPACK_IMPORTED_MODULE_0__.string(), _constants_strings_fa__WEBPACK_IMPORTED_MODULE_2__.tfactorsPage.toDate, false),
+  factorId: (0,_CommonValidators__WEBPACK_IMPORTED_MODULE_1__.stringValidator)(yup__WEBPACK_IMPORTED_MODULE_0__.string(), _constants_strings_fa__WEBPACK_IMPORTED_MODULE_2__.tfactorsPage.factorId, null, 15, false),
+  factorDescription1: (0,_CommonValidators__WEBPACK_IMPORTED_MODULE_1__.stringValidator)(yup__WEBPACK_IMPORTED_MODULE_0__.string(), _constants_strings_fa__WEBPACK_IMPORTED_MODULE_2__.tfactorsPage.factorDescription1, null, 15, false)
+});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (searchTFactorsSchema);
 
 /***/ }),

@@ -1,15 +1,40 @@
 <?php
 
-require_once __DIR__ . '/Helper/MessageHelper.php';
+require __DIR__ . '/Helper/MessageHelper.php';
 
 return [
     'weight_bridge_undefined' => 'نامشخص',
-    'weight_bridge_1' => 'باسکول 1',
-    'weight_bridge_2' => 'باسکول 2',
+    'weight_bridge_baskool1' => 'باسکول 1',
+    'weight_bridge_baskool2' => 'باسکول 2',
     'from_date_required' => $requiredMessage('از تاریخ'),
     'from_date_numeric' => $numericMessage('از تاریخ'),
     'from_date_gte' => 'مقدار فیلد از تاریخ باید برابر یا بزرگ‌تر از 1400/01/01 باشد.',
+    'from_date_lte' => 'مقدار فیلد از تاریخ باید برابر یا کوچک‌تر از 1420/12/30 باشد.',
     'to_date_required' => $requiredMessage('تا تاریخ'),
     'to_date_numeric' => $numericMessage('تا تاریخ'),
     'to_date_gte' => 'مقدار فیلد تا تاریخ باید برابر یا بزرگ‌تر از 1400/01/01 باشد.',
+    'to_date_lte' => 'مقدار فیلد تا تاریخ باید برابر یا کوچک‌تر از 1420/12/30 باشد.',
+    'factor_id_max' => $maxStringMessage('شماره قبض', 15),
+    'factor_description1_max' => $maxStringMessage('شماره بارنامه', 15),
+    'weight_bridge' => 'باسکول',
+    'factor_id' => 'شماره قبض',
+    'factor_id_print' => 'ش قبض',
+    'car_number' => 'شماره ماشین',
+    'car_number_print' => 'ش ماشین',
+    'driver' => 'راننده',
+    'current_date' => 'تاریخ توزین',
+    'prev_weight' => 'وزن خالی',
+    'current_weight' => 'وزن پر',
+    'net_weight' => 'وزن خالص',
+    'buyer' => 'خریدار',
+    'buyer2' => 'محدوده استخراج',
+    'seller' => 'فروشنده',
+    'seller2' => 'استخراج‌کننده',
+    'good_name' => 'نام کالا',
+    'factor_description1' => 'شماره بارنامه',
+    'factor_description1_list' => 'ش بارنامه',
+    'user' => 'کاربر',
+    'from_date' => 'گزارش از تاریخ',
+    'to_date' => 'تا تاریخ',
+    'file_name' => 'فاکتورهای صادره',
 ];

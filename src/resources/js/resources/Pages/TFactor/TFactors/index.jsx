@@ -13,7 +13,10 @@ import {
     TableItems,
 } from "../../../components";
 import { PageUtils } from "./PageUtils";
-import { tfactorsPage as strings } from "../../../../constants/strings/fa";
+import {
+    general,
+    tfactorsPage as strings,
+} from "../../../../constants/strings/fa";
 import { repetitionTypes } from "../../../../constants/lists";
 import { WEIGHT_BRIDGES } from "../../../../constants";
 import utils from "../../../../utils/Utils";
@@ -24,74 +27,123 @@ const TFactors = () => {
     const columnsCount = 12;
     const pageUtils = new PageUtils();
 
-    const renderSearch = () => (
-        <SearchBox
-            pageUtils={pageUtils}
-            onSubmit={pageUtils.onSubmit}
-            onReset={pageUtils.onReset}
-        >
-            <InputRow>
-                <InputSelectColumn
-                    field="weightBridge"
-                    showLabel
-                    items={pageUtils.getPermittedWeightBridges()}
-                    fullRow={false}
-                />
-                <InputDatePickerColumn
-                    field="fromDate"
-                    showLabel
-                    fullRow={false}
-                />
-                <InputDatePickerColumn
-                    field="toDate"
-                    showLabel
-                    fullRow={false}
-                />
-                <InputReactSelectColumn
-                    field="goodsName"
-                    showLabel
-                    items={pageUtils?.pageState?.props?.goodsName}
-                    fullRow={false}
-                />
-            </InputRow>
-            <InputRow>
-                <InputSelectColumn
-                    field="driver"
-                    showLabel
-                    items={pageUtils?.pageState?.props?.drivers}
-                    fullRow={false}
-                />
-                <InputSelectColumn
-                    field="buyersName"
-                    showLabel
-                    items={pageUtils?.pageState?.props?.buyersName}
-                    fullRow={false}
-                />
-                <InputSelectColumn
-                    field="sellersName"
-                    showLabel
-                    items={pageUtils?.pageState?.props?.sellersName}
-                    fullRow={false}
-                />
-                <InputSelectColumn
-                    field="user"
-                    showLabel
-                    items={pageUtils?.pageState?.props?.users}
-                    fullRow={false}
-                />
-            </InputRow>
-            <InputRow>
-                <InputTextColumn field="tfactorId" showLabel fullRow={false} />
-                <InputSelectColumn
-                    field="repetitionType"
-                    showLabel
-                    items={repetitionTypes}
-                    fullRow={false}
-                />
-                <div></div>
-                <div></div>
-            </InputRow>
-        </SearchBox>
+    const renderTopList = () => (
+        <>
+            <SearchBox
+                pageUtils={pageUtils}
+                onSubmit={pageUtils.onSubmit}
+                onReset={pageUtils.onReset}
+            >
+                <InputRow>
+                    <InputSelectColumn
+                        field="weightBridge"
+                        showLabel
+                        items={pageUtils.getPermittedWeightBridges()}
+                        fullRow={false}
+                    />
+                    <InputDatePickerColumn
+                        field="fromDate"
+                        showLabel
+                        fullRow={false}
+                    />
+                    <InputDatePickerColumn
+                        field="toDate"
+                        showLabel
+                        fullRow={false}
+                    />
+                    <InputReactSelectColumn
+                        field="goodsName"
+                        showLabel
+                        items={pageUtils?.pageState?.props?.goodsName}
+                        fullRow={false}
+                    />
+                </InputRow>
+                <InputRow>
+                    <InputSelectColumn
+                        field="driver"
+                        showLabel
+                        items={pageUtils?.pageState?.props?.drivers}
+                        fullRow={false}
+                    />
+                    <InputReactSelectColumn
+                        field="buyersName"
+                        showLabel
+                        items={pageUtils?.pageState?.props?.buyersName}
+                        fullRow={false}
+                    />
+                    <InputReactSelectColumn
+                        field="sellersName"
+                        showLabel
+                        items={pageUtils?.pageState?.props?.sellersName}
+                        fullRow={false}
+                    />
+                    <InputReactSelectColumn
+                        field="users"
+                        showLabel
+                        items={pageUtils?.pageState?.props?.users}
+                        fullRow={false}
+                    />
+                </InputRow>
+                <InputRow>
+                    <InputTextColumn
+                        field="tfactorId"
+                        showLabel
+                        fullRow={false}
+                    />
+                    <InputTextColumn
+                        field="factorDescription1"
+                        showLabel
+                        fullRow={false}
+                    />
+                    <InputSelectColumn
+                        field="repetitionType"
+                        showLabel
+                        items={repetitionTypes}
+                        fullRow={false}
+                    />
+                    <div></div>
+                </InputRow>
+            </SearchBox>
+        </>
+    );
+
+    const renderButtons = () => (
+        <>
+            <button
+                className="btn btn-primary mx-5"
+                type="button"
+                title={strings.excel}
+                onClick={pageUtils.onExcel}
+                disabled={layoutState?.loading}
+            >
+                {strings.excel}
+            </button>
+            <button
+                className="btn btn-primary mx-5"
+                type="button"
+                title={general.print}
+                onClick={pageUtils.onPrint}
+                disabled={layoutState?.loading}
+            >
+                {general.print}
+            </button>
+            <span className="mx-5" style={{ marginRight: "2rem" }}>
+                {strings.currentWeightSum}:
+            </span>
+            <span className="text mx-5">
+                {utils.addCommas(
+                    pageUtils.pageState?.props?.currentWeightSum ?? 0
+                )}
+            </span>
+            <span className="mx-5" style={{ marginRight: "2rem" }}>
+                {strings.prevWeightSum}:
+            </span>
+            <span className="text mx-5">
+                {utils.addCommas(
+                    pageUtils.pageState?.props?.prevWeightSum ?? 0
+                )}
+            </span>
+        </>
     );
 
     const renderHeader = () => (
@@ -103,7 +155,7 @@ const TFactors = () => {
                 {strings.weightBridge}
             </th>
             <th scope="col" style={{ width: "120px" }}>
-                {strings.factorId}
+                {strings.factorIdList}
             </th>
             <th scope="col" style={{ width: "210px" }}>
                 {strings.carNumber}
@@ -112,10 +164,10 @@ const TFactors = () => {
                 {strings.currentDate}
             </th>
             <th scope="col" style={{ width: "110px" }}>
-                {strings.prevWeight}
+                {strings.prevWeightSum}
             </th>
             <th scope="col" style={{ width: "110px" }}>
-                {strings.currentWeight}
+                {strings.currentWeightSum}
             </th>
             <th scope="col" style={{ width: "110px" }}>
                 {strings.netWeight}
@@ -136,7 +188,7 @@ const TFactors = () => {
                 {strings.goodName}
             </th>
             <th scope="col" style={{ width: "110px" }}>
-                {strings.factorDescription1}
+                {strings.factorDescription1List}
             </th>
         </tr>
     );
@@ -188,7 +240,8 @@ const TFactors = () => {
         <ListPage
             pageUtils={pageUtils}
             table={{ renderHeader, renderItems, renderFooter }}
-            renderTopList={renderSearch}
+            renderTopList={renderTopList}
+            renderButtons={renderButtons}
             hasAdd={false}
         ></ListPage>
     );

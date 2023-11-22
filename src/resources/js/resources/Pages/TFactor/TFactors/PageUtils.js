@@ -33,6 +33,8 @@ export class PageUtils extends BasePageUtils {
             itemsCount: 0,
             item: null,
             items: null,
+            currentWeightSum: 0,
+            prevWeightSum: 0,
             action: null,
             searchFields: null,
             goodsName: null,
@@ -42,6 +44,7 @@ export class PageUtils extends BasePageUtils {
             users: null,
         };
         this.onExcel = this.onExcel.bind(this);
+        this.onPrint = this.onPrint.bind(this);
         this.handlePromptSubmit = this.handlePromptSubmit.bind(this);
     }
 
@@ -104,6 +107,12 @@ export class PageUtils extends BasePageUtils {
         window.open(url, "_blank").focus();
     }
 
+    onPrint() {
+        let searchFields = this.pageState?.props?.searchFields;
+        let url = `${BASE_PATH}/tfactors/print?weight_bridge=${searchFields?.weightBridge}&from_date=${searchFields?.fromDate}&to_date=${searchFields?.toDate}&goods_name=${searchFields?.goodsName}&driver=${searchFields?.driver}&buyers_name=${searchFields?.buyersName}&sellers_name=${searchFields?.sellersName}&users=${searchFields?.users}&factor_id=${searchFields?.factorId}&factor_description1=${searchFields?.factorDescription1}&repetition_type=${searchFields?.repetitionType}`;
+        window.open(url, "_blank").focus();
+    }
+
     onRemove(e, item) {
         e.stopPropagation();
         this.promptItem = item;
@@ -159,8 +168,10 @@ export class PageUtils extends BasePageUtils {
             driver: this.useForm.getValues("driver") ?? "",
             buyersName: this.useForm.getValues("buyersName") ?? "",
             sellersName: this.useForm.getValues("sellersName") ?? "",
-            user: this.useForm.getValues("user") ?? "",
-            factorId: this.useForm.getValues("tfactorId") ?? "",
+            users: this.useForm.getValues("users") ?? "",
+            factorId: this.useForm.getValues("factorId") ?? "",
+            factorDescription1:
+                this.useForm.getValues("factorDescription1") ?? "",
             repetitionType: this.useForm.getValues("repetitionType") ?? "",
         };
         if (searchFields.weightBridge === "") {
@@ -191,6 +202,27 @@ export class PageUtils extends BasePageUtils {
         } else {
             searchFields.goodsName = "";
         }
+        if (searchFields.buyersName?.length > 0) {
+            searchFields.buyersName = searchFields.buyersName
+                .map((item) => item.value)
+                .join(",");
+        } else {
+            searchFields.buyersName = "";
+        }
+        if (searchFields.sellersName?.length > 0) {
+            searchFields.sellersName = searchFields.sellersName
+                .map((item) => item.value)
+                .join(",");
+        } else {
+            searchFields.sellersName = "";
+        }
+        if (searchFields.users?.length > 0) {
+            searchFields.users = searchFields.users
+                .map((item) => item.value)
+                .join(",");
+        } else {
+            searchFields.users = "";
+        }
         return searchFields;
     };
 
@@ -207,6 +239,7 @@ export class PageUtils extends BasePageUtils {
                   data.sellersName,
                   data.users,
                   data.factorId,
+                  data.factorDescription1,
                   data.repetitionType,
                   this.pageState.props?.pageNumber ?? 1
               )
@@ -220,6 +253,7 @@ export class PageUtils extends BasePageUtils {
                   data.sellersName,
                   data.users,
                   data.factorId,
+                  data.factorDescription1,
                   data.repetitionType,
                   this.pageState.props?.pageNumber ?? 1
               );
@@ -234,6 +268,8 @@ export class PageUtils extends BasePageUtils {
                       prevPageNumber: this.pageState?.props?.pageNumber ?? 1,
                       items: result.items,
                       itemsCount: result.count,
+                      currentWeightSum: result.currentWeightSum,
+                      prevWeightSum: result.prevWeightSum,
                       goodsName: result.goodsName?.map((item) => ({
                           value: item.goods_name,
                           label: item.goods_name,
@@ -243,22 +279,24 @@ export class PageUtils extends BasePageUtils {
                           value: item.driver,
                       })),
                       buyersName: result.buyersName?.map((item) => ({
-                          id: item.buyer_name,
                           value: item.buyer_name,
+                          label: item.buyer_name,
                       })),
                       sellersName: result.sellersName?.map((item) => ({
-                          id: item.seller_name,
                           value: item.seller_name,
+                          label: item.seller_name,
                       })),
                       users: result.users?.map((item) => ({
-                          id: item.user_id,
-                          value: `${item.user_name} ${item.user_family} [ ${item.user_id} ]`,
+                          value: item.user_id,
+                          label: `${item.user_name} ${item.user_family} [ ${item.user_id} ]`,
                       })),
                   }
                 : {
                       prevPageNumber: this.pageState?.props?.pageNumber ?? 1,
                       items: result.items,
                       itemsCount: result.count,
+                      currentWeightSum: result.currentWeightSum,
+                      prevWeightSum: result.prevWeightSum,
                   };
         } catch {}
     }

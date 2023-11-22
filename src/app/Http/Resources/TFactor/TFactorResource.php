@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\TFactor;
 
+use App\Constants\WeightBridge;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TFactorResource extends JsonResource
@@ -11,7 +12,7 @@ class TFactorResource extends JsonResource
         return [
             'id' => $this->id,
             'weightBridge' => $this->weight_bridge,
-            'weightBridgeText' => $this->getWeightBridgeName($this->weight_bridge),
+            'weightBridgeText' => $this->getWeightBridgeText($this->weight_bridge),
             'factorId' => $this->factor_id,
             'carCode' => $this->car_code,
             'carNumber1' => $this->car_number1,
@@ -56,23 +57,11 @@ class TFactorResource extends JsonResource
         ];
     }
 
-    private function getWeightBridgeName($weightBridge)
+    private function getWeightBridgeText(string $weightBridge)
     {
-        $name = __('tfactor.weight_bridge_undefined');
-
-        switch ($weightBridge) {
-            case 'baskool1':
-                $name = __('tfactor.weight_bridge_1');
-
-                break;
-            case 'baskool2':
-                $name = __('tfactor.weight_bridge_2');
-
-                break;
-            default:
-                break;
+        if (in_array($weightBridge, WeightBridge::toArray())) {
+            return __('tfactor.weight_bridge_' . $weightBridge);
         }
-
-        return $name;
+        return __('tfactor.weight_bridge_undefined');
     }
 }
