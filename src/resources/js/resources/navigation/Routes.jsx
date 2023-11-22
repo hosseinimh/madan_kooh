@@ -7,7 +7,7 @@ import {
     Routes,
 } from "react-router-dom";
 
-import { BASE_PATH, ROLES } from "../../constants";
+import { BASE_PATH, PERMISSIONS, ROLES } from "../../constants";
 import * as Pages from "../Pages";
 
 const renderNotAuthRoutes = () => (
@@ -55,8 +55,6 @@ const renderAdministratorRoutes = () => (
     </>
 );
 
-const renderUserRoutes = () => <></>;
-
 function AppRoutes() {
     const userState = useSelector((state) => state.userReducer);
 
@@ -66,8 +64,21 @@ function AppRoutes() {
                 {!userState?.user && renderNotAuthRoutes()}
                 {userState?.user?.roles?.includes(ROLES.ADMIN) &&
                     renderAdministratorRoutes()}
-                {!userState?.user?.roles?.includes(ROLES.ADMIN) &&
-                    renderUserRoutes()}
+                {(userState?.user?.roles?.includes(ROLES.ADMIN) ||
+                    userState?.user?.permissions?.includes(
+                        PERMISSIONS.READ_ALL_WBS
+                    ) ||
+                    userState?.user?.permissions?.includes(
+                        PERMISSIONS.READ_WB_1
+                    ) ||
+                    userState?.user?.permissions?.includes(
+                        PERMISSIONS.READ_WB_2
+                    )) && (
+                    <Route
+                        path={`${BASE_PATH}/tfactors`}
+                        element={<Pages.TFactors />}
+                    />
+                )}
                 {userState?.user && renderAuthRoutes()}
             </Routes>
         </Router>

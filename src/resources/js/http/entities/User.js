@@ -17,11 +17,11 @@ export class User extends Entity {
     }
 
     async get() {
-        return await this.handlePost(`${BASE_URL}/api/users/show_auth`);
+        return await this.handlePost(`${BASE_URL}/api/users/show`);
     }
 
     async getWithAdmin(id) {
-        return await this.handlePost(`${BASE_URL}/api/users/show/${id}`);
+        return await this.handlePost(`${BASE_URL}/api/users/show/admin/${id}`);
     }
 
     async store(
@@ -49,7 +49,7 @@ export class User extends Entity {
     }
 
     async update(name, family, mobile) {
-        return await this.handlePost(`${BASE_URL}/api/users/update_auth`, {
+        return await this.handlePost(`${BASE_URL}/api/users/update`, {
             name,
             family,
             mobile,
@@ -65,29 +65,29 @@ export class User extends Entity {
         roles,
         permissions
     ) {
-        return await this.handlePost(`${BASE_URL}/api/users/update/${id}`, {
-            name,
-            family,
-            mobile,
-            is_active: isActive,
-            roles,
-            permissions,
-        });
-    }
-
-    async changePassword(newPassword, confirmPassword) {
         return await this.handlePost(
-            `${BASE_URL}/api/users/change_password_auth`,
+            `${BASE_URL}/api/users/update/admin/${id}`,
             {
-                new_password: newPassword,
-                new_password_confirmation: confirmPassword,
+                name,
+                family,
+                mobile,
+                is_active: isActive,
+                roles,
+                permissions,
             }
         );
     }
 
+    async changePassword(newPassword, confirmPassword) {
+        return await this.handlePost(`${BASE_URL}/api/users/change_password`, {
+            new_password: newPassword,
+            new_password_confirmation: confirmPassword,
+        });
+    }
+
     async changePasswordWithAdmin(id, newPassword, confirmPassword) {
         return await this.handlePost(
-            `${BASE_URL}/api/users/change_password/${id}`,
+            `${BASE_URL}/api/users/change_password/admin/${id}`,
             {
                 new_password: newPassword,
                 new_password_confirmation: confirmPassword,

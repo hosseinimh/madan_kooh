@@ -2,58 +2,69 @@
 
 namespace App\Services;
 
+use App\Constants\TFactorRepitionType;
+use App\Constants\WeightBridge;
 use App\Facades\Helper;
 use App\Models\TFactor as Model;
 use Illuminate\Support\Facades\DB;
 
 class TFactorService
 {
-    public function getPaginate(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId, int $page, int $pageItems): mixed
+    public function getPaginate(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?int $factorId, string $repetitionType, int $page, int $pageItems): mixed
     {
-        $sql = $this->getSql($fromDate, $toDate, $goodsName, $weightBridge, $buyersName, $sellersName, $driver, $users, $unique, $factorId);
-        $sql .= ' LIMIT ' . $pageItems . ',' . ($page - 1) * $pageItems;
+        $fromDate = Helper::getTimestamp($fromDate);
+        $toDate = Helper::getTimestamp($toDate, '23:59:59');
+        $weightBridge = ($weightBridge === WeightBridge::WB_1 || $weightBridge === WeightBridge::WB_2) ? $weightBridge : null;
+        $sql = $this->select($weightBridge, $fromDate, $toDate, $goodsName, $driver, $buyersName, $sellersName, $users, $factorId, $repetitionType);
+        $sql .= ' LIMIT ' . ($page - 1) * $pageItems . ',' . $pageItems;
         return DB::select(DB::raw($sql));
     }
 
-    public function getAll(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId): mixed
+    public function getAll(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?int $factorId, string $repetitionType): mixed
     {
-        $sql = $this->getSql($fromDate, $toDate, $goodsName, $weightBridge, $buyersName, $sellersName, $driver, $users, $unique, $factorId);
+        $sql = $this->select($weightBridge, $fromDate, $toDate, $goodsName, $driver, $buyersName, $sellersName, $users, $factorId, $repetitionType);
         return DB::select(DB::raw($sql));
     }
 
-    public static function getByFactorId(int $factorId, string $weightBridge): mixed
+    public function getByFactorId(int $factorId, string $weightBridge): mixed
     {
         return Model::where('factor_id', $factorId)->where('weight_bridge', $weightBridge)->first();
     }
 
-    public static function getLast(string $weightBridge): mixed
+    public function getLast(string $weightBridge): mixed
     {
         return Model::where('weight_bridge', $weightBridge)->orderBy('factor_id', 'DESC')->first();
     }
 
-    public static function getAllGoodsName()
+    public function getAllGoodsName()
     {
         return Model::where('goods_name', '!=', '')->distinct()->select('goods_name')->orderBy('goods_name', 'ASC')->get();
     }
 
-    public static function getAllBuyersName()
+    public function getAllBuyersName()
     {
         return Model::where('buyer_name', '!=', '')->distinct()->select('buyer_name')->orderBy('buyer_name', 'ASC')->get();
     }
 
-    public static function getAllSellersName()
+    public function getAllSellersName()
     {
         return Model::where('seller_name', '!=', '')->distinct()->select('seller_name')->orderBy('seller_name', 'ASC')->get();
     }
 
-    public static function getAllDrivers()
+    public function getAllDrivers()
     {
         return Model::where('driver', '!=', '')->distinct()->select('driver')->orderBy('driver', 'ASC')->get();
     }
 
-    public static function getAllUsers()
+    public function getAllUsers()
     {
         return Model::where('user_name', '!=', '')->where('user_family', '!=', '')->distinct()->select('user_id', 'user_name', 'user_family')->orderBy('user_family', 'ASC')->orderBy('user_name', 'ASC')->get();
+    }
+
+    public function getSum(string $weightBridge): mixed
+    {
+        $sql = $this->sum($weightBridge);
+        return DB::select(DB::raw($sql))[0];
     }
 
     public static function deleteTFactors($id)
@@ -61,87 +72,57 @@ class TFactorService
         return DB::statement("DELETE FROM `tbl_tfactors` WHERE `id`>=$id");
     }
 
-    public function getCurrentWeightSum(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId): int
+    private function select(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?int $factorId, string $repetitionType): string
     {
-        $sql = $this->sumCurrentWeightSql($fromDate, $toDate, $goodsName, $weightBridge, $buyersName, $sellersName, $driver, $users, $unique, $factorId);
-        return DB::select(DB::raw($sql))[0];
-    }
-
-    public function getPrevWeightSum(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId): int
-    {
-        $sql = $this->sumPrevWeightSql($fromDate, $toDate, $goodsName, $weightBridge, $buyersName, $sellersName, $driver, $users, $unique, $factorId);
-        return DB::select(DB::raw($sql))[0];
-    }
-
-    public function count(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId): int
-    {
-        $sql = $this->countSql($fromDate, $toDate, $goodsName, $weightBridge, $buyersName, $sellersName, $driver, $users, $unique, $factorId);
-        return DB::select(DB::raw($sql))[0];
-    }
-
-    private function getSql(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId): string
-    {
-        $sql = $this->handleGetOrCountOrSumSql($fromDate, $toDate, $goodsName, $weightBridge, $buyersName, $sellersName, $driver, $users, $unique, $factorId, 1);
+        $sql = $this->handleGetOrSumSql($weightBridge, $fromDate, $toDate, $goodsName, $driver, $buyersName, $sellersName, $users, $factorId, $repetitionType, 'select');
         $sql .= ' ORDER BY tbl_tfactors1.`current_timestamp` DESC,tbl_tfactors1.`id` DESC';
         return $sql;
     }
 
-    private function countSql(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId): string
+    private function sum(string $weightBridge): string
     {
-        return $this->handleGetOrCountOrSumSql($fromDate, $toDate, $goodsName, $weightBridge, $buyersName, $sellersName, $driver, $users, $unique, $factorId, 2);
+        $sql = $this->handleGetOrSumSql($weightBridge, null, null, null, null, null, null, null, null, TFactorRepitionType::LAST, 'sum');
+        return $sql;
     }
 
-    private function sumCurrentWeightSql(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId): string
+    private function handleGetOrSumSql(?string $weightBridge, ?int $fromDate, ?int $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?int $factorId, string $repetitionType, string $operation = 'get'): string
     {
-        return $this->handleGetOrCountOrSumSql($fromDate, $toDate, $goodsName, $weightBridge, $buyersName, $sellersName, $driver, $users, $unique, $factorId, 3);
-    }
-
-    private function sumPrevWeightSql(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId): string
-    {
-        return $this->handleGetOrCountOrSumSql($fromDate, $toDate, $goodsName, $weightBridge, $buyersName, $sellersName, $driver, $users, $unique, $factorId, 4);
-    }
-
-    private function handleGetOrCountOrSumSql(string $fromDate, string $toDate, string $goodsName, string $weightBridge, string $buyersName, string $sellersName, string $driver, string $users, int $unique, int $factorId, int $operation = 1): string
-    {
-        $goodsName = Helper::createORSQL($goodsName, 'tbl_tfactors.`goods_name');
-        $buyersName = Helper::createORSQL($buyersName, 'tbl_tfactors.`buyer_name');
-        $sellersName = Helper::createORSQL($sellersName, 'tbl_tfactors.`seller_name');
-        $users = Helper::createORSQL($users, 'tbl_tfactors.`user_id');
+        $goodsName = Helper::createORSQL($goodsName, 'tbl_tfactors1.`goods_name`');
+        $buyersName = Helper::createORSQL($buyersName, 'tbl_tfactors1.`buyer_name`');
+        $sellersName = Helper::createORSQL($sellersName, 'tbl_tfactors1.`seller_name`');
+        $users = Helper::createORSQL($users, 'tbl_tfactors1.`user_id`', true);
         $sql = '';
         switch ($operation) {
-            case 1:
+            case 'get':
             default:
-                $select = 'tbl_tfactors1.*,COUNT(*) OVER() AS items_count';
+                $select = 'tbl_tfactors1.*,SUM(tbl_tfactors1.prev_weight) OVER() AS prev_weight_sum,SUM(tbl_tfactors1.current_weight) OVER() AS current_weight_sum,COUNT(*) OVER() AS items_count';
                 break;
-            case 2:
-                $select = 'COUNT(tbl_tfactors1.*)';
-                break;
-            case 3:
-                $select = 'SUM(tbl_tfactors1.current_weight)';
-                break;
-            case 4:
-                $select = 'SUM(tbl_tfactors1.prev_weight)';
-                break;
-            case 5:
-                $select = 'SUM(tbl_tfactors1.prev_weight),SUM(tbl_tfactors1.current_weight)';
+            case 'sum':
+                $select = 'SUM(tbl_tfactors1.prev_weight) AS prev_weight_sum,SUM(tbl_tfactors1.current_weight) AS current_weight_sum,COUNT(*) OVER() AS items_count';
                 break;
         }
-        $sql .= $unique > 0 ?
-            'SELECT ' . $select . ' FROM `tbl_tfactors` tbl_tfactors1 JOIN (SELECT factor_id, max(id) AS id FROM `tbl_tfactors` GROUP BY `factor_id`) tbl_tfactors2 ON tbl_tfactors1.`factor_id` = tbl_tfactors2.`factor_id` AND tbl_tfactors1.`id` = tbl_tfactors2.`id`'
-            : 'SELECT ' . $select . ' FROM `tbl_tfactors` tbl_tfactors1';
+        switch ($repetitionType) {
+            case TFactorRepitionType::ALL:
+            default:
+                $sql .= 'SELECT ' . $select . ' FROM `tbl_tfactors` tbl_tfactors1';
+                break;
+            case TFactorRepitionType::LAST:
+                $sql .= 'SELECT ' . $select . ' FROM `tbl_tfactors` tbl_tfactors1 JOIN (SELECT factor_id, max(id) AS id FROM `tbl_tfactors` GROUP BY `factor_id`) tbl_tfactors2 ON tbl_tfactors1.`factor_id` = tbl_tfactors2.`factor_id` AND tbl_tfactors1.`id` = tbl_tfactors2.`id`';
+                break;
+            case TFactorRepitionType::REPETITION:
+                $sql .= 'SELECT ' . $select . ' FROM `tbl_tfactors` tbl_tfactors1 GROUP BY `factor_id` HAVING COUNT(`factor_id`)>1';
+                break;
+        }
         switch ($operation) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
+            case 'get':
             default:
                 $sql .= ' WHERE tbl_tfactors1.`current_timestamp`>=' . $fromDate . ' AND tbl_tfactors1.`current_timestamp`<=' . $toDate . ' AND tbl_tfactors1.`driver` LIKE "%' . $driver . '%" AND tbl_tfactors1.`factor_id` LIKE "%' . $factorId . '%"';
-                $sql .= strlen($goodsName) > 0 ? ' AND ' . $goodsName : '';
-                $sql .= strlen($buyersName) > 0 ? ' AND ' . $buyersName : '';
-                $sql .= strlen($sellersName) > 0 ? ' AND ' . $sellersName : '';
-                $sql .= strlen($users) > 0 ? ' AND ' . $users : '';
+                $sql .= strlen($goodsName) > 0 ? ' AND (' . $goodsName . ')' : '';
+                $sql .= strlen($buyersName) > 0 ? ' AND (' . $buyersName . ')' : '';
+                $sql .= strlen($sellersName) > 0 ? ' AND (' . $sellersName . ')' : '';
+                $sql .= strlen($users) > 0 ? ' AND (' . $users . ')' : '';
                 break;
-            case 5:
+            case 'sum':
                 break;
         }
         if ($weightBridge) {

@@ -94,6 +94,12 @@ export const weightBridges = {
     wb2: "باسکول 2",
 };
 
+export const repetitionTypes = {
+    all: "همه رکوردها",
+    last: "آخرین رکورد",
+    repetition: "فقط رکوردهای تکراری",
+};
+
 export const header = {
     profile: "پروفایل کاربری",
     logout: "خروج از حساب کاربری",
@@ -270,4 +276,42 @@ export const notificationsPage = {
     title: "عنوان",
     body: "متن",
     date: "تاریخ",
+};
+
+export const tfactorsPage = {
+    _title: "فاکتورهای صادره",
+    _subTitle: "فهرست فاکتورهای صادره",
+    weightBridge: "باسکول",
+    fromDate: "از تاریخ",
+    toDate: "تا تاریخ",
+    goodsName: "کالا",
+    goodsNamePlaceholder: "کالا",
+    driver: "راننده",
+    buyersName: "خریدار",
+    sellersName: "فروشنده",
+    user: "کاربر",
+    tfactorId: "شماره قبض",
+    tfactorIdPlaceholder: "شماره قبض",
+    repetitionType: "نحوه نمایش",
+    factorId: "شماره قبض / کاربر",
+    carNumber: "شماره ماشین / راننده",
+    carNumber1: "ایران",
+    currentDate: "تاریخ توزین",
+    currentTime: "ساعت توزین",
+    prevWeight: "وزن خالی",
+    currentWeight: "وزن پر",
+    netWeight: "وزن خالص",
+    buyer: "خریدار",
+    buyer2: "محدوده استخراج",
+    seller: "فروشنده",
+    seller2: "استخراج کننده",
+    goodName: "نام کالا",
+    factorDescription1: "ش بارنامه",
+    removeTFactors: "حذف فاکتورهای صادره",
+    excel: "خروجی اکسل",
+    print: "چاپ",
+    sum: "مجموع",
+    confirmModalTitle: "آیا مطمئن به حذف  فاکتور های صادره می‌باشید؟",
+    confirmConfirm: "بله",
+    confirmCancel: "انصراف",
 };

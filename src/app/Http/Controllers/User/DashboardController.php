@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Constants\WeightBridge;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TFactor\TFactorSumResource;
 use App\Packages\JsonResponse;
 use App\Services\TFactorService;
 use Illuminate\Http\JsonResponse as HttpJsonResponse;
@@ -22,6 +24,10 @@ class DashboardController extends Controller
     public function indexWithAdmin(): HttpJsonResponse
     {
         $tfactorService = new TFactorService();
-        return $this->onOk();
+        $weightSumWB1 = $tfactorService->getSum(WeightBridge::WB_1);
+        $weightSumWB1 = new TFactorSumResource($weightSumWB1);
+        $weightSumWB2 = $tfactorService->getSum(WeightBridge::WB_2);
+        $weightSumWB2 = new TFactorSumResource($weightSumWB2);
+        return $this->onOk(['weightSumWB1' => $weightSumWB1, 'weightSumWB2' => $weightSumWB2]);
     }
 }

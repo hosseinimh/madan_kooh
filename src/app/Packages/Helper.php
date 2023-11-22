@@ -201,16 +201,32 @@ class Helper
         return $this->getFaDate(date('Y-m-d H:i:s'));
     }
 
-    public function createORSQL(?string $items, string $column): string
+    public function getTimestamp($hijriDate, $hijriTime = '00:00:00'): int|false
+    {
+        try {
+            $parts = [substr($hijriDate, 0, 4), substr($hijriDate, 4, 2), substr($hijriDate, 6)];
+            $date = Helper::jalaliToGregorian($parts[0], $parts[1], $parts[2]);
+            if ($date) {
+                return strtotime($date[0] . '/' . $date[1] . '/' . $date[2] . ' ' . $hijriTime);
+            }
+        } catch (Exception) {
+        }
+        return strtotime('now');
+    }
+
+    public function createORSQL(?string $items, string $column, bool $exact = false): string
     {
         $result = explode(',', $items) ?? [];
-        $conditions = array_filter($result, function ($item) {
-            return intval($item) > 0;
+        $result = array_filter($result, function ($item) {
+            return mb_strlen($item) > 0;
         });
-        $conditions = array_map(function ($condition) use ($column) {
-            return $column . '=' . $condition;
-        }, $conditions);
-        return implode(' OR ', $conditions);
+        $result = array_map(function ($item) use ($column, $exact) {
+            if ($exact) {
+                return $column . '=' . $item;
+            }
+            return $column . ' LIKE "' . $item . '"';
+        }, $result);
+        return implode(' OR ', $result);
     }
 
     public function logError($e)

@@ -218,6 +218,13 @@ const addCommas = (num) =>
 const addCommasPersian = (num) =>
     en2faDigits(num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
+const addCommasPersianIfNum = (num) => {
+    if (isNaN(num)) {
+        return 0;
+    }
+    return addCommasPersian(num);
+};
+
 const removeNonNumeric = (num) => num?.toString().replace(/[^0-9]/g, "");
 
 const digitInputChange = (setValue, field, event) => {
@@ -633,6 +640,7 @@ const utils = {
     digitInputChange,
     addCommas,
     addCommasPersian,
+    addCommasPersianIfNum,
     removeNonNumeric,
     jalaliToGregorian,
     wordifyfa,

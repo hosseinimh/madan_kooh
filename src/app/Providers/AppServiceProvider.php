@@ -7,10 +7,12 @@ use App\Http\Controllers\User\PermissionController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\ErrorController;
 use App\Http\Controllers\User\NotificationController;
+use App\Http\Controllers\User\TFactorController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Resources\Error\ErrorResource;
 use App\Http\Resources\Notification\NotificationResource;
 use App\Http\Resources\Permission\PermissionResource;
+use App\Http\Resources\TFactor\TFactorResource;
 use App\Http\Resources\User\UserResource;
 use App\Packages\Helper;
 use App\Packages\JsonResponse;
@@ -18,6 +20,7 @@ use App\Packages\Notification;
 use App\Services\ErrorService;
 use App\Services\NotificationService;
 use App\Services\PermissionService;
+use App\Services\TFactorService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -49,6 +52,10 @@ class AppServiceProvider extends ServiceProvider
             return new ErrorController(new JsonResponse(ErrorResource::class), $app->make(ErrorService::class));
         });
 
+        $this->app->bind(PermissionController::class, function ($app) {
+            return new PermissionController(new JsonResponse(PermissionResource::class), $app->make(PermissionService::class));
+        });
+
         $this->app->bind(DashboardController::class, function ($app) {
             return new DashboardController($app->make(JsonResponse::class));
         });
@@ -61,8 +68,8 @@ class AppServiceProvider extends ServiceProvider
             return new UserController(new JsonResponse(UserResource::class), $app->make(UserService::class));
         });
 
-        $this->app->bind(PermissionController::class, function ($app) {
-            return new PermissionController(new JsonResponse(PermissionResource::class), $app->make(PermissionService::class));
+        $this->app->bind(TFactorController::class, function ($app) {
+            return new TFactorController(new JsonResponse(TFactorResource::class), $app->make(TFactorService::class));
         });
     }
 }

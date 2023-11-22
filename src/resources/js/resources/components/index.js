@@ -15,6 +15,7 @@ import InputFileColumn from "./Input/InputFileColumn";
 import InputHiddenElement from "./Input/InputHiddenElement";
 import InputRadioColumn from "./Input/InputRadioColumn";
 import InputRadioContainer from "./Input/InputRadioContainer";
+import InputReactSelectColumn from "./Input/InputReactSelectColumn";
 import InputRow from "./Input/InputRow";
 import InputSelectColumn from "./Input/InputSelectColumn";
 import InputSwitchCheckboxColumn from "./Input/InputSwitchCheckboxColumn";
@@ -74,6 +75,7 @@ export {
     InputHiddenElement,
     InputRadioColumn,
     InputRadioContainer,
+    InputReactSelectColumn,
     InputRow,
     InputSelectColumn,
     InputSwitchCheckboxColumn,

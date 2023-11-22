@@ -11021,3 +11021,22 @@ div.dataTables_wrapper {
 .gap-2 {
   gap: 2rem;
 }
+.react-select-container {
+  flex-grow: 1;
+}
+.react-select__control {
+  padding: 0.625rem;
+}
+.react-select__multi-value {
+  margin-left: 1rem;
+}
+.react-select__menu {
+  z-index: 4;
+  border-radius: 0.625rem;
+  background: var(--body);
+  max-height: 40vh;
+  box-shadow: var(--box-shadow), 0 0 0 1px var(--border);
+}
+.react-select__option {
+  padding: 0.4rem 1rem;
+}

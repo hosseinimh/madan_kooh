@@ -25,7 +25,7 @@ const SearchBox = ({
                 containerClassName ? `${containerClassName}` : `block pd-20`
             }
         >
-            <div className="field-title">{strings.search}</div>
+            <div className="field-title mb-20">{strings.search}</div>
             <div>{children}</div>
             <div className="btns d-flex mt-10">
                 <button

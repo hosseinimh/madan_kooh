@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static string randomNumbersString(int $length = 4)
  * @method static void resizeImage(string $file, int $width)
  * @method static void logError($e)
- * @method static string createORSQL(?string $items, string $column)
+ * @method static int|false getTimestamp(string $hijriDate, string $hijriTime = '00:00:00')
+ * @method static string createORSQL(?string $items, string $column, bool $exact = false)
  */
 class Helper extends Facade
 {

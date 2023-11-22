@@ -16,15 +16,35 @@ const Dashboard = () => {
             <h3 className="text mb-30">{strings.tfactors}</h3>
             <p>
                 {strings.no}:{" "}
-                <span className="text">{utils.addCommasPersian(12 ?? 0)}</span>
+                <span className="text">
+                    {utils.addCommasPersianIfNum(
+                        pageUtils?.pageState?.props?.weightSumWB1?.itemsCount +
+                            pageUtils?.pageState?.props?.weightSumWB2
+                                ?.itemsCount
+                    )}
+                </span>
             </p>
             <p>
                 {strings.currentWeight}:{" "}
-                <span className="text">{utils.addCommasPersian(13 ?? 0)}</span>
+                <span className="text">
+                    {utils.addCommasPersianIfNum(
+                        pageUtils?.pageState?.props?.weightSumWB1
+                            ?.prevWeightSum +
+                            pageUtils?.pageState?.props?.weightSumWB2
+                                ?.prevWeightSum
+                    )}
+                </span>
             </p>
             <p>
                 {strings.netWeight}:{" "}
-                <span className="text">{utils.addCommasPersian(14)}</span>
+                <span className="text">
+                    {utils.addCommasPersianIfNum(
+                        pageUtils?.pageState?.props?.weightSumWB1
+                            ?.currentWeightSum +
+                            pageUtils?.pageState?.props?.weightSumWB2
+                                ?.currentWeightSum
+                    )}
+                </span>
             </p>
         </div>
     );
@@ -34,15 +54,28 @@ const Dashboard = () => {
             <h3 className="text mb-30">{strings.tfactors1}</h3>
             <p>
                 {strings.no}:{" "}
-                <span className="text">{utils.addCommasPersian(12 ?? 0)}</span>
+                <span className="text">
+                    {utils.addCommasPersianIfNum(
+                        pageUtils?.pageState?.props?.weightSumWB1?.itemsCount
+                    )}
+                </span>
             </p>
             <p>
                 {strings.currentWeight}:{" "}
-                <span className="text">{utils.addCommasPersian(13 ?? 0)}</span>
+                <span className="text">
+                    {utils.addCommasPersianIfNum(
+                        pageUtils?.pageState?.props?.weightSumWB1?.prevWeightSum
+                    )}
+                </span>
             </p>
             <p>
                 {strings.netWeight}:{" "}
-                <span className="text">{utils.addCommasPersian(14)}</span>
+                <span className="text">
+                    {utils.addCommasPersianIfNum(
+                        pageUtils?.pageState?.props?.weightSumWB1
+                            ?.currentWeightSum
+                    )}
+                </span>
             </p>
         </div>
     );
@@ -52,15 +85,28 @@ const Dashboard = () => {
             <h3 className="text mb-30">{strings.tfactors2}</h3>
             <p>
                 {strings.no}:{" "}
-                <span className="text">{utils.addCommasPersian(12 ?? 0)}</span>
+                <span className="text">
+                    {utils.addCommasPersianIfNum(
+                        pageUtils?.pageState?.props?.weightSumWB2?.itemsCount
+                    )}
+                </span>
             </p>
             <p>
                 {strings.currentWeight}:{" "}
-                <span className="text">{utils.addCommasPersian(13 ?? 0)}</span>
+                <span className="text">
+                    {utils.addCommasPersianIfNum(
+                        pageUtils?.pageState?.props?.weightSumWB2?.prevWeightSum
+                    )}
+                </span>
             </p>
             <p>
                 {strings.netWeight}:{" "}
-                <span className="text">{utils.addCommasPersian(14)}</span>
+                <span className="text">
+                    {utils.addCommasPersianIfNum(
+                        pageUtils?.pageState?.props?.weightSumWB2
+                            ?.currentWeightSum
+                    )}
+                </span>
             </p>
         </div>
     );

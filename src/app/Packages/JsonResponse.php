@@ -27,23 +27,15 @@ class JsonResponse
         return $this->errorResponse();
     }
 
-    public function itemsResponse($items): HttpJsonResponse
+    public function itemsResponse($items, $count): HttpJsonResponse
     {
         if ($items) {
             if (is_array($items) && count(array_keys($items)) > 0) {
-                return $this->okResponse(array_merge($items, ['count' => count($items)]));
+                return $this->okResponse(array_merge($items, ['count' => $count]));
             } else {
-                $count = 0;
-                if ($this->entityResource) {
-                    $items = $this->entityResource::collection($items);
-                    if (count($items) > 0) {
-                        $count = $items[0]->items_count;
-                    }
-                }
-                return $this->okResponse(['items' => $items, 'count' => $count]);
+                return $this->okResponse(['items' => $this->entityResource ? $this->entityResource::collection($items) : $items, 'count' => count($items) > 0 ? $items[0]->items_count : 0]);
             }
         }
-
         return $this->errorResponse();
     }
 

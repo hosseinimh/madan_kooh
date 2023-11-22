@@ -68,6 +68,8 @@ const InputSelectColumn = ({
         const v = form?.getValues(field);
         if (v) {
             selectOption(null, v);
+        } else {
+            selectOption(null, null);
         }
     }, [form?.getValues(field)]);
 
@@ -88,7 +90,7 @@ const InputSelectColumn = ({
 
     const selectOption = (e, value) => {
         e && e.stopPropagation();
-        [...document.querySelectorAll(`.select-option-${field}`)].map(
+        [...document.querySelectorAll(`.select-option-${field}`)].forEach(
             (option) => {
                 if (option.getAttribute("data-select") === `${value}`) {
                     option.classList.add("active");
@@ -100,9 +102,15 @@ const InputSelectColumn = ({
                 }
             }
         );
+        if (!value) {
+            let label = document.querySelector(`.select-input-${field}`);
+            if (label) {
+                label.value = "";
+            }
+        }
         const element = document.querySelector(
             `#select-box-${field}`
-        ).lastChild;
+        )?.lastChild;
         dispatch(setDropDownElementAction(null));
         if (layoutState?.dropDownElement === element) {
             slideUp(element);
@@ -153,9 +161,9 @@ const InputSelectColumn = ({
                         </div>
                     </div>
                     <div className="select-list scrollhide dropdown-list">
-                        {items?.map((item) => (
+                        {items?.map((item, index) => (
                             <div
-                                key={item[keyItem]}
+                                key={index}
                                 onClick={(e) => {
                                     selectOption(e, item[keyItem]);
                                     if (onChange) {

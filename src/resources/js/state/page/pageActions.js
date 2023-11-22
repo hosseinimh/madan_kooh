@@ -6,6 +6,7 @@ export const SET_DISPATCH_ACTION = "SET_DISPATCH_ACTION";
 export const SET_NAVIGATE_ACTION = "SET_NAVIGATE_ACTION";
 export const SET_TITLE_ACTION = "SET_TITLE_ACTION";
 export const SET_PAGE_UTILS_ACTION = "SET_PAGE_UTILS_ACTION";
+export const SET_RESET_ACTION = "SET_RESET_ACTION";
 
 export const setPageAction = (page) => async (dispatch) => {
     dispatch({ type: SET_PAGE_ACTION, payload: page });
@@ -43,4 +44,8 @@ export const setPageTitleAction = (title, subTitle) => async (dispatch) => {
 
 export const setPageUtilsAction = (pageUtils) => async (dispatch) => {
     dispatch({ type: SET_PAGE_UTILS_ACTION, payload: pageUtils });
+};
+
+export const setResetAction = () => async (dispatch) => {
+    dispatch({ type: SET_RESET_ACTION });
 };

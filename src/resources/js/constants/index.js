@@ -7,6 +7,7 @@ import { NOTIFICATION_SUB_CATEGORIES } from "./notificationSubCategories";
 import { ROLES } from "./roles";
 import { PERMISSIONS } from "./permissions";
 import { WEIGHT_BRIDGES } from "./weightBridges";
+import { REPETITION_TYPES } from "./repetitionTypes";
 import {
     BASE_PATH,
     ASSETS_PATH,
@@ -40,4 +41,5 @@ export {
     ROLES,
     PERMISSIONS,
     WEIGHT_BRIDGES,
+    REPETITION_TYPES,
 };

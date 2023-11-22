@@ -37,6 +37,8 @@ class CreateTblTfactorsTable extends Migration
             $table->bigInteger('seller_code');
             $table->string('seller_name', 20);
             $table->bigInteger('user_id');
+            $table->string('user_name');
+            $table->string('user_family');
             $table->bigInteger('current_row');
             $table->bigInteger('prev_row');
             $table->string('factor_description1', 100);

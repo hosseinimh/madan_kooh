@@ -26,7 +26,16 @@ class Controller extends BaseController
 
     public function onItems(mixed $items)
     {
-        return $this->response->itemsResponse($items);
+        if (is_array($items)) {
+            if (array_key_exists('items', $items) && is_object($items['items'])) {
+                $count = count($items['items']);
+            } else {
+                $count = count($items);
+            }
+        } else {
+            $count = 0;
+        }
+        return $this->response->itemsResponse($items, $count);
     }
 
     public function onStore(Model|bool $model = true): HttpJsonResponse
