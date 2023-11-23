@@ -2,6 +2,7 @@
 
 namespace App\Packages;
 
+use App\Constants\WeightBridge;
 use App\Models\Error;
 use DateTime;
 use Exception;
@@ -227,6 +228,14 @@ class Helper
             return $column . ' LIKE "' . $item . '"';
         }, $result);
         return implode(' OR ', $result);
+    }
+
+    public function getWeightBridgeText(string $weightBridge): string
+    {
+        if (in_array($weightBridge, WeightBridge::toArray())) {
+            return __('tfactor.weight_bridge_' . $weightBridge);
+        }
+        return __('tfactor.weight_bridge_undefined');
     }
 
     public function logError($e)

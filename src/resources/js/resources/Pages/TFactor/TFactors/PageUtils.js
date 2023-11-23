@@ -76,34 +76,7 @@ export class PageUtils extends BasePageUtils {
 
     onExcel() {
         let searchFields = this.pageState?.props?.searchFields;
-        let url = `${BASE_PATH}/excel/p_files?file_no=${searchFields?.fileNo}&name=${searchFields?.name}&family=${searchFields?.family}&blood_disease_type=${searchFields?.bloodDiseaseType}&hospitalization_reason=${searchFields?.hospitalizationReason}&continuing_drug=${searchFields?.continuingDrug}&weekly_drug=${searchFields?.weeklyDrug}&cancer_type=${searchFields?.cancerType}&radiation_place=${searchFields?.radiationPlace}&pregnancy_week=${searchFields?.pregnancyWeek}&pregnancy_num=${searchFields?.pregnancyNum}&pregnancy_rank=${searchFields?.pregnancyRank}&ad_explanation=${searchFields?.adExplanation}&sleep_status=${searchFields?.sleepStatus}&functional_capacity=${searchFields?.functionalCapacity}&use_tobacco_duration=${searchFields?.useTobaccoDuration}&use_tobacco_type=${searchFields?.useTobaccoType}&use_drug_duration=${searchFields?.useDrugDuration}&use_drug_type=${searchFields?.useDrugType}&retromolar_area=${searchFields?.retromolarArea}&gums=${searchFields?.gums}&toothless_ridge=${searchFields?.toothlessRidge}&hard_soft_palate=${searchFields?.hardSoftPalate}&tongue_dorsal=${searchFields?.tongueDorsal}&tongue_ventral=${searchFields?.tongueVentral}&tongue_pharyngeal=${searchFields?.tonguePharyngeal}&neurological_changes=${searchFields?.neurologicalChanges}&salivary_grand_examination=${searchFields?.salivaryGrandExamination}&dental_changes_examination=${searchFields?.dentalChangesExamination}&probable_diagnosis=${searchFields?.probableDiagnosis}&difinitive_diagnosis=${searchFields?.difinitiveDiagnosis}&final_treatment_plan=${searchFields?.finalTreatmentPlan}&assistant=${searchFields?.assistant}&master=${searchFields?.master}`;
-        if (searchFields?.birthDate) {
-            url = `${url}&birth_date=${searchFields.birthDate}`;
-        }
-        if (searchFields?.lesionClassification) {
-            url = `${url}&lesion_classification=${searchFields.lesionClassification}`;
-        }
-        if (searchFields?.specialLesionClassification) {
-            url = `${url}&special_lesion_classification=${searchFields.specialLesionClassification}`;
-        }
-        if (searchFields?.systemicDiseaseHistory) {
-            url = `${url}&systemic_disease_history=${searchFields.systemicDiseaseHistory}`;
-        }
-        if (searchFields?.tobaccoUse) {
-            url = `${url}&tobacco_use=${searchFields.tobaccoUse}`;
-        } else {
-            url = `${url}&tobacco_use=0`;
-        }
-        if (searchFields?.drugUse) {
-            url = `${url}&drug_use=${searchFields.drugUse}`;
-        } else {
-            url = `${url}&drug_use=0`;
-        }
-        if (searchFields?.alcohol) {
-            url = `${url}&alcohol=${searchFields.alcohol}`;
-        } else {
-            url = `${url}&alcohol=0`;
-        }
+        let url = `${BASE_PATH}/tfactors/excel?weight_bridge=${searchFields?.weightBridge}&from_date=${searchFields?.fromDate}&to_date=${searchFields?.toDate}&goods_name=${searchFields?.goodsName}&driver=${searchFields?.driver}&buyers_name=${searchFields?.buyersName}&sellers_name=${searchFields?.sellersName}&users=${searchFields?.users}&factor_id=${searchFields?.factorId}&factor_description1=${searchFields?.factorDescription1}&repetition_type=${searchFields?.repetitionType}`;
         window.open(url, "_blank").focus();
     }
 

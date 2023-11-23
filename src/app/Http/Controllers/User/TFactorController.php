@@ -59,19 +59,16 @@ class TFactorController extends Controller
 
     public function print(IndexTFactorsRequest $request)
     {
-        try {
-            $wb = $request->weight_bridge;
-            $fromDate = $request->from_date;
-            $fromDate = substr($fromDate, 0, 4) . "/" . substr($fromDate, 4, 2) . "/" . substr($fromDate, 6);
-            $toDate = $request->to_date;
-            $toDate = substr($toDate, 0, 4) . "/" . substr($toDate, 4, 2) . "/" . substr($toDate, 6);
-            $items = $this->service->getAll($request->weight_bridge, $request->from_date, $request->to_date, $request->goods_name, $request->driver, $request->buyers_name, $request->sellers_name, $request->users, $request->factor_id, $request->factor_description1, $request->repetition_type);
-            $itemsCount = count($items);
-            $currentWeightSum = $itemsCount > 0 ? $items[0]->current_weight_sum : 0;
-            $prevWeightSum = $itemsCount > 0 ? $items[0]->prev_weight_sum : 0;
-            $netWeightSum = $currentWeightSum - $prevWeightSum;
-            return view('tfactors.print', compact('wb', 'fromDate', 'toDate', 'items', 'currentWeightSum', 'prevWeightSum', 'netWeightSum'));
-        } catch (\Exception) {
-        }
+        $wb = $request->weight_bridge;
+        $fromDate = $request->from_date;
+        $fromDate = substr($fromDate, 0, 4) . "/" . substr($fromDate, 4, 2) . "/" . substr($fromDate, 6);
+        $toDate = $request->to_date;
+        $toDate = substr($toDate, 0, 4) . "/" . substr($toDate, 4, 2) . "/" . substr($toDate, 6);
+        $items = $this->service->getAll($request->weight_bridge, $request->from_date, $request->to_date, $request->goods_name, $request->driver, $request->buyers_name, $request->sellers_name, $request->users, $request->factor_id, $request->factor_description1, $request->repetition_type);
+        $itemsCount = count($items);
+        $currentWeightSum = $itemsCount > 0 ? $items[0]->current_weight_sum : 0;
+        $prevWeightSum = $itemsCount > 0 ? $items[0]->prev_weight_sum : 0;
+        $netWeightSum = $currentWeightSum - $prevWeightSum;
+        return view('tfactors.print', compact('wb', 'fromDate', 'toDate', 'items', 'currentWeightSum', 'prevWeightSum', 'netWeightSum'));
     }
 }

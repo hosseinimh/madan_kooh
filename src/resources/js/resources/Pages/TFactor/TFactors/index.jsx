@@ -27,84 +27,78 @@ const TFactors = () => {
     const columnsCount = 12;
     const pageUtils = new PageUtils();
 
-    const renderTopList = () => (
-        <>
-            <SearchBox
-                pageUtils={pageUtils}
-                onSubmit={pageUtils.onSubmit}
-                onReset={pageUtils.onReset}
-            >
-                <InputRow>
-                    <InputSelectColumn
-                        field="weightBridge"
-                        showLabel
-                        items={pageUtils.getPermittedWeightBridges()}
-                        fullRow={false}
-                    />
-                    <InputDatePickerColumn
-                        field="fromDate"
-                        showLabel
-                        fullRow={false}
-                    />
-                    <InputDatePickerColumn
-                        field="toDate"
-                        showLabel
-                        fullRow={false}
-                    />
-                    <InputReactSelectColumn
-                        field="goodsName"
-                        showLabel
-                        items={pageUtils?.pageState?.props?.goodsName}
-                        fullRow={false}
-                    />
-                </InputRow>
-                <InputRow>
-                    <InputSelectColumn
-                        field="driver"
-                        showLabel
-                        items={pageUtils?.pageState?.props?.drivers}
-                        fullRow={false}
-                    />
-                    <InputReactSelectColumn
-                        field="buyersName"
-                        showLabel
-                        items={pageUtils?.pageState?.props?.buyersName}
-                        fullRow={false}
-                    />
-                    <InputReactSelectColumn
-                        field="sellersName"
-                        showLabel
-                        items={pageUtils?.pageState?.props?.sellersName}
-                        fullRow={false}
-                    />
-                    <InputReactSelectColumn
-                        field="users"
-                        showLabel
-                        items={pageUtils?.pageState?.props?.users}
-                        fullRow={false}
-                    />
-                </InputRow>
-                <InputRow>
-                    <InputTextColumn
-                        field="tfactorId"
-                        showLabel
-                        fullRow={false}
-                    />
-                    <InputTextColumn
-                        field="factorDescription1"
-                        showLabel
-                        fullRow={false}
-                    />
-                    <InputSelectColumn
-                        field="repetitionType"
-                        showLabel
-                        items={repetitionTypes}
-                        fullRow={false}
-                    />
-                    <div></div>
-                </InputRow>
-            </SearchBox>
-        </>
+    const renderSearch = () => (
+        <SearchBox
+            pageUtils={pageUtils}
+            onSubmit={pageUtils.onSubmit}
+            onReset={pageUtils.onReset}
+        >
+            <InputRow>
+                <InputSelectColumn
+                    field="weightBridge"
+                    showLabel
+                    items={pageUtils.getPermittedWeightBridges()}
+                    fullRow={false}
+                />
+                <InputDatePickerColumn
+                    field="fromDate"
+                    showLabel
+                    fullRow={false}
+                />
+                <InputDatePickerColumn
+                    field="toDate"
+                    showLabel
+                    fullRow={false}
+                />
+                <InputReactSelectColumn
+                    field="goodsName"
+                    showLabel
+                    items={pageUtils?.pageState?.props?.goodsName}
+                    fullRow={false}
+                />
+            </InputRow>
+            <InputRow>
+                <InputSelectColumn
+                    field="driver"
+                    showLabel
+                    items={pageUtils?.pageState?.props?.drivers}
+                    fullRow={false}
+                />
+                <InputReactSelectColumn
+                    field="buyersName"
+                    showLabel
+                    items={pageUtils?.pageState?.props?.buyersName}
+                    fullRow={false}
+                />
+                <InputReactSelectColumn
+                    field="sellersName"
+                    showLabel
+                    items={pageUtils?.pageState?.props?.sellersName}
+                    fullRow={false}
+                />
+                <InputReactSelectColumn
+                    field="users"
+                    showLabel
+                    items={pageUtils?.pageState?.props?.users}
+                    fullRow={false}
+                />
+            </InputRow>
+            <InputRow>
+                <InputTextColumn field="factorId" showLabel fullRow={false} />
+                <InputTextColumn
+                    field="factorDescription1"
+                    showLabel
+                    fullRow={false}
+                />
+                <InputSelectColumn
+                    field="repetitionType"
+                    showLabel
+                    items={repetitionTypes}
+                    fullRow={false}
+                />
+                <div></div>
+            </InputRow>
+        </SearchBox>
     );
 
     const renderButtons = () => (
@@ -222,10 +216,14 @@ const TFactors = () => {
                 <td>{utils.addCommas(item.prevWeight)}</td>
                 <td>{utils.addCommas(item.currentWeight)}</td>
                 <td>{utils.addCommas(item.currentWeight - item.prevWeight)}</td>
-                <td>{item.buyerName}</td>
-                <td>{item.sellerName}</td>
+                <td>{item.buyerName?.length > 0 ? item.buyerName : "-"}</td>
+                <td>{item.sellerName?.length > 0 ? item.sellerName : "-"}</td>
                 <td>{item.goodsName}</td>
-                <td>{item.factorDescription1}</td>
+                <td>
+                    {item.factorDescription1?.length > 0
+                        ? item.factorDescription1
+                        : "-"}
+                </td>
             </tr>
         ));
 
@@ -240,7 +238,7 @@ const TFactors = () => {
         <ListPage
             pageUtils={pageUtils}
             table={{ renderHeader, renderItems, renderFooter }}
-            renderTopList={renderTopList}
+            renderTopList={renderSearch}
             renderButtons={renderButtons}
             hasAdd={false}
         ></ListPage>

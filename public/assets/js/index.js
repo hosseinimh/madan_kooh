@@ -7296,8 +7296,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var WEIGHT_BRIDGES = {
   ALL_WBS: 0,
-  WB_1: "wb_1",
-  WB_2: "wb_2"
+  WB_1: "baskool1",
+  WB_2: "baskool2"
 };
 
 /***/ }),
@@ -9466,34 +9466,7 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
     value: function onExcel() {
       var _this$pageState, _this$pageState$props;
       var searchFields = (_this$pageState = this.pageState) === null || _this$pageState === void 0 ? void 0 : (_this$pageState$props = _this$pageState.props) === null || _this$pageState$props === void 0 ? void 0 : _this$pageState$props.searchFields;
-      var url = "".concat(_constants__WEBPACK_IMPORTED_MODULE_3__.BASE_PATH, "/excel/p_files?file_no=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.fileNo, "&name=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.name, "&family=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.family, "&blood_disease_type=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.bloodDiseaseType, "&hospitalization_reason=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.hospitalizationReason, "&continuing_drug=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.continuingDrug, "&weekly_drug=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.weeklyDrug, "&cancer_type=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.cancerType, "&radiation_place=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.radiationPlace, "&pregnancy_week=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.pregnancyWeek, "&pregnancy_num=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.pregnancyNum, "&pregnancy_rank=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.pregnancyRank, "&ad_explanation=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.adExplanation, "&sleep_status=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.sleepStatus, "&functional_capacity=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.functionalCapacity, "&use_tobacco_duration=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.useTobaccoDuration, "&use_tobacco_type=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.useTobaccoType, "&use_drug_duration=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.useDrugDuration, "&use_drug_type=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.useDrugType, "&retromolar_area=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.retromolarArea, "&gums=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.gums, "&toothless_ridge=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.toothlessRidge, "&hard_soft_palate=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.hardSoftPalate, "&tongue_dorsal=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.tongueDorsal, "&tongue_ventral=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.tongueVentral, "&tongue_pharyngeal=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.tonguePharyngeal, "&neurological_changes=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.neurologicalChanges, "&salivary_grand_examination=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.salivaryGrandExamination, "&dental_changes_examination=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.dentalChangesExamination, "&probable_diagnosis=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.probableDiagnosis, "&difinitive_diagnosis=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.difinitiveDiagnosis, "&final_treatment_plan=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.finalTreatmentPlan, "&assistant=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.assistant, "&master=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.master);
-      if (searchFields !== null && searchFields !== void 0 && searchFields.birthDate) {
-        url = "".concat(url, "&birth_date=").concat(searchFields.birthDate);
-      }
-      if (searchFields !== null && searchFields !== void 0 && searchFields.lesionClassification) {
-        url = "".concat(url, "&lesion_classification=").concat(searchFields.lesionClassification);
-      }
-      if (searchFields !== null && searchFields !== void 0 && searchFields.specialLesionClassification) {
-        url = "".concat(url, "&special_lesion_classification=").concat(searchFields.specialLesionClassification);
-      }
-      if (searchFields !== null && searchFields !== void 0 && searchFields.systemicDiseaseHistory) {
-        url = "".concat(url, "&systemic_disease_history=").concat(searchFields.systemicDiseaseHistory);
-      }
-      if (searchFields !== null && searchFields !== void 0 && searchFields.tobaccoUse) {
-        url = "".concat(url, "&tobacco_use=").concat(searchFields.tobaccoUse);
-      } else {
-        url = "".concat(url, "&tobacco_use=0");
-      }
-      if (searchFields !== null && searchFields !== void 0 && searchFields.drugUse) {
-        url = "".concat(url, "&drug_use=").concat(searchFields.drugUse);
-      } else {
-        url = "".concat(url, "&drug_use=0");
-      }
-      if (searchFields !== null && searchFields !== void 0 && searchFields.alcohol) {
-        url = "".concat(url, "&alcohol=").concat(searchFields.alcohol);
-      } else {
-        url = "".concat(url, "&alcohol=0");
-      }
+      var url = "".concat(_constants__WEBPACK_IMPORTED_MODULE_3__.BASE_PATH, "/tfactors/excel?weight_bridge=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.weightBridge, "&from_date=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.fromDate, "&to_date=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.toDate, "&goods_name=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.goodsName, "&driver=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.driver, "&buyers_name=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.buyersName, "&sellers_name=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.sellersName, "&users=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.users, "&factor_id=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.factorId, "&factor_description1=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.factorDescription1, "&repetition_type=").concat(searchFields === null || searchFields === void 0 ? void 0 : searchFields.repetitionType);
       window.open(url, "_blank").focus();
     }
   }, {
@@ -9683,72 +9656,70 @@ var TFactors = function TFactors() {
   });
   var columnsCount = 12;
   var pageUtils = new _PageUtils__WEBPACK_IMPORTED_MODULE_3__.PageUtils();
-  var renderTopList = function renderTopList() {
+  var renderSearch = function renderSearch() {
     var _pageUtils$pageState, _pageUtils$pageState$, _pageUtils$pageState2, _pageUtils$pageState3, _pageUtils$pageState4, _pageUtils$pageState5, _pageUtils$pageState6, _pageUtils$pageState7, _pageUtils$pageState8, _pageUtils$pageState9;
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.SearchBox, {
-        pageUtils: pageUtils,
-        onSubmit: pageUtils.onSubmit,
-        onReset: pageUtils.onReset,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
-            field: "weightBridge",
-            showLabel: true,
-            items: pageUtils.getPermittedWeightBridges(),
-            fullRow: false
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputDatePickerColumn, {
-            field: "fromDate",
-            showLabel: true,
-            fullRow: false
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputDatePickerColumn, {
-            field: "toDate",
-            showLabel: true,
-            fullRow: false
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
-            field: "goodsName",
-            showLabel: true,
-            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState = pageUtils.pageState) === null || _pageUtils$pageState === void 0 ? void 0 : (_pageUtils$pageState$ = _pageUtils$pageState.props) === null || _pageUtils$pageState$ === void 0 ? void 0 : _pageUtils$pageState$.goodsName,
-            fullRow: false
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
-            field: "driver",
-            showLabel: true,
-            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState2 = pageUtils.pageState) === null || _pageUtils$pageState2 === void 0 ? void 0 : (_pageUtils$pageState3 = _pageUtils$pageState2.props) === null || _pageUtils$pageState3 === void 0 ? void 0 : _pageUtils$pageState3.drivers,
-            fullRow: false
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
-            field: "buyersName",
-            showLabel: true,
-            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState4 = pageUtils.pageState) === null || _pageUtils$pageState4 === void 0 ? void 0 : (_pageUtils$pageState5 = _pageUtils$pageState4.props) === null || _pageUtils$pageState5 === void 0 ? void 0 : _pageUtils$pageState5.buyersName,
-            fullRow: false
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
-            field: "sellersName",
-            showLabel: true,
-            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState6 = pageUtils.pageState) === null || _pageUtils$pageState6 === void 0 ? void 0 : (_pageUtils$pageState7 = _pageUtils$pageState6.props) === null || _pageUtils$pageState7 === void 0 ? void 0 : _pageUtils$pageState7.sellersName,
-            fullRow: false
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
-            field: "users",
-            showLabel: true,
-            items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState8 = pageUtils.pageState) === null || _pageUtils$pageState8 === void 0 ? void 0 : (_pageUtils$pageState9 = _pageUtils$pageState8.props) === null || _pageUtils$pageState9 === void 0 ? void 0 : _pageUtils$pageState9.users,
-            fullRow: false
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputTextColumn, {
-            field: "tfactorId",
-            showLabel: true,
-            fullRow: false
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputTextColumn, {
-            field: "factorDescription1",
-            showLabel: true,
-            fullRow: false
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
-            field: "repetitionType",
-            showLabel: true,
-            items: _constants_lists__WEBPACK_IMPORTED_MODULE_5__.repetitionTypes,
-            fullRow: false
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {})]
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.SearchBox, {
+      pageUtils: pageUtils,
+      onSubmit: pageUtils.onSubmit,
+      onReset: pageUtils.onReset,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
+          field: "weightBridge",
+          showLabel: true,
+          items: pageUtils.getPermittedWeightBridges(),
+          fullRow: false
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputDatePickerColumn, {
+          field: "fromDate",
+          showLabel: true,
+          fullRow: false
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputDatePickerColumn, {
+          field: "toDate",
+          showLabel: true,
+          fullRow: false
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
+          field: "goodsName",
+          showLabel: true,
+          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState = pageUtils.pageState) === null || _pageUtils$pageState === void 0 ? void 0 : (_pageUtils$pageState$ = _pageUtils$pageState.props) === null || _pageUtils$pageState$ === void 0 ? void 0 : _pageUtils$pageState$.goodsName,
+          fullRow: false
         })]
-      })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
+          field: "driver",
+          showLabel: true,
+          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState2 = pageUtils.pageState) === null || _pageUtils$pageState2 === void 0 ? void 0 : (_pageUtils$pageState3 = _pageUtils$pageState2.props) === null || _pageUtils$pageState3 === void 0 ? void 0 : _pageUtils$pageState3.drivers,
+          fullRow: false
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
+          field: "buyersName",
+          showLabel: true,
+          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState4 = pageUtils.pageState) === null || _pageUtils$pageState4 === void 0 ? void 0 : (_pageUtils$pageState5 = _pageUtils$pageState4.props) === null || _pageUtils$pageState5 === void 0 ? void 0 : _pageUtils$pageState5.buyersName,
+          fullRow: false
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
+          field: "sellersName",
+          showLabel: true,
+          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState6 = pageUtils.pageState) === null || _pageUtils$pageState6 === void 0 ? void 0 : (_pageUtils$pageState7 = _pageUtils$pageState6.props) === null || _pageUtils$pageState7 === void 0 ? void 0 : _pageUtils$pageState7.sellersName,
+          fullRow: false
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputReactSelectColumn, {
+          field: "users",
+          showLabel: true,
+          items: pageUtils === null || pageUtils === void 0 ? void 0 : (_pageUtils$pageState8 = pageUtils.pageState) === null || _pageUtils$pageState8 === void 0 ? void 0 : (_pageUtils$pageState9 = _pageUtils$pageState8.props) === null || _pageUtils$pageState9 === void 0 ? void 0 : _pageUtils$pageState9.users,
+          fullRow: false
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components__WEBPACK_IMPORTED_MODULE_2__.InputRow, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputTextColumn, {
+          field: "factorId",
+          showLabel: true,
+          fullRow: false
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputTextColumn, {
+          field: "factorDescription1",
+          showLabel: true,
+          fullRow: false
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputSelectColumn, {
+          field: "repetitionType",
+          showLabel: true,
+          items: _constants_lists__WEBPACK_IMPORTED_MODULE_5__.repetitionTypes,
+          fullRow: false
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {})]
+      })]
     });
   };
   var renderButtons = function renderButtons() {
@@ -9870,7 +9841,7 @@ var TFactors = function TFactors() {
   var renderItems = function renderItems() {
     var _pageState$props, _pageState$props$item;
     var children = pageState === null || pageState === void 0 ? void 0 : (_pageState$props = pageState.props) === null || _pageState$props === void 0 ? void 0 : (_pageState$props$item = _pageState$props.items) === null || _pageState$props$item === void 0 ? void 0 : _pageState$props$item.map(function (item, index) {
-      var _pageUtils$pageState20, _pageUtils$pageState21, _pageUtils$pageState22, _pageUtils$pageState23;
+      var _pageUtils$pageState20, _pageUtils$pageState21, _pageUtils$pageState22, _pageUtils$pageState23, _item$buyerName, _item$sellerName, _item$factorDescripti;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("tr", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
           children: layoutState !== null && layoutState !== void 0 && layoutState.loading ? (((_pageUtils$pageState20 = pageUtils.pageState) === null || _pageUtils$pageState20 === void 0 ? void 0 : (_pageUtils$pageState21 = _pageUtils$pageState20.props) === null || _pageUtils$pageState21 === void 0 ? void 0 : _pageUtils$pageState21.prevPageNumber) - 1) * 50 + index + 1 : (((_pageUtils$pageState22 = pageUtils.pageState) === null || _pageUtils$pageState22 === void 0 ? void 0 : (_pageUtils$pageState23 = _pageUtils$pageState22.props) === null || _pageUtils$pageState23 === void 0 ? void 0 : _pageUtils$pageState23.pageNumber) - 1) * 50 + index + 1
@@ -9901,13 +9872,13 @@ var TFactors = function TFactors() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
           children: _utils_Utils__WEBPACK_IMPORTED_MODULE_7__["default"].addCommas(item.currentWeight - item.prevWeight)
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
-          children: item.buyerName
+          children: ((_item$buyerName = item.buyerName) === null || _item$buyerName === void 0 ? void 0 : _item$buyerName.length) > 0 ? item.buyerName : "-"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
-          children: item.sellerName
+          children: ((_item$sellerName = item.sellerName) === null || _item$sellerName === void 0 ? void 0 : _item$sellerName.length) > 0 ? item.sellerName : "-"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
           children: item.goodsName
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
-          children: item.factorDescription1
+          children: ((_item$factorDescripti = item.factorDescription1) === null || _item$factorDescripti === void 0 ? void 0 : _item$factorDescripti.length) > 0 ? item.factorDescription1 : "-"
         })]
       }, item.id);
     });
@@ -9929,7 +9900,7 @@ var TFactors = function TFactors() {
       renderItems: renderItems,
       renderFooter: renderFooter
     },
-    renderTopList: renderTopList,
+    renderTopList: renderSearch,
     renderButtons: renderButtons,
     hasAdd: false
   });

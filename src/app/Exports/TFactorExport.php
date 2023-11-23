@@ -2,18 +2,22 @@
 
 namespace App\Exports;
 
-use App\Services\PatientFileService;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use App\Constants\WeightBridge;
+use App\Facades\Helper;
+use App\Services\TFactorService;
+use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithDefaultStyles;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class TFactorExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithDefaultStyles, WithStyles
+class TFactorExport implements FromArray, WithMapping, WithHeadings, ShouldAutoSize, WithDefaultStyles, WithStyles, WithEvents
 {
     private int $index;
 
@@ -31,6 +35,15 @@ class TFactorExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
         private string $repetitionType
     ) {
         $this->index = 1;
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class    => function (AfterSheet $event) {
+                $event->sheet->getDelegate()->setRightToLeft(true);
+            },
+        ];
     }
 
     public function defaultStyles(Style $defaultStyle)
@@ -52,98 +65,82 @@ class TFactorExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     public function headings(): array
     {
         return [
+            '#',
             __('tfactor.weight_bridge'),
-            __('tfactor.tfactor_id'),
+            __('tfactor.factor_id'),
             __('tfactor.car_number'),
             __('tfactor.driver'),
             __('tfactor.current_date'),
             __('tfactor.prev_weight'),
             __('tfactor.current_weight'),
             __('tfactor.net_weight'),
-            __('tfactor.buyer'),
-            __('tfactor.buyer2'),
-            __('tfactor.seller'),
-            __('tfactor.seller2'),
+            $this->weightBridge === WeightBridge::WB_1 ? __('tfactor.buyer2') : __('tfactor.buyer'),
+            $this->weightBridge === WeightBridge::WB_1 ? __('tfactor.seller2') : __('tfactor.seller'),
             __('tfactor.good_name'),
             __('tfactor.factor_description1'),
             __('tfactor.user'),
         ];
     }
 
-    public function query()
+    public function array(): array
     {
-        $patientFileService = new PatientFileService();
-        return $patientFileService->paginatedQuery(
-            $this->fileNo,
-            $this->name,
-            $this->family,
-            $this->birthDate,
-            $this->lesionClassification,
-            $this->specialLesionClassification,
-            $this->systemicDiseaseHistory,
-            $this->bloodDiseaseType,
-            $this->hospitalizationReason,
-            $this->continuingDrug,
-            $this->weeklyDrug,
-            $this->cancerType,
-            $this->radiationPlace,
-            $this->pregnancyWeek,
-            $this->pregnancyNum,
-            $this->pregnancyRank,
-            $this->adExplanation,
-            $this->sleepStatus,
-            $this->functionalCapacity,
-            $this->tobaccoUse,
-            $this->useTobaccoDuration,
-            $this->useTobaccoType,
-            $this->drugUse,
-            $this->useDrugDuration,
-            $this->useDrugType,
-            $this->alcohol,
-            $this->retromolarArea,
-            $this->gums,
-            $this->toothlessRidge,
-            $this->hardSoftPalate,
-            $this->tongueDorsal,
-            $this->tongueVentral,
-            $this->tonguePharyngeal,
-            $this->neurologicalChanges,
-            $this->salivaryGrandExamination,
-            $this->dentalChangesExamination,
-            $this->probableDiagnosis,
-            $this->difinitiveDiagnosis,
-            $this->finalTreatmentPlan,
-            $this->assistant,
-            $this->master,
+        $tfactorService = new TFactorService();
+        $array = $tfactorService->getAll(
+            $this->weightBridge,
+            $this->fromDate,
+            $this->toDate,
+            $this->goodsName,
+            $this->driver,
+            $this->buyersName,
+            $this->sellersName,
+            $this->users,
+            $this->factorId,
+            $this->factorDescription1,
+            $this->repetitionType
         );
-    }
-
-    public function prepareRows($rows)
-    {
-        return $rows->transform(function ($item) {
-            return $item;
-        });
+        if (count($array) > 0) {
+            $last = clone $array[0];
+            $last->factor_id = '';
+            $last->prev_weight = $last->prev_weight_sum;
+            $last->current_weight = $last->current_weight_sum;
+            array_push($array, $last);
+        }
+        return $array;
     }
 
     public function map($item): array
     {
-        return [
-            $this->index++,
-            $item->file_no,
-            $item->factor_id,
-            $item->car_number,
-            $item->driver,
-            $item->current_date,
-            $item->prev_weight,
-            $item->current_weight,
-            $item->net_weight,
-            $item->buyer,
-            $item->buyer2,
-            $item->seller,
-            $item->seller2,
-            $item->good_name,
-            $item->factor_description1,
-            $item->user
-        ];
+        return strlen($item->factor_id) > 0 ?
+            [
+                $this->index++,
+                Helper::getWeightBridgeText($item->weight_bridge),
+                $item->factor_id,
+                $item->car_number2 . ' - ' . $item->car_number1,
+                $item->driver,
+                $item->current_date . ' ' . $item->current_time,
+                $item->prev_weight,
+                $item->current_weight,
+                $item->current_weight - $item->prev_weight,
+                $item->buyer_name,
+                $item->seller_name,
+                $item->goods_name,
+                $item->factor_description1,
+                $item->user_name . ' ' . $item->user_family
+            ] : [
+                'ewr',
+                '',
+                '',
+                '',
+                '',
+                '',
+                $item->prev_weight,
+                $item->current_weight,
+                $item->current_weight - $item->prev_weight,
+                '',
+                '',
+                '',
+                '',
+                ''
+            ];
     }
 }

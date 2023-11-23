@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void logError($e)
  * @method static int|false getTimestamp(string $hijriDate, string $hijriTime = '00:00:00')
  * @method static string createORSQL(?string $items, string $column, bool $exact = false)
+ * @method static string getWeightBridgeText(string $weightBridge)
  */
 class Helper extends Facade
 {

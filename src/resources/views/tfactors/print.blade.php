@@ -13,16 +13,6 @@
 @endsection
 
 @section('content')
-    @php
-    function getWeightBridgeText(string $weightBridge)
-    {
-        if (in_array($weightBridge, App\Constants\WeightBridge::toArray())) {
-            return __('tfactor.weight_bridge_' . $weightBridge);
-        }
-        return __('tfactor.weight_bridge_undefined');
-    }
-    @endphp
-
     <h4 class="print">{{ __('tfactor.from_date') }} {{$fromDate}} {{ __('tfactor.to_date') }} {{$toDate}}</h4>
     <table class="print" cellpadding="5" cellspacing="5">
         <thead>
@@ -60,9 +50,9 @@
             @php $i++; @endphp
             <tr>
                 <td>{{number_format($i)}}</td>
-                <td>{{getWeightBridgeText($item->weight_bridge)}}</td>
+                <td>{{App\Facades\Helper::getWeightBridgeText($item->weight_bridge)}}</td>
                 <td>{{number_format($item->factor_id)}}</td>
-                <td>{{$item->car_number1.' - '.$item->car_number2}}</td>
+                <td>{{$item->car_number2.' - '.$item->car_number1}}</td>
                 <td>{{mb_strlen($item->driver) > 0 ? $item->driver : '-'}}</td>
                 <td>{{$item->current_time}} - {{$item->current_date}}</td>
                 <td>{{number_format($item->prev_weight)}}</td>
