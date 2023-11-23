@@ -53,6 +53,14 @@ const Notifications = () => {
             </button>
             <button
                 className="checked-item tab-item tab-page-item"
+                data-tab-content={NOTIFICATION_CATEGORIES.TFACTOR}
+                onClick={(e) => onChangeTabContent(e)}
+                disabled={layoutState?.loading}
+            >
+                {strings.tfactorNotifications}
+            </button>
+            <button
+                className="checked-item tab-item tab-page-item"
                 data-tab-content={NOTIFICATION_CATEGORIES.SYSTEM}
                 onClick={(e) => onChangeTabContent(e)}
                 disabled={layoutState?.loading}

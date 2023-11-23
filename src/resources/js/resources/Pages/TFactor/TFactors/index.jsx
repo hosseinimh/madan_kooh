@@ -8,6 +8,7 @@ import {
     InputSelectColumn,
     InputTextColumn,
     ListPage,
+    RemoveTFactorsModal,
     SearchBox,
     TableFooter,
     TableItems,
@@ -38,6 +39,7 @@ const TFactors = () => {
                     field="weightBridge"
                     showLabel
                     items={pageUtils.getPermittedWeightBridges()}
+                    onChange={pageUtils.onChangeWeightBridge}
                     fullRow={false}
                 />
                 <InputDatePickerColumn
@@ -120,6 +122,15 @@ const TFactors = () => {
                 disabled={layoutState?.loading}
             >
                 {general.print}
+            </button>
+            <button
+                className="btn btn-dark-warning mx-5"
+                type="button"
+                title={strings.removeTFactors}
+                onClick={pageUtils.onRemoveTFactorsModal}
+                disabled={layoutState?.loading}
+            >
+                {strings.removeTFactors}
             </button>
             <span className="mx-5" style={{ marginRight: "2rem" }}>
                 {strings.currentWeightSum}:
@@ -206,7 +217,7 @@ const TFactors = () => {
                     <p>{`${item.userName} ${item.userFamily}`}</p>
                 </td>
                 <td>
-                    <p>{`${item.carNumber2} ${strings.carNumber1} - ${item.carNumber1}`}</p>
+                    <p>{`${item.carNumber2} - ${item.carNumber1}`}</p>
                     <p>{item.driver}</p>
                 </td>
                 <td>
@@ -241,7 +252,9 @@ const TFactors = () => {
             renderTopList={renderSearch}
             renderButtons={renderButtons}
             hasAdd={false}
-        ></ListPage>
+        >
+            <RemoveTFactorsModal />
+        </ListPage>
     );
 };
 

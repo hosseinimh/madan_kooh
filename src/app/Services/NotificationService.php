@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Constants\NotificationCategory;
 use App\Models\Notification as Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -10,9 +11,12 @@ class NotificationService
 {
     public function getPaginate(int $userId, int $category, int $page, int $pageItems): mixed
     {
-        $query = Model::query()->where('user_id', $userId);
+        $query = Model::query();
         if ($category !== 0) {
             $query->where('category', $category);
+            if ($category === NotificationCategory::ACCOUNT) {
+                $query->where('user_id', $userId);
+            }
         }
         return $query->select('tbl_notifications.*', DB::raw('COUNT(*) OVER() AS items_count'))->orderBy('created_at', 'DESC')->orderBy('id', 'DESC')->skip(($page - 1) * $pageItems)->take($pageItems)->get();
     }
@@ -22,7 +26,7 @@ class NotificationService
         return Model::where('user_id', $userId)->where('type', $type)->orderBy('created_at', 'DESC')->orderBy('id', 'DESC')->take(10)->get();
     }
 
-    public function store(int $userId, int $type, int $category, int $subCategory, ?string $messageFields, int $priority, string|null $seenAt = null): mixed
+    public function store(?int $userId, int $type, int $category, int $subCategory, ?string $messageFields, int $priority, string|null $seenAt = null): mixed
     {
         $data = [
             'type' => $type,

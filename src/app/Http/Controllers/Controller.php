@@ -16,7 +16,7 @@ class Controller extends BaseController
 
     public function __construct(protected JsonResponse $response)
     {
-        date_default_timezone_set('Asia/Tehran');
+        date_default_timezone_set('UTC');
     }
 
     public function onItem(mixed $item): HttpJsonResponse

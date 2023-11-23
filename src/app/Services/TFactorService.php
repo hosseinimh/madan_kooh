@@ -70,9 +70,9 @@ class TFactorService
         return DB::select(DB::raw($sql))[0];
     }
 
-    public static function deleteTFactors($id)
+    public static function deleteTFactors($factorId): bool
     {
-        return DB::statement("DELETE FROM `tbl_tfactors` WHERE `id`>=$id");
+        return DB::statement("DELETE FROM `tbl_tfactors` WHERE `factor_id`>=$factorId");
     }
 
     private function select(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?string $factorId, ?string $factorDescription1, string $repetitionType): string

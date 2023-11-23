@@ -21,7 +21,6 @@ import InputSelectColumn from "./Input/InputSelectColumn";
 import InputSwitchCheckboxColumn from "./Input/InputSwitchCheckboxColumn";
 import InputTextAreaColumn from "./Input/InputTextAreaColumn";
 import InputTextColumn from "./Input/InputTextColumn";
-import InputTextDocumentNoColumn from "./Input/InputTextDocumentNoColumn";
 
 // Layout
 import FormPageLayout from "./Layout/FormPageLayout";
@@ -39,6 +38,7 @@ import ErrorModal from "./Modal/ErrorModal";
 import Modal from "./Modal/Modal";
 import ProfileModal from "./Modal/ProfileModal";
 import PromptModal from "./Modal/PromptModal";
+import RemoveTFactorsModal from "./Modal/RemoveTFactorsModal";
 
 // Page
 import BlankPage from "./Page/BlankPage";
@@ -81,7 +81,6 @@ export {
     InputSwitchCheckboxColumn,
     InputTextAreaColumn,
     InputTextColumn,
-    InputTextDocumentNoColumn,
     FormPageLayout,
     NotAuthPageLayout,
     PageLayout,
@@ -91,6 +90,7 @@ export {
     Modal,
     ProfileModal,
     PromptModal,
+    RemoveTFactorsModal,
     BlankPage,
     ListPage,
     FormPage,

@@ -6762,6 +6762,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var NOTIFICATION_CATEGORIES = {
   ACCOUNT: 1,
+  TFACTOR: 2,
   SYSTEM: 9
 };
 
@@ -6781,7 +6782,9 @@ __webpack_require__.r(__webpack_exports__);
 var NOTIFICATION_SUB_CATEGORIES = {
   LOGIN_SUCCEED: 111,
   LOGIN_FAILED: 112,
-  LOGOUT: 113
+  LOGOUT: 113,
+  SEARCH_TFACTORS: 211,
+  DELETE_TFACTORS: 212
 };
 
 /***/ }),
@@ -6868,6 +6871,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "notificationsPage": () => (/* binding */ notificationsPage),
 /* harmony export */   "permissions": () => (/* binding */ permissions),
 /* harmony export */   "profileModal": () => (/* binding */ profileModal),
+/* harmony export */   "removeTFactorsModal": () => (/* binding */ removeTFactorsModal),
 /* harmony export */   "repetitionTypes": () => (/* binding */ repetitionTypes),
 /* harmony export */   "sidebar": () => (/* binding */ sidebar),
 /* harmony export */   "tfactorsPage": () => (/* binding */ tfactorsPage),
@@ -6997,6 +7001,11 @@ var profileModal = {
 var errorModal = {
   _title: "نمایش خطای رخ‌داده",
   messageErrorModal: "متن خطا"
+};
+var removeTFactorsModal = {
+  removeTFactorsModalTitle: "حذف فاکتورهای صادره",
+  factorIdRemoveTFactorsModal: "شماره قبض",
+  factorIdRemoveTFactorsModalPlaceholder: "شماره قبض"
 };
 var loginUserPage = {
   _title: "ورود به حساب کاربری",
@@ -7128,6 +7137,7 @@ var notificationsPage = {
   _subTitle: "فهرست اعلان‌ها",
   allNotificaions: "همه اعلان‌ها",
   accountNotifications: "اعلان‌های حساب",
+  tfactorNotifications: "اعلان‌های فاکتور صادره",
   systemNotificaions: "اعلان‌های سیستمی",
   title: "عنوان",
   body: "متن",
@@ -7155,7 +7165,6 @@ var tfactorsPage = {
   repetitionType: "نحوه نمایش",
   factorIdList: "شماره قبض / کاربر",
   carNumber: "شماره ماشین / راننده",
-  carNumber1: "ایران",
   currentDate: "تاریخ توزین",
   currentTime: "ساعت توزین",
   prevWeightSum: "وزن خالی",
@@ -7163,8 +7172,10 @@ var tfactorsPage = {
   netWeight: "وزن خالص",
   buyer: "خریدار",
   buyer2: "محدوده استخراج",
+  buyerTemp: "خریدار",
   seller: "فروشنده",
   seller2: "استخراج‌کننده",
+  sellerTemp: "فروشنده",
   goodName: "نام کالا",
   factorDescription1List: "ش بارنامه",
   removeTFactors: "حذف فاکتورهای صادره",
@@ -8051,13 +8062,13 @@ var TFactor = /*#__PURE__*/function (_Entity) {
   }, {
     key: "deleteTFactors",
     value: function () {
-      var _deleteTFactors = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(id) {
+      var _deleteTFactors = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(factorId) {
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
               _context4.next = 2;
-              return this.handlePostWithToken("".concat(_constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL, "/api/tfactors/delete"), {
-                id: id
+              return this.handlePost("".concat(_constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL, "/api/tfactors/delete"), {
+                factor_id: factorId
               });
             case 2:
               return _context4.abrupt("return", _context4.sent);
@@ -9211,6 +9222,14 @@ var Notifications = function Notifications() {
         children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.notificationsPage.accountNotifications
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
         className: "checked-item tab-item tab-page-item",
+        "data-tab-content": _constants__WEBPACK_IMPORTED_MODULE_6__.NOTIFICATION_CATEGORIES.TFACTOR,
+        onClick: function onClick(e) {
+          return onChangeTabContent(e);
+        },
+        disabled: layoutState === null || layoutState === void 0 ? void 0 : layoutState.loading,
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.notificationsPage.tfactorNotifications
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+        className: "checked-item tab-item tab-page-item",
         "data-tab-content": _constants__WEBPACK_IMPORTED_MODULE_6__.NOTIFICATION_CATEGORIES.SYSTEM,
         onClick: function onClick(e) {
           return onChangeTabContent(e);
@@ -9430,6 +9449,7 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
       prevWeightSum: 0,
       action: null,
       searchFields: null,
+      weightBridge: _constants__WEBPACK_IMPORTED_MODULE_3__.WEIGHT_BRIDGES.ALL_WBS,
       goodsName: null,
       driver: null,
       buyersName: null,
@@ -9438,7 +9458,9 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
     };
     _this.onExcel = _this.onExcel.bind(_assertThisInitialized(_this));
     _this.onPrint = _this.onPrint.bind(_assertThisInitialized(_this));
-    _this.handlePromptSubmit = _this.handlePromptSubmit.bind(_assertThisInitialized(_this));
+    _this.onChangeWeightBridge = _this.onChangeWeightBridge.bind(_assertThisInitialized(_this));
+    _this.onRemoveTFactorsModal = _this.onRemoveTFactorsModal.bind(_assertThisInitialized(_this));
+    _this.handleRemoveTFactorsSubmit = _this.handleRemoveTFactorsSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
   _createClass(PageUtils, [{
@@ -9478,16 +9500,34 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
       window.open(url, "_blank").focus();
     }
   }, {
-    key: "onRemove",
-    value: function onRemove(e, item) {
+    key: "onChangeWeightBridge",
+    value: function onChangeWeightBridge() {
+      var weightBridge = this.useForm.getValues("weightBridge");
+      if (weightBridge === _constants__WEBPACK_IMPORTED_MODULE_3__.WEIGHT_BRIDGES.WB_1) {
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyer = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyer2;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyersName = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyer2;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyersNamePlaceholder = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyer2;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.seller = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.seller2;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.sellersName = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.seller2;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.sellersNamePlaceholder = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.seller2;
+      } else {
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyer = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyerTemp;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyersName = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyerTemp;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyersNamePlaceholder = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.buyerTemp;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.seller = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.sellerTemp;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.sellersName = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.sellerTemp;
+        _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.sellersNamePlaceholder = _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.sellerTemp;
+      }
+      this.dispatch((0,_state_page_pageActions__WEBPACK_IMPORTED_MODULE_7__.setPagePropsAction)({
+        weightBridge: weightBridge
+      }));
+    }
+  }, {
+    key: "onRemoveTFactorsModal",
+    value: function onRemoveTFactorsModal(e) {
       e.stopPropagation();
-      this.promptItem = item;
-      this.dispatch((0,_state_layout_layoutActions__WEBPACK_IMPORTED_MODULE_6__.setShownModalAction)("promptModal", {
-        title: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.tfactorsPage.removeMessageTitle,
-        description: "".concat(item.name, " ").concat(item.family, " - ").concat(item.nationalNo),
-        submitTitle: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.general.yes,
-        cancelTitle: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.general.no,
-        onSubmit: this.handlePromptSubmit
+      this.dispatch((0,_state_layout_layoutActions__WEBPACK_IMPORTED_MODULE_6__.setShownModalAction)("removeTFactorsModal", {
+        onSubmit: this.handleRemoveTFactorsSubmit
       }));
     }
   }, {
@@ -9511,21 +9551,24 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
     key: "fillForm",
     value: function () {
       var _fillForm = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(data) {
-        var _this$pageState$props2, _this$pageState$props3, _this$pageState$props4, _this$pageState$props5;
+        var _pageNumber, _this$pageState$props2, _this$pageState$props3, _this$pageState$props4, _this$pageState$props5;
         var withProps,
+          pageNumber,
           promise,
           _args = arguments;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               withProps = _args.length > 1 && _args[1] !== undefined ? _args[1] : false;
+              pageNumber = _args.length > 2 && _args[2] !== undefined ? _args[2] : null;
               this.withProps = withProps;
-              promise = withProps ? this.entity.getPaginateWithProps(data.weightBridge, data.fromDate, data.toDate, data.goodsName, data.driver, data.buyersName, data.sellersName, data.users, data.factorId, data.factorDescription1, data.repetitionType, (_this$pageState$props2 = (_this$pageState$props3 = this.pageState.props) === null || _this$pageState$props3 === void 0 ? void 0 : _this$pageState$props3.pageNumber) !== null && _this$pageState$props2 !== void 0 ? _this$pageState$props2 : 1) : this.entity.getPaginate(data.weightBridge, data.fromDate, data.toDate, data.goodsName, data.driver, data.buyersName, data.sellersName, data.users, data.factorId, data.factorDescription1, data.repetitionType, (_this$pageState$props4 = (_this$pageState$props5 = this.pageState.props) === null || _this$pageState$props5 === void 0 ? void 0 : _this$pageState$props5.pageNumber) !== null && _this$pageState$props4 !== void 0 ? _this$pageState$props4 : 1);
+              pageNumber = (_pageNumber = pageNumber) !== null && _pageNumber !== void 0 ? _pageNumber : 1;
+              promise = withProps ? this.entity.getPaginateWithProps(data.weightBridge, data.fromDate, data.toDate, data.goodsName, data.driver, data.buyersName, data.sellersName, data.users, data.factorId, data.factorDescription1, data.repetitionType, (_this$pageState$props2 = (_this$pageState$props3 = this.pageState.props) === null || _this$pageState$props3 === void 0 ? void 0 : _this$pageState$props3.pageNumber) !== null && _this$pageState$props2 !== void 0 ? _this$pageState$props2 : pageNumber) : this.entity.getPaginate(data.weightBridge, data.fromDate, data.toDate, data.goodsName, data.driver, data.buyersName, data.sellersName, data.users, data.factorId, data.factorDescription1, data.repetitionType, (_this$pageState$props4 = (_this$pageState$props5 = this.pageState.props) === null || _this$pageState$props5 === void 0 ? void 0 : _this$pageState$props5.pageNumber) !== null && _this$pageState$props4 !== void 0 ? _this$pageState$props4 : pageNumber);
               this.dispatch((0,_state_page_pageActions__WEBPACK_IMPORTED_MODULE_7__.setPagePropsAction)({
                 searchFields: _objectSpread({}, data)
               }));
               _get(_getPrototypeOf(PageUtils.prototype), "fillForm", this).call(this, promise);
-            case 5:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -9593,16 +9636,40 @@ var PageUtils = /*#__PURE__*/function (_BasePageUtils) {
       this.fillForm(this.getSearchFields());
     }
   }, {
-    key: "handlePromptSubmit",
-    value: function handlePromptSubmit(result) {
-      if (result === true) {
-        var _this$promptItem;
-        var promise = this.entity["delete"]((_this$promptItem = this.promptItem) === null || _this$promptItem === void 0 ? void 0 : _this$promptItem.id);
-        _get(_getPrototypeOf(PageUtils.prototype), "onSelfSubmit", this).call(this, promise, {
-          pageNumber: 1
-        });
+    key: "handleRemoveTFactorsSubmit",
+    value: function () {
+      var _handleRemoveTFactorsSubmit = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(result, data) {
+        var factorId, _result;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!(result === true)) {
+                _context2.next = 7;
+                break;
+              }
+              factorId = data.factorId;
+              if (isNaN(factorId)) {
+                _context2.next = 7;
+                break;
+              }
+              _context2.next = 5;
+              return this.entity.deleteTFactors(factorId);
+            case 5:
+              _result = _context2.sent;
+              if (_result) {
+                this.fillForm(this.getSearchFields(), false, 1);
+              }
+            case 7:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, this);
+      }));
+      function handleRemoveTFactorsSubmit(_x2, _x3) {
+        return _handleRemoveTFactorsSubmit.apply(this, arguments);
       }
-    }
+      return handleRemoveTFactorsSubmit;
+    }()
   }, {
     key: "onReset",
     value: function onReset() {
@@ -9667,6 +9734,7 @@ var TFactors = function TFactors() {
           field: "weightBridge",
           showLabel: true,
           items: pageUtils.getPermittedWeightBridges(),
+          onChange: pageUtils.onChangeWeightBridge,
           fullRow: false
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.InputDatePickerColumn, {
           field: "fromDate",
@@ -9739,6 +9807,13 @@ var TFactors = function TFactors() {
         onClick: pageUtils.onPrint,
         disabled: layoutState === null || layoutState === void 0 ? void 0 : layoutState.loading,
         children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.general.print
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+        className: "btn btn-dark-warning mx-5",
+        type: "button",
+        title: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.removeTFactors,
+        onClick: pageUtils.onRemoveTFactorsModal,
+        disabled: layoutState === null || layoutState === void 0 ? void 0 : layoutState.loading,
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.removeTFactors
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
         className: "mx-5",
         style: {
@@ -9855,7 +9930,7 @@ var TFactors = function TFactors() {
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("td", {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
-            children: "".concat(item.carNumber2, " ").concat(_constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.tfactorsPage.carNumber1, " - ").concat(item.carNumber1)
+            children: "".concat(item.carNumber2, " - ").concat(item.carNumber1)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
             children: item.driver
           })]
@@ -9902,7 +9977,8 @@ var TFactors = function TFactors() {
     },
     renderTopList: renderSearch,
     renderButtons: renderButtons,
-    hasAdd: false
+    hasAdd: false,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__.RemoveTFactorsModal, {})
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TFactors);
@@ -13516,229 +13592,6 @@ var InputTextColumn = function InputTextColumn(_ref) {
 
 /***/ }),
 
-/***/ "./resources/js/resources/components/Input/InputTextDocumentNoColumn.jsx":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/resources/components/Input/InputTextDocumentNoColumn.jsx ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ */ "./resources/js/resources/components/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-var InputTextDocumentNoColumn = function InputTextDocumentNoColumn(_ref) {
-  var field = _ref.field,
-    _ref$type = _ref.type,
-    type = _ref$type === void 0 ? "text" : _ref$type,
-    _ref$value = _ref.value,
-    value = _ref$value === void 0 ? null : _ref$value,
-    useForm = _ref.useForm,
-    _ref$strings = _ref.strings,
-    strings = _ref$strings === void 0 ? null : _ref$strings,
-    _ref$icon = _ref.icon,
-    icon = _ref$icon === void 0 ? null : _ref$icon,
-    _ref$iconClick = _ref.iconClick,
-    iconClick = _ref$iconClick === void 0 ? null : _ref$iconClick,
-    _ref$inputStyle = _ref.inputStyle,
-    inputStyle = _ref$inputStyle === void 0 ? {} : _ref$inputStyle,
-    _ref$defaultValue = _ref.defaultValue,
-    defaultValue = _ref$defaultValue === void 0 ? "" : _ref$defaultValue,
-    _ref$showLabel = _ref.showLabel,
-    showLabel = _ref$showLabel === void 0 ? false : _ref$showLabel,
-    _ref$textAlign = _ref.textAlign,
-    textAlign = _ref$textAlign === void 0 ? "" : _ref$textAlign,
-    _ref$direction = _ref.direction,
-    direction = _ref$direction === void 0 ? undefined : _ref$direction,
-    _ref$readOnly = _ref.readOnly,
-    readOnly = _ref$readOnly === void 0 ? false : _ref$readOnly,
-    _ref$fullRow = _ref.fullRow,
-    fullRow = _ref$fullRow === void 0 ? true : _ref$fullRow,
-    _ref$inputContainerCl = _ref.inputContainerClassName,
-    inputContainerClassName = _ref$inputContainerCl === void 0 ? "" : _ref$inputContainerCl,
-    _ref$inputClassName = _ref.inputClassName,
-    inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
-    _ref$prefix = _ref.prefix,
-    prefix = _ref$prefix === void 0 ? "" : _ref$prefix,
-    _ref$onPrefixClick = _ref.onPrefixClick,
-    onPrefixClick = _ref$onPrefixClick === void 0 ? null : _ref$onPrefixClick;
-  var layoutState = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
-    return state.layoutReducer;
-  });
-  var pageState = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
-    return state.pageReducer;
-  });
-  var messageState = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
-    return state.messageReducer;
-  });
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(strings && field in strings ? strings[field] : ""),
-    _useState2 = _slicedToArray(_useState, 2),
-    label = _useState2[0],
-    setLabel = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(strings && "".concat(field, "Placeholder") in strings ? strings["".concat(field, "Placeholder")] : ""),
-    _useState4 = _slicedToArray(_useState3, 2),
-    placeholder = _useState4[0],
-    setPlaceholder = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(useForm),
-    _useState6 = _slicedToArray(_useState5, 2),
-    form = _useState6[0],
-    setForm = _useState6[1];
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (!strings) {
-      var _pageState$pageUtils, _pageState$pageUtils2, _pageState$pageUtils3;
-      setLabel(pageState !== null && pageState !== void 0 && (_pageState$pageUtils = pageState.pageUtils) !== null && _pageState$pageUtils !== void 0 && _pageState$pageUtils.strings && field in pageState.pageUtils.strings ? pageState === null || pageState === void 0 ? void 0 : (_pageState$pageUtils2 = pageState.pageUtils) === null || _pageState$pageUtils2 === void 0 ? void 0 : _pageState$pageUtils2.strings[field] : "");
-      setPlaceholder(pageState !== null && pageState !== void 0 && (_pageState$pageUtils3 = pageState.pageUtils) !== null && _pageState$pageUtils3 !== void 0 && _pageState$pageUtils3.strings && "".concat(field, "Placeholder") in pageState.pageUtils.strings ? pageState.pageUtils.strings["".concat(field, "Placeholder")] : "");
-    }
-    if (!useForm) {
-      var _pageState$pageUtils4;
-      setForm(pageState === null || pageState === void 0 ? void 0 : (_pageState$pageUtils4 = pageState.pageUtils) === null || _pageState$pageUtils4 === void 0 ? void 0 : _pageState$pageUtils4.useForm);
-    }
-  }, [pageState]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (form && value) {
-      form === null || form === void 0 ? void 0 : form.setValue(field, value);
-    }
-    if (!form && value) {
-      document.querySelector("#".concat(field)).value = value;
-    }
-  }, [form]);
-  var renderControlledInput = function renderControlledInput(field) {
-    var style;
-    if (textAlign === "left") {
-      style = _objectSpread(_objectSpread({}, inputStyle), {}, {
-        textAlign: textAlign,
-        direction: direction !== null && direction !== void 0 ? direction : "ltr"
-      });
-    } else if (textAlign === "right") {
-      style = _objectSpread(_objectSpread({}, inputStyle), {}, {
-        textAlign: textAlign,
-        direction: direction !== null && direction !== void 0 ? direction : "rtl"
-      });
-    } else {
-      style = _objectSpread({}, inputStyle);
-    }
-    if (prefix !== "") {
-      style = _objectSpread(_objectSpread({}, style), {}, {
-        paddingLeft: "4rem"
-      });
-    }
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", _objectSpread(_objectSpread({
-        id: field.name
-      }, field), {}, {
-        placeholder: placeholder,
-        disabled: layoutState === null || layoutState === void 0 ? void 0 : layoutState.loading,
-        type: type,
-        className: inputClassName,
-        style: _objectSpread({}, style),
-        autoComplete: "false",
-        readOnly: readOnly
-      })), prefix !== "" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-        className: "input-prefix",
-        children: prefix
-      }), prefix !== "" && onPrefixClick && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(___WEBPACK_IMPORTED_MODULE_2__.CustomLink, {
-        onClick: onPrefixClick,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-          className: "input-prefix",
-          children: prefix
-        })
-      }), (messageState === null || messageState === void 0 ? void 0 : messageState.messageField) === field.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-        className: "error",
-        children: messageState === null || messageState === void 0 ? void 0 : messageState.message
-      })]
-    });
-  };
-  var renderUncontrolledInput = function renderUncontrolledInput(field) {
-    var style;
-    if (textAlign === "left") {
-      style = _objectSpread(_objectSpread({}, inputStyle), {}, {
-        textAlign: textAlign,
-        direction: direction !== null && direction !== void 0 ? direction : "ltr"
-      });
-    } else if (textAlign === "right") {
-      style = _objectSpread(_objectSpread({}, inputStyle), {}, {
-        textAlign: textAlign,
-        direction: direction !== null && direction !== void 0 ? direction : "rtl"
-      });
-    } else {
-      style = _objectSpread({}, inputStyle);
-    }
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-        id: field,
-        placeholder: placeholder,
-        disabled: (layoutState === null || layoutState === void 0 ? void 0 : layoutState.loading) || readOnly,
-        type: type,
-        className: inputClassName,
-        style: _objectSpread({}, style),
-        autoComplete: "false"
-      })
-    });
-  };
-  var renderItem = function renderItem() {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "d-flex d-flex-column",
-      children: [showLabel && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "input-info",
-        children: label
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "input-text input-bg input-border ".concat(inputContainerClassName, " ").concat((messageState === null || messageState === void 0 ? void 0 : messageState.messageField) === field ? "error mb-40" : "mb-30"),
-        children: [form && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
-            render: function render(_ref2) {
-              var field = _ref2.field;
-              return renderControlledInput(field);
-            },
-            name: field,
-            control: form === null || form === void 0 ? void 0 : form.control,
-            defaultValue: defaultValue
-          }), icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "icon",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-              className: icon,
-              onClick: iconClick
-            })
-          })]
-        }), !form && renderUncontrolledInput(field)]
-      })]
-    });
-  };
-  if (fullRow) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(___WEBPACK_IMPORTED_MODULE_2__.InputRow, {
-      children: renderItem()
-    });
-  }
-  return renderItem();
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InputTextDocumentNoColumn);
-
-/***/ }),
-
 /***/ "./resources/js/resources/components/Layout/BasePageLayout.jsx":
 /*!*********************************************************************!*\
   !*** ./resources/js/resources/components/Layout/BasePageLayout.jsx ***!
@@ -14595,6 +14448,115 @@ function PromptModal() {
   });
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PromptModal);
+
+/***/ }),
+
+/***/ "./resources/js/resources/components/Modal/RemoveTFactorsModal/index.jsx":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/resources/components/Modal/RemoveTFactorsModal/index.jsx ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../.. */ "./resources/js/resources/components/index.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../constants */ "./resources/js/constants/index.js");
+/* harmony import */ var _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../constants/strings/fa */ "./resources/js/constants/strings/fa.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+function RemoveTFactorsModal() {
+  var layoutState = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
+    return state.layoutReducer;
+  });
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(undefined),
+    _useState2 = _slicedToArray(_useState, 2),
+    modalResult = _useState2[0],
+    setModalResult = _useState2[1];
+  var form = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_6__.useForm)();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (modalResult === _constants__WEBPACK_IMPORTED_MODULE_3__.MODAL_RESULT.OK) {
+      var _layoutState$shownMod, _layoutState$shownMod2;
+      if (typeof (layoutState === null || layoutState === void 0 ? void 0 : (_layoutState$shownMod = layoutState.shownModal) === null || _layoutState$shownMod === void 0 ? void 0 : (_layoutState$shownMod2 = _layoutState$shownMod.props) === null || _layoutState$shownMod2 === void 0 ? void 0 : _layoutState$shownMod2.onSubmit) === "function") {
+        var _layoutState$shownMod3, _layoutState$shownMod4;
+        layoutState === null || layoutState === void 0 ? void 0 : (_layoutState$shownMod3 = layoutState.shownModal) === null || _layoutState$shownMod3 === void 0 ? void 0 : (_layoutState$shownMod4 = _layoutState$shownMod3.props) === null || _layoutState$shownMod4 === void 0 ? void 0 : _layoutState$shownMod4.onSubmit(true, {
+          factorId: form.getValues("factorIdRemoveTFactorsModal")
+        });
+      }
+    } else if (modalResult === _constants__WEBPACK_IMPORTED_MODULE_3__.MODAL_RESULT.CANCEL) {
+      var _layoutState$shownMod5, _layoutState$shownMod6;
+      if (typeof (layoutState === null || layoutState === void 0 ? void 0 : (_layoutState$shownMod5 = layoutState.shownModal) === null || _layoutState$shownMod5 === void 0 ? void 0 : (_layoutState$shownMod6 = _layoutState$shownMod5.props) === null || _layoutState$shownMod6 === void 0 ? void 0 : _layoutState$shownMod6.onCancel) === "function") {
+        var _layoutState$shownMod7, _layoutState$shownMod8;
+        layoutState === null || layoutState === void 0 ? void 0 : (_layoutState$shownMod7 = layoutState.shownModal) === null || _layoutState$shownMod7 === void 0 ? void 0 : (_layoutState$shownMod8 = _layoutState$shownMod7.props) === null || _layoutState$shownMod8 === void 0 ? void 0 : _layoutState$shownMod8.onCancel();
+      }
+    }
+    setModalResult(undefined);
+  }, [modalResult]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var _layoutState$shownMod9;
+    if ((layoutState === null || layoutState === void 0 ? void 0 : (_layoutState$shownMod9 = layoutState.shownModal) === null || _layoutState$shownMod9 === void 0 ? void 0 : _layoutState$shownMod9.modal) === "removeTFactorsModal") {
+      form.setValue("factorIdRemoveTFactorsModal", "");
+    }
+  }, [layoutState === null || layoutState === void 0 ? void 0 : layoutState.shownModal]);
+  var onSubmit = function onSubmit() {
+    setModalResult(_constants__WEBPACK_IMPORTED_MODULE_3__.MODAL_RESULT.OK);
+  };
+  var renderFooter = function renderFooter() {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "btns d-flex mtd-10",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        className: "btn btn-dark-warning",
+        type: "button",
+        title: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.general.remove,
+        onClick: onSubmit,
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.general.remove
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        className: "btn btn-border",
+        type: "button",
+        title: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.general.cancel,
+        onClick: function onClick() {
+          return setModalResult(_constants__WEBPACK_IMPORTED_MODULE_3__.MODAL_RESULT.CANCEL);
+        },
+        children: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.general.cancel
+      })]
+    });
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(___WEBPACK_IMPORTED_MODULE_2__.Modal, {
+    id: "removeTFactorsModal",
+    title: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.removeTFactorsModal.removeTFactorsModalTitle,
+    modalResult: modalResult,
+    footer: renderFooter(),
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(___WEBPACK_IMPORTED_MODULE_2__.InputRow, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(___WEBPACK_IMPORTED_MODULE_2__.InputTextColumn, {
+        field: "factorIdRemoveTFactorsModal",
+        showLabel: true,
+        useForm: form,
+        strings: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_4__.removeTFactorsModal,
+        fullRow: false
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {})]
+    })
+  });
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RemoveTFactorsModal);
 
 /***/ }),
 
@@ -15470,7 +15432,7 @@ var menuItems = {
   TFACTORS: {
     page: "TFactors",
     path: "".concat(_constants__WEBPACK_IMPORTED_MODULE_2__.BASE_PATH, "/tfactors"),
-    icon: "icon-key4",
+    icon: "icon-truck3",
     label: _constants_strings_fa__WEBPACK_IMPORTED_MODULE_5__.sidebar.tfactors
   }
 };
@@ -15953,14 +15915,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AlertState": () => (/* reexport safe */ _Alert_AlertState__WEBPACK_IMPORTED_MODULE_1__["default"]),
 /* harmony export */   "BlankPage": () => (/* reexport safe */ _Page_BlankPage__WEBPACK_IMPORTED_MODULE_28__["default"]),
 /* harmony export */   "Card": () => (/* reexport safe */ _Section_Card__WEBPACK_IMPORTED_MODULE_35__["default"]),
-/* harmony export */   "CustomLink": () => (/* reexport safe */ _Link_CustomLink__WEBPACK_IMPORTED_MODULE_22__["default"]),
+/* harmony export */   "CustomLink": () => (/* reexport safe */ _Link_CustomLink__WEBPACK_IMPORTED_MODULE_21__["default"]),
 /* harmony export */   "ErrorBoundry": () => (/* reexport safe */ _Error_ErrorBoundry__WEBPACK_IMPORTED_MODULE_2__["default"]),
-/* harmony export */   "ErrorModal": () => (/* reexport safe */ _Modal_ErrorModal__WEBPACK_IMPORTED_MODULE_24__["default"]),
+/* harmony export */   "ErrorModal": () => (/* reexport safe */ _Modal_ErrorModal__WEBPACK_IMPORTED_MODULE_23__["default"]),
 /* harmony export */   "FallbackError": () => (/* reexport safe */ _Error_FallbackError__WEBPACK_IMPORTED_MODULE_3__["default"]),
 /* harmony export */   "Footer": () => (/* reexport safe */ _Section_Footer__WEBPACK_IMPORTED_MODULE_32__["default"]),
 /* harmony export */   "FormCard": () => (/* reexport safe */ _Section_FormCard__WEBPACK_IMPORTED_MODULE_36__["default"]),
 /* harmony export */   "FormPage": () => (/* reexport safe */ _Page_FormPage__WEBPACK_IMPORTED_MODULE_30__["default"]),
-/* harmony export */   "FormPageLayout": () => (/* reexport safe */ _Layout_FormPageLayout__WEBPACK_IMPORTED_MODULE_19__["default"]),
+/* harmony export */   "FormPageLayout": () => (/* reexport safe */ _Layout_FormPageLayout__WEBPACK_IMPORTED_MODULE_18__["default"]),
 /* harmony export */   "Header": () => (/* reexport safe */ _Section_Header__WEBPACK_IMPORTED_MODULE_31__["default"]),
 /* harmony export */   "InputButtonRadiosColumn": () => (/* reexport safe */ _Input_InputButtonRadiosColumn__WEBPACK_IMPORTED_MODULE_4__["default"]),
 /* harmony export */   "InputCheckboxColumn": () => (/* reexport safe */ _Input_InputCheckboxColumn__WEBPACK_IMPORTED_MODULE_5__["default"]),
@@ -15976,13 +15938,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "InputSwitchCheckboxColumn": () => (/* reexport safe */ _Input_InputSwitchCheckboxColumn__WEBPACK_IMPORTED_MODULE_15__["default"]),
 /* harmony export */   "InputTextAreaColumn": () => (/* reexport safe */ _Input_InputTextAreaColumn__WEBPACK_IMPORTED_MODULE_16__["default"]),
 /* harmony export */   "InputTextColumn": () => (/* reexport safe */ _Input_InputTextColumn__WEBPACK_IMPORTED_MODULE_17__["default"]),
-/* harmony export */   "InputTextDocumentNoColumn": () => (/* reexport safe */ _Input_InputTextDocumentNoColumn__WEBPACK_IMPORTED_MODULE_18__["default"]),
 /* harmony export */   "ListPage": () => (/* reexport safe */ _Page_ListPage__WEBPACK_IMPORTED_MODULE_29__["default"]),
-/* harmony export */   "Modal": () => (/* reexport safe */ _Modal_Modal__WEBPACK_IMPORTED_MODULE_25__["default"]),
-/* harmony export */   "NotAuthPageLayout": () => (/* reexport safe */ _Layout_NotAuthPageLayout__WEBPACK_IMPORTED_MODULE_20__["default"]),
-/* harmony export */   "PageLayout": () => (/* reexport safe */ _Layout_PageLayout__WEBPACK_IMPORTED_MODULE_21__["default"]),
-/* harmony export */   "ProfileModal": () => (/* reexport safe */ _Modal_ProfileModal__WEBPACK_IMPORTED_MODULE_26__["default"]),
-/* harmony export */   "PromptModal": () => (/* reexport safe */ _Modal_PromptModal__WEBPACK_IMPORTED_MODULE_27__["default"]),
+/* harmony export */   "Modal": () => (/* reexport safe */ _Modal_Modal__WEBPACK_IMPORTED_MODULE_24__["default"]),
+/* harmony export */   "NotAuthPageLayout": () => (/* reexport safe */ _Layout_NotAuthPageLayout__WEBPACK_IMPORTED_MODULE_19__["default"]),
+/* harmony export */   "PageLayout": () => (/* reexport safe */ _Layout_PageLayout__WEBPACK_IMPORTED_MODULE_20__["default"]),
+/* harmony export */   "ProfileModal": () => (/* reexport safe */ _Modal_ProfileModal__WEBPACK_IMPORTED_MODULE_25__["default"]),
+/* harmony export */   "PromptModal": () => (/* reexport safe */ _Modal_PromptModal__WEBPACK_IMPORTED_MODULE_26__["default"]),
+/* harmony export */   "RemoveTFactorsModal": () => (/* reexport safe */ _Modal_RemoveTFactorsModal__WEBPACK_IMPORTED_MODULE_27__["default"]),
 /* harmony export */   "SearchBox": () => (/* reexport safe */ _Section_SearchBox__WEBPACK_IMPORTED_MODULE_34__["default"]),
 /* harmony export */   "Sidebar": () => (/* reexport safe */ _Section_Sidebar__WEBPACK_IMPORTED_MODULE_33__["default"]),
 /* harmony export */   "Span": () => (/* reexport safe */ _Span_Span__WEBPACK_IMPORTED_MODULE_37__["default"]),
@@ -15990,7 +15952,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TableCard": () => (/* reexport safe */ _Table_TableCard__WEBPACK_IMPORTED_MODULE_41__["default"]),
 /* harmony export */   "TableFooter": () => (/* reexport safe */ _Table_TableFooter__WEBPACK_IMPORTED_MODULE_40__["default"]),
 /* harmony export */   "TableItems": () => (/* reexport safe */ _Table_TableItems__WEBPACK_IMPORTED_MODULE_39__["default"]),
-/* harmony export */   "TopLoadingBar": () => (/* reexport safe */ _Loading_TopLoadingBar__WEBPACK_IMPORTED_MODULE_23__["default"])
+/* harmony export */   "TopLoadingBar": () => (/* reexport safe */ _Loading_TopLoadingBar__WEBPACK_IMPORTED_MODULE_22__["default"])
 /* harmony export */ });
 /* harmony import */ var _Alert_AlertMessage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Alert/AlertMessage */ "./resources/js/resources/components/Alert/AlertMessage.jsx");
 /* harmony import */ var _Alert_AlertState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Alert/AlertState */ "./resources/js/resources/components/Alert/AlertState.jsx");
@@ -16010,16 +15972,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Input_InputSwitchCheckboxColumn__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Input/InputSwitchCheckboxColumn */ "./resources/js/resources/components/Input/InputSwitchCheckboxColumn.jsx");
 /* harmony import */ var _Input_InputTextAreaColumn__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Input/InputTextAreaColumn */ "./resources/js/resources/components/Input/InputTextAreaColumn.jsx");
 /* harmony import */ var _Input_InputTextColumn__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Input/InputTextColumn */ "./resources/js/resources/components/Input/InputTextColumn.jsx");
-/* harmony import */ var _Input_InputTextDocumentNoColumn__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Input/InputTextDocumentNoColumn */ "./resources/js/resources/components/Input/InputTextDocumentNoColumn.jsx");
-/* harmony import */ var _Layout_FormPageLayout__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Layout/FormPageLayout */ "./resources/js/resources/components/Layout/FormPageLayout.jsx");
-/* harmony import */ var _Layout_NotAuthPageLayout__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Layout/NotAuthPageLayout */ "./resources/js/resources/components/Layout/NotAuthPageLayout.jsx");
-/* harmony import */ var _Layout_PageLayout__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Layout/PageLayout */ "./resources/js/resources/components/Layout/PageLayout.jsx");
-/* harmony import */ var _Link_CustomLink__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Link/CustomLink */ "./resources/js/resources/components/Link/CustomLink.jsx");
-/* harmony import */ var _Loading_TopLoadingBar__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Loading/TopLoadingBar */ "./resources/js/resources/components/Loading/TopLoadingBar.jsx");
-/* harmony import */ var _Modal_ErrorModal__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Modal/ErrorModal */ "./resources/js/resources/components/Modal/ErrorModal/index.jsx");
-/* harmony import */ var _Modal_Modal__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Modal/Modal */ "./resources/js/resources/components/Modal/Modal.jsx");
-/* harmony import */ var _Modal_ProfileModal__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./Modal/ProfileModal */ "./resources/js/resources/components/Modal/ProfileModal/index.jsx");
-/* harmony import */ var _Modal_PromptModal__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./Modal/PromptModal */ "./resources/js/resources/components/Modal/PromptModal/index.jsx");
+/* harmony import */ var _Layout_FormPageLayout__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Layout/FormPageLayout */ "./resources/js/resources/components/Layout/FormPageLayout.jsx");
+/* harmony import */ var _Layout_NotAuthPageLayout__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Layout/NotAuthPageLayout */ "./resources/js/resources/components/Layout/NotAuthPageLayout.jsx");
+/* harmony import */ var _Layout_PageLayout__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Layout/PageLayout */ "./resources/js/resources/components/Layout/PageLayout.jsx");
+/* harmony import */ var _Link_CustomLink__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Link/CustomLink */ "./resources/js/resources/components/Link/CustomLink.jsx");
+/* harmony import */ var _Loading_TopLoadingBar__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Loading/TopLoadingBar */ "./resources/js/resources/components/Loading/TopLoadingBar.jsx");
+/* harmony import */ var _Modal_ErrorModal__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Modal/ErrorModal */ "./resources/js/resources/components/Modal/ErrorModal/index.jsx");
+/* harmony import */ var _Modal_Modal__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Modal/Modal */ "./resources/js/resources/components/Modal/Modal.jsx");
+/* harmony import */ var _Modal_ProfileModal__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Modal/ProfileModal */ "./resources/js/resources/components/Modal/ProfileModal/index.jsx");
+/* harmony import */ var _Modal_PromptModal__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./Modal/PromptModal */ "./resources/js/resources/components/Modal/PromptModal/index.jsx");
+/* harmony import */ var _Modal_RemoveTFactorsModal__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./Modal/RemoveTFactorsModal */ "./resources/js/resources/components/Modal/RemoveTFactorsModal/index.jsx");
 /* harmony import */ var _Page_BlankPage__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./Page/BlankPage */ "./resources/js/resources/components/Page/BlankPage.jsx");
 /* harmony import */ var _Page_ListPage__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./Page/ListPage */ "./resources/js/resources/components/Page/ListPage.jsx");
 /* harmony import */ var _Page_FormPage__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./Page/FormPage */ "./resources/js/resources/components/Page/FormPage.jsx");
@@ -16058,7 +16020,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 // Layout
 
 
@@ -16071,6 +16032,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // Modal
+
 
 
 
@@ -16828,7 +16790,6 @@ var handleError = function handleError(data, dispatch) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SET_DOCUMENT_YEAR_ACTION": () => (/* binding */ SET_DOCUMENT_YEAR_ACTION),
 /* harmony export */   "SET_DROP_DOWN_ELEMENT_ACTION": () => (/* binding */ SET_DROP_DOWN_ELEMENT_ACTION),
 /* harmony export */   "SET_LOADING_ACTION": () => (/* binding */ SET_LOADING_ACTION),
 /* harmony export */   "SET_NOTIFICATIONS_ACTION": () => (/* binding */ SET_NOTIFICATIONS_ACTION),
@@ -16837,7 +16798,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SET_SIZE_ACTION": () => (/* binding */ SET_SIZE_ACTION),
 /* harmony export */   "SET_THEME_ACTION": () => (/* binding */ SET_THEME_ACTION),
 /* harmony export */   "TOGGLE_SIDEBAR_ACTION": () => (/* binding */ TOGGLE_SIDEBAR_ACTION),
-/* harmony export */   "setDocumentYearAction": () => (/* binding */ setDocumentYearAction),
 /* harmony export */   "setDropDownElementAction": () => (/* binding */ setDropDownElementAction),
 /* harmony export */   "setLoadingAction": () => (/* binding */ setLoadingAction),
 /* harmony export */   "setNotificationsAction": () => (/* binding */ setNotificationsAction),
@@ -16863,7 +16823,6 @@ var TOGGLE_SIDEBAR_ACTION = "TOGGLE_SIDEBAR_ACTION";
 var SET_SIDEBAR_PROPS_ACTION = "SET_SIDEBAR_PROPS_ACTION";
 var SET_DROP_DOWN_ELEMENT_ACTION = "SET_DROP_DOWN_ELEMENT_ACTION";
 var SET_SHOWN_MODAL_ACTION = "SET_SHOWN_MODAL_ACTION";
-var SET_DOCUMENT_YEAR_ACTION = "SET_DOCUMENT_YEAR_ACTION";
 var setLoadingAction = function setLoadingAction(loading) {
   return /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(dispatch) {
@@ -17049,27 +17008,6 @@ var setShownModalAction = function setShownModalAction(modal) {
     };
   }();
 };
-var setDocumentYearAction = function setDocumentYearAction(year) {
-  return /*#__PURE__*/function () {
-    var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(dispatch) {
-      return _regeneratorRuntime().wrap(function _callee9$(_context9) {
-        while (1) switch (_context9.prev = _context9.next) {
-          case 0:
-            dispatch({
-              type: SET_DOCUMENT_YEAR_ACTION,
-              payload: year
-            });
-          case 1:
-          case "end":
-            return _context9.stop();
-        }
-      }, _callee9);
-    }));
-    return function (_x9) {
-      return _ref9.apply(this, arguments);
-    };
-  }();
-};
 
 /***/ }),
 
@@ -17085,9 +17023,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../constants */ "./resources/js/constants/index.js");
-/* harmony import */ var _constants_strings_fa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants/strings/fa */ "./resources/js/constants/strings/fa.js");
-/* harmony import */ var _utils_Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/Utils */ "./resources/js/utils/Utils.js");
-/* harmony import */ var _layoutActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./layoutActions */ "./resources/js/state/layout/layoutActions.js");
+/* harmony import */ var _utils_Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/Utils */ "./resources/js/utils/Utils.js");
+/* harmony import */ var _layoutActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./layoutActions */ "./resources/js/state/layout/layoutActions.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _JSON$parse;
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -17104,35 +17041,25 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
-
 var selectedTheme = _constants__WEBPACK_IMPORTED_MODULE_0__.themes.find(function (tm) {
-  return tm.name === _utils_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getLSVariable("theme");
+  return tm.name === _utils_Utils__WEBPACK_IMPORTED_MODULE_1__["default"].getLSVariable("theme");
 });
 if (!selectedTheme) {
   selectedTheme = _constants__WEBPACK_IMPORTED_MODULE_0__.themes[0];
 }
-var getDocumentYear = function getDocumentYear() {
-  var documentYear = _utils_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getLSVariable("documentYear");
-  if (!documentYear || isNaN(documentYear)) {
-    return _utils_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].toNumericLocaleDateString(Date.now(), _constants_strings_fa__WEBPACK_IMPORTED_MODULE_1__.general.locale).substring(0, 4);
-  } else {
-    return parseInt(documentYear);
-  }
-};
 var initialState = {
   loading: false,
   width: 0,
   height: 0,
   theme: selectedTheme,
-  notifications: (_JSON$parse = JSON.parse(_utils_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getLSVariable("notifications"))) !== null && _JSON$parse !== void 0 ? _JSON$parse : {},
+  notifications: (_JSON$parse = JSON.parse(_utils_Utils__WEBPACK_IMPORTED_MODULE_1__["default"].getLSVariable("notifications"))) !== null && _JSON$parse !== void 0 ? _JSON$parse : {},
   sidebarCollapsed: false,
   sidebarProps: {
     link: null
   },
   dropDownElement: null,
   modals: [],
-  shownModal: null,
-  documentYear: getDocumentYear()
+  shownModal: null
 };
 var layoutReducer = function layoutReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -17140,42 +17067,42 @@ var layoutReducer = function layoutReducer() {
     type = _ref.type,
     payload = _ref.payload;
   switch (type) {
-    case _layoutActions__WEBPACK_IMPORTED_MODULE_3__.SET_LOADING_ACTION:
+    case _layoutActions__WEBPACK_IMPORTED_MODULE_2__.SET_LOADING_ACTION:
       return _objectSpread(_objectSpread({}, state), {}, {
         loading: payload
       });
-    case _layoutActions__WEBPACK_IMPORTED_MODULE_3__.SET_SIZE_ACTION:
+    case _layoutActions__WEBPACK_IMPORTED_MODULE_2__.SET_SIZE_ACTION:
       return _objectSpread(_objectSpread({}, state), {}, {
         width: payload.width,
         height: payload.height
       });
-    case _layoutActions__WEBPACK_IMPORTED_MODULE_3__.SET_THEME_ACTION:
+    case _layoutActions__WEBPACK_IMPORTED_MODULE_2__.SET_THEME_ACTION:
       return _objectSpread(_objectSpread({}, state), {}, {
         theme: payload
       });
-    case _layoutActions__WEBPACK_IMPORTED_MODULE_3__.SET_NOTIFICATIONS_ACTION:
-      _utils_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].setLSVariable("notifications", JSON.stringify(_objectSpread(_objectSpread({}, state.notifications), {}, {
+    case _layoutActions__WEBPACK_IMPORTED_MODULE_2__.SET_NOTIFICATIONS_ACTION:
+      _utils_Utils__WEBPACK_IMPORTED_MODULE_1__["default"].setLSVariable("notifications", JSON.stringify(_objectSpread(_objectSpread({}, state.notifications), {}, {
         payload: payload
       })));
       return _objectSpread(_objectSpread({}, state), {}, {
         notifications: _objectSpread(_objectSpread({}, state.notifications), payload)
       });
-    case _layoutActions__WEBPACK_IMPORTED_MODULE_3__.TOGGLE_SIDEBAR_ACTION:
+    case _layoutActions__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_SIDEBAR_ACTION:
       return _objectSpread(_objectSpread({}, state), {}, {
         sidebarCollapsed: !state.sidebarCollapsed
       });
-    case _layoutActions__WEBPACK_IMPORTED_MODULE_3__.SET_SIDEBAR_PROPS_ACTION:
+    case _layoutActions__WEBPACK_IMPORTED_MODULE_2__.SET_SIDEBAR_PROPS_ACTION:
       if (JSON.stringify(_objectSpread(_objectSpread({}, state.sidebarProps), payload)) !== JSON.stringify(_objectSpread({}, state.sidebarProps))) {
         return _objectSpread(_objectSpread({}, state), {}, {
           sidebarProps: _objectSpread(_objectSpread({}, state.sidebarProps), payload)
         });
       }
       return _objectSpread({}, state);
-    case _layoutActions__WEBPACK_IMPORTED_MODULE_3__.SET_DROP_DOWN_ELEMENT_ACTION:
+    case _layoutActions__WEBPACK_IMPORTED_MODULE_2__.SET_DROP_DOWN_ELEMENT_ACTION:
       return _objectSpread(_objectSpread({}, state), {}, {
         dropDownElement: payload
       });
-    case _layoutActions__WEBPACK_IMPORTED_MODULE_3__.SET_SHOWN_MODAL_ACTION:
+    case _layoutActions__WEBPACK_IMPORTED_MODULE_2__.SET_SHOWN_MODAL_ACTION:
       if (payload === null || payload.modal === null) {
         var modals = _toConsumableArray(state.modals);
         var shownModal = null;
@@ -17202,11 +17129,6 @@ var layoutReducer = function layoutReducer() {
           shownModal: payload
         });
       }
-    case _layoutActions__WEBPACK_IMPORTED_MODULE_3__.SET_DOCUMENT_YEAR_ACTION:
-      _utils_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].setLSVariable("documentYear", payload);
-      return _objectSpread(_objectSpread({}, state), {}, {
-        documentYear: payload
-      });
     default:
       return state;
   }
@@ -18412,6 +18334,20 @@ var getSubCategoryText = function getSubCategoryText(item, locale) {
       date = _utils$getTimezoneDat.date,
       time = _utils$getTimezoneDat.time;
     return item.subCategoryText.replace(":field1", date).replace(":field2", time).replace(":field3", item.messageFields);
+  } else if (item.subCategory === _constants__WEBPACK_IMPORTED_MODULE_1__.NOTIFICATION_SUB_CATEGORIES.LOGIN_FAILED) {
+    var _item$messageFields;
+    var _utils$getTimezoneDat2 = _Utils__WEBPACK_IMPORTED_MODULE_0__["default"].getTimezoneDate(item.createdAt, locale),
+      _date = _utils$getTimezoneDat2.date,
+      _time = _utils$getTimezoneDat2.time;
+    var messageFields = (_item$messageFields = item.messageFields) === null || _item$messageFields === void 0 ? void 0 : _item$messageFields.split("|");
+    return item.subCategoryText.replace(":field1", messageFields[0]).replace(":field2", _date).replace(":field3", _time).replace(":field4", messageFields[1]);
+  } else if (item.subCategory === _constants__WEBPACK_IMPORTED_MODULE_1__.NOTIFICATION_SUB_CATEGORIES.SEARCH_TFACTORS) {
+    var _messageFields = item.messageFields;
+    return item.subCategoryText.replace(":field1", _messageFields);
+  } else if (item.subCategory === _constants__WEBPACK_IMPORTED_MODULE_1__.NOTIFICATION_SUB_CATEGORIES.DELETE_TFACTORS) {
+    var _item$messageFields2;
+    var _messageFields2 = (_item$messageFields2 = item.messageFields) === null || _item$messageFields2 === void 0 ? void 0 : _item$messageFields2.split("|");
+    return item.subCategoryText.replace(":field1", _messageFields2[0]).replace(":field2", _messageFields2[1]);
   }
 };
 var notification = {

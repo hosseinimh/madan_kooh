@@ -11,15 +11,17 @@ use Maatwebsite\Excel\Concerns\WithDefaultStyles;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithProperties;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class TFactorExport implements FromArray, WithMapping, WithHeadings, ShouldAutoSize, WithDefaultStyles, WithStyles, WithEvents
+class TFactorExport implements FromArray, WithMapping, WithHeadings, ShouldAutoSize, WithDefaultStyles, WithStyles, WithEvents, WithProperties
 {
     private int $index;
+    private int $count;
 
     public function __construct(
         private ?string $weightBridge,
@@ -35,14 +37,22 @@ class TFactorExport implements FromArray, WithMapping, WithHeadings, ShouldAutoS
         private string $repetitionType
     ) {
         $this->index = 1;
+        $this->count = 0;
     }
 
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class    => function (AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
                 $event->sheet->getDelegate()->setRightToLeft(true);
             },
+        ];
+    }
+
+    public function properties(): array
+    {
+        return [
+            'creator' => 'Mahmoud Hosseini, +989123735055',
         ];
     }
 
@@ -57,9 +67,10 @@ class TFactorExport implements FromArray, WithMapping, WithHeadings, ShouldAutoS
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            'Z'  => ['alignment' => ['wrapText' => true]],
-        ];
+        $sheet->getStyle('A1:N1')->getFill()->applyFromArray(['fillType' => 'solid', 'rotation' => 0, 'color' => ['rgb' => 'C5D9F1'],]);
+        if ($this->count > 0) {
+            $sheet->getStyle('A' . $this->count . ':N' . $this->count)->getFill()->applyFromArray(['fillType' => 'solid', 'rotation' => 0, 'color' => ['rgb' => 'C5D9F1'],]);
+        }
     }
 
     public function headings(): array
@@ -99,6 +110,7 @@ class TFactorExport implements FromArray, WithMapping, WithHeadings, ShouldAutoS
             $this->repetitionType
         );
         if (count($array) > 0) {
+            $this->count = count($array) + 2;
             $last = clone $array[0];
             $last->factor_id = '';
             $last->prev_weight = $last->prev_weight_sum;
@@ -127,7 +139,7 @@ class TFactorExport implements FromArray, WithMapping, WithHeadings, ShouldAutoS
                 $item->factor_description1,
                 $item->user_name . ' ' . $item->user_family
             ] : [
-                'ewr',
+                '',
                 '',
                 '',
                 '',

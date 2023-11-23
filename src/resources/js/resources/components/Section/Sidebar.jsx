@@ -48,7 +48,7 @@ const menuItems = {
     TFACTORS: {
         page: "TFactors",
         path: `${BASE_PATH}/tfactors`,
-        icon: "icon-key4",
+        icon: "icon-truck3",
         label: strings.tfactors,
     },
 };

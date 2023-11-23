@@ -17,7 +17,9 @@ use App\Models\User as Model;
 use App\Packages\JsonResponse;
 use App\Services\PermissionService;
 use App\Services\UserService;
+use Exception;
 use Illuminate\Http\JsonResponse as HttpJsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -75,6 +77,7 @@ class UserController extends Controller
     public function login(LoginRequest $request): HttpJsonResponse
     {
         if (!auth()->attempt(['username' => $request->username, 'password' => $request->password, 'is_active' => Status::ACTIVE])) {
+            Notification::onLoginFailed($request->username);
             return $this->onError(['_error' => __('user.user_not_found'), '_errorCode' => ErrorCode::USER_NOT_FOUND]);
         }
         Notification::onLoginSuccess(auth()->user());
@@ -83,8 +86,12 @@ class UserController extends Controller
 
     public function logout(): HttpJsonResponse
     {
-        Notification::onLogout(auth()->user());
-        auth()->logout();
-        return $this->onOk();
+        try {
+            Notification::onLogout(auth()->user());
+            Auth::logout();
+            return $this->onOk();
+        } catch (Exception) {
+        }
+        return $this->onError();
     }
 }

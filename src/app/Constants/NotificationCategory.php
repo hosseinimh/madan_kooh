@@ -7,6 +7,7 @@ use ReflectionClass;
 abstract class NotificationCategory
 {
     const ACCOUNT = 1;
+    const TFACTOR = 2;
     const SYSTEM = 9;
 
     public static function toArray()

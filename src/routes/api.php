@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum', 'auth.logged', 'role:' . Role::ADMIN])->group
 Route::middleware(['auth:sanctum', 'auth.logged', 'role_or_permission:' . Role::ADMIN . '|' . Permission::READ_WB_1 . '|' . Permission::READ_WB_2 . '|' . Permission::READ_ALL_WBS])->group(function () {
     Route::post('tfactors', [TFactorController::class, 'index']);
     Route::post('tfactors/props', [TFactorController::class, 'indexWithProps']);
+    Route::post('tfactors/delete', [TFactorController::class, 'deleteTFactors']);
 });
 
 // not logged in users

@@ -1,5 +1,4 @@
 import { themes } from "../../constants";
-import { general } from "../../constants/strings/fa";
 import utils from "../../utils/Utils";
 import * as actions from "./layoutActions";
 
@@ -10,16 +9,6 @@ if (!selectedTheme) {
     selectedTheme = themes[0];
 }
 
-const getDocumentYear = () => {
-    const documentYear = utils.getLSVariable("documentYear");
-    if (!documentYear || isNaN(documentYear)) {
-        return utils
-            .toNumericLocaleDateString(Date.now(), general.locale)
-            .substring(0, 4);
-    } else {
-        return parseInt(documentYear);
-    }
-};
 const initialState = {
     loading: false,
     width: 0,
@@ -31,7 +20,6 @@ const initialState = {
     dropDownElement: null,
     modals: [],
     shownModal: null,
-    documentYear: getDocumentYear(),
 };
 
 const layoutReducer = (state = initialState, { type, payload }) => {
@@ -111,12 +99,6 @@ const layoutReducer = (state = initialState, { type, payload }) => {
                     shownModal: payload,
                 };
             }
-        case actions.SET_DOCUMENT_YEAR_ACTION:
-            utils.setLSVariable("documentYear", payload);
-            return {
-                ...state,
-                documentYear: payload,
-            };
         default:
             return state;
     }

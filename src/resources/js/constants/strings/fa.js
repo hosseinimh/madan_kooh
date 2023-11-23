@@ -132,6 +132,12 @@ export const errorModal = {
     messageErrorModal: "متن خطا",
 };
 
+export const removeTFactorsModal = {
+    removeTFactorsModalTitle: "حذف فاکتورهای صادره",
+    factorIdRemoveTFactorsModal: "شماره قبض",
+    factorIdRemoveTFactorsModalPlaceholder: "شماره قبض",
+};
+
 export const loginUserPage = {
     _title: "ورود به حساب کاربری",
     _subTitle:
@@ -272,6 +278,7 @@ export const notificationsPage = {
     _subTitle: "فهرست اعلان‌ها",
     allNotificaions: "همه اعلان‌ها",
     accountNotifications: "اعلان‌های حساب",
+    tfactorNotifications: "اعلان‌های فاکتور صادره",
     systemNotificaions: "اعلان‌های سیستمی",
     title: "عنوان",
     body: "متن",
@@ -300,7 +307,6 @@ export const tfactorsPage = {
     repetitionType: "نحوه نمایش",
     factorIdList: "شماره قبض / کاربر",
     carNumber: "شماره ماشین / راننده",
-    carNumber1: "ایران",
     currentDate: "تاریخ توزین",
     currentTime: "ساعت توزین",
     prevWeightSum: "وزن خالی",
@@ -308,8 +314,10 @@ export const tfactorsPage = {
     netWeight: "وزن خالص",
     buyer: "خریدار",
     buyer2: "محدوده استخراج",
+    buyerTemp: "خریدار",
     seller: "فروشنده",
     seller2: "استخراج‌کننده",
+    sellerTemp: "فروشنده",
     goodName: "نام کالا",
     factorDescription1List: "ش بارنامه",
     removeTFactors: "حذف فاکتورهای صادره",

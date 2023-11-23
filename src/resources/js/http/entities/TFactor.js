@@ -108,12 +108,9 @@ export class TFactor extends Entity {
             : await this.handlePost(`${BASE_URL}/api/tfactors`, data);
     }
 
-    async deleteTFactors(id) {
-        return await this.handlePostWithToken(
-            `${BASE_URL}/api/tfactors/delete`,
-            {
-                id,
-            }
-        );
+    async deleteTFactors(factorId) {
+        return await this.handlePost(`${BASE_URL}/api/tfactors/delete`, {
+            factor_id: factorId,
+        });
     }
 }

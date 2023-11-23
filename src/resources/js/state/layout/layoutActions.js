@@ -9,7 +9,6 @@ export const TOGGLE_SIDEBAR_ACTION = "TOGGLE_SIDEBAR_ACTION";
 export const SET_SIDEBAR_PROPS_ACTION = "SET_SIDEBAR_PROPS_ACTION";
 export const SET_DROP_DOWN_ELEMENT_ACTION = "SET_DROP_DOWN_ELEMENT_ACTION";
 export const SET_SHOWN_MODAL_ACTION = "SET_SHOWN_MODAL_ACTION";
-export const SET_DOCUMENT_YEAR_ACTION = "SET_DOCUMENT_YEAR_ACTION";
 
 export const setLoadingAction = (loading) => async (dispatch) => {
     dispatch({
@@ -72,10 +71,3 @@ export const setShownModalAction =
             payload: { modal, props },
         });
     };
-
-export const setDocumentYearAction = (year) => async (dispatch) => {
-    dispatch({
-        type: SET_DOCUMENT_YEAR_ACTION,
-        payload: year,
-    });
-};

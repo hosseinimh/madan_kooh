@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Exports\TFactorExport;
+use App\Facades\Notification;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TFactor\DeleteTFactorsRequest;
 use App\Http\Requests\TFactor\IndexTFactorsRequest;
 use App\Http\Resources\TFactor\TFactorResource;
 use App\Packages\JsonResponse;
@@ -23,6 +25,7 @@ class TFactorController extends Controller
         $items = $this->service->getPaginate($request->weight_bridge, $request->from_date, $request->to_date, $request->goods_name, $request->driver, $request->buyers_name, $request->sellers_name, $request->users, $request->factor_id, $request->factor_description1, $request->repetition_type, $request->_pn, $request->_pi);
         $itemsCount = count($items);
         $items = TFactorResource::collection($items);
+        Notification::onSearchTFactors(auth()->user());
         return $this->onOk(['items' => $items, 'count' => $itemsCount > 0 ? $items[0]->items_count : 0, 'prevWeightSum' => $itemsCount > 0 ? $items[0]->prev_weight_sum : 0, 'currentWeightSum' => $itemsCount > 0 ? $items[0]->current_weight_sum : 0]);
     }
 
@@ -36,6 +39,7 @@ class TFactorController extends Controller
         $sellersName = $this->service->getAllSellersName();
         $drivers = $this->service->getAllDrivers();
         $users = $this->service->getAllUsers();
+        Notification::onSearchTFactors(auth()->user());
         return $this->onOk(['items' => $items, 'count' => $itemsCount > 0 ? $items[0]->items_count : 0, 'prevWeightSum' => $itemsCount > 0 ? $items[0]->prev_weight_sum : 0, 'currentWeightSum' => $itemsCount > 0 ? $items[0]->current_weight_sum : 0, 'goodsName' => $goodsName, 'buyersName' => $buyersName, 'sellersName' => $sellersName, 'drivers' => $drivers, 'users' => $users]);
     }
 
@@ -70,5 +74,14 @@ class TFactorController extends Controller
         $prevWeightSum = $itemsCount > 0 ? $items[0]->prev_weight_sum : 0;
         $netWeightSum = $currentWeightSum - $prevWeightSum;
         return view('tfactors.print', compact('wb', 'fromDate', 'toDate', 'items', 'currentWeightSum', 'prevWeightSum', 'netWeightSum'));
+    }
+
+    public function deleteTFactors(DeleteTFactorsRequest $request)
+    {
+        $result = $this->service->deleteTFactors($request->factor_id);
+        if ($result) {
+            Notification::onDeleteTFactors(auth()->user(), $request->factor_id);
+        }
+        return $this->onDelete($result);
     }
 }

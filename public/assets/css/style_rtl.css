@@ -11023,6 +11023,7 @@ div.dataTables_wrapper {
 }
 .react-select-container {
   flex-grow: 1;
+  cursor: pointer !important;
 }
 .react-select__control {
   padding: 0.625rem;
@@ -11036,6 +11037,7 @@ div.dataTables_wrapper {
   background: var(--body);
   max-height: 40vh;
   box-shadow: var(--box-shadow), 0 0 0 1px var(--border);
+  cursor: pointer !important;
 }
 .react-select__option {
   padding: 0.4rem 1rem;

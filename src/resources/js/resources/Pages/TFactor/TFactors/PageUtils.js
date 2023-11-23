@@ -37,6 +37,7 @@ export class PageUtils extends BasePageUtils {
             prevWeightSum: 0,
             action: null,
             searchFields: null,
+            weightBridge: WEIGHT_BRIDGES.ALL_WBS,
             goodsName: null,
             driver: null,
             buyersName: null,
@@ -45,7 +46,10 @@ export class PageUtils extends BasePageUtils {
         };
         this.onExcel = this.onExcel.bind(this);
         this.onPrint = this.onPrint.bind(this);
-        this.handlePromptSubmit = this.handlePromptSubmit.bind(this);
+        this.onChangeWeightBridge = this.onChangeWeightBridge.bind(this);
+        this.onRemoveTFactorsModal = this.onRemoveTFactorsModal.bind(this);
+        this.handleRemoveTFactorsSubmit =
+            this.handleRemoveTFactorsSubmit.bind(this);
     }
 
     onLoad() {
@@ -86,16 +90,35 @@ export class PageUtils extends BasePageUtils {
         window.open(url, "_blank").focus();
     }
 
-    onRemove(e, item) {
-        e.stopPropagation();
-        this.promptItem = item;
+    onChangeWeightBridge() {
+        const weightBridge = this.useForm.getValues("weightBridge");
+        if (weightBridge === WEIGHT_BRIDGES.WB_1) {
+            strings.buyer = strings.buyer2;
+            strings.buyersName = strings.buyer2;
+            strings.buyersNamePlaceholder = strings.buyer2;
+            strings.seller = strings.seller2;
+            strings.sellersName = strings.seller2;
+            strings.sellersNamePlaceholder = strings.seller2;
+        } else {
+            strings.buyer = strings.buyerTemp;
+            strings.buyersName = strings.buyerTemp;
+            strings.buyersNamePlaceholder = strings.buyerTemp;
+            strings.seller = strings.sellerTemp;
+            strings.sellersName = strings.sellerTemp;
+            strings.sellersNamePlaceholder = strings.sellerTemp;
+        }
         this.dispatch(
-            setShownModalAction("promptModal", {
-                title: strings.removeMessageTitle,
-                description: `${item.name} ${item.family} - ${item.nationalNo}`,
-                submitTitle: general.yes,
-                cancelTitle: general.no,
-                onSubmit: this.handlePromptSubmit,
+            setPagePropsAction({
+                weightBridge,
+            })
+        );
+    }
+
+    onRemoveTFactorsModal(e) {
+        e.stopPropagation();
+        this.dispatch(
+            setShownModalAction("removeTFactorsModal", {
+                onSubmit: this.handleRemoveTFactorsSubmit,
             })
         );
     }
@@ -199,8 +222,9 @@ export class PageUtils extends BasePageUtils {
         return searchFields;
     };
 
-    async fillForm(data, withProps = false) {
+    async fillForm(data, withProps = false, pageNumber = null) {
         this.withProps = withProps;
+        pageNumber = pageNumber ?? 1;
         const promise = withProps
             ? this.entity.getPaginateWithProps(
                   data.weightBridge,
@@ -214,7 +238,7 @@ export class PageUtils extends BasePageUtils {
                   data.factorId,
                   data.factorDescription1,
                   data.repetitionType,
-                  this.pageState.props?.pageNumber ?? 1
+                  this.pageState.props?.pageNumber ?? pageNumber
               )
             : this.entity.getPaginate(
                   data.weightBridge,
@@ -228,7 +252,7 @@ export class PageUtils extends BasePageUtils {
                   data.factorId,
                   data.factorDescription1,
                   data.repetitionType,
-                  this.pageState.props?.pageNumber ?? 1
+                  this.pageState.props?.pageNumber ?? pageNumber
               );
         this.dispatch(setPagePropsAction({ searchFields: { ...data } }));
         super.fillForm(promise);
@@ -279,12 +303,15 @@ export class PageUtils extends BasePageUtils {
         this.fillForm(this.getSearchFields());
     }
 
-    handlePromptSubmit(result) {
+    async handleRemoveTFactorsSubmit(result, data) {
         if (result === true) {
-            const promise = this.entity.delete(this.promptItem?.id);
-            super.onSelfSubmit(promise, {
-                pageNumber: 1,
-            });
+            const { factorId } = data;
+            if (!isNaN(factorId)) {
+                const result = await this.entity.deleteTFactors(factorId);
+                if (result) {
+                    this.fillForm(this.getSearchFields(), false, 1);
+                }
+            }
         }
     }
 
