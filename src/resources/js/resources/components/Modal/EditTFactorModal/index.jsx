@@ -7,11 +7,11 @@ import { AlertMessage, InputRow, InputTextColumn, Modal } from "../..";
 import { MODAL_RESULT } from "../../../../constants";
 import {
     general,
-    removeTFactorsModal as strings,
+    editTFactorModal as strings,
 } from "../../../../constants/strings/fa";
-import { removeTFactorModalSchema as schema } from "../../../validations";
+import { editTFactorModalSchema as schema } from "../../../validations";
 
-function RemoveTFactorsModal() {
+function EditTFactorModal() {
     const layoutState = useSelector((state) => state.layoutReducer);
     const [modalResult, setModalResult] = useState(undefined);
     const [message, setMessage] = useState(null);
@@ -32,7 +32,7 @@ function RemoveTFactorsModal() {
                     ].message
                 );
                 document
-                    .querySelector("#removeTFactorsModal")
+                    .querySelector("#editTFactorModal")
                     .querySelector(".modal-main")
                     .firstChild.scrollTo(0, 0);
             }
@@ -45,7 +45,10 @@ function RemoveTFactorsModal() {
                 typeof layoutState?.shownModal?.props?.onSubmit === "function"
             ) {
                 layoutState?.shownModal?.props?.onSubmit(true, {
-                    factorId: form.getValues("factorIdRemoveTFactorsModal"),
+                    factorId: form.getValues("factorIdEditTFactorModal"),
+                    factorDescription1: form.getValues(
+                        "factorDescription1EditTFactorModal"
+                    ),
                 });
             }
         } else if (modalResult === MODAL_RESULT.CANCEL) {
@@ -59,9 +62,17 @@ function RemoveTFactorsModal() {
     }, [modalResult]);
 
     useEffect(() => {
-        if (layoutState?.shownModal?.modal === "removeTFactorsModal") {
+        if (layoutState?.shownModal?.modal === "editTFactorModal") {
             setMessage(null);
-            form.setValue("factorIdRemoveTFactorsModal", "");
+            form.setValue(
+                "factorIdEditTFactorModal",
+                layoutState?.shownModal?.props?.tfactor?.factorId ?? ""
+            );
+            form.setValue(
+                "factorDescription1EditTFactorModal",
+                layoutState?.shownModal?.props?.tfactor?.factorDescription1 ??
+                    ""
+            );
         }
     }, [layoutState?.shownModal]);
 
@@ -73,12 +84,12 @@ function RemoveTFactorsModal() {
         return (
             <div className="btns d-flex mtd-10">
                 <button
-                    className="btn btn-dark-warning"
+                    className="btn btn-success"
                     type="button"
-                    title={general.remove}
+                    title={general.edit}
                     onClick={form.handleSubmit(onSubmit)}
                 >
-                    {general.remove}
+                    {general.edit}
                 </button>
                 <button
                     className="btn btn-border"
@@ -94,7 +105,7 @@ function RemoveTFactorsModal() {
 
     return (
         <Modal
-            id="removeTFactorsModal"
+            id="editTFactorModal"
             title={strings._title}
             modalResult={modalResult}
             footer={renderFooter()}
@@ -102,17 +113,22 @@ function RemoveTFactorsModal() {
             <AlertMessage message={message} containerClassName="mb-30" />
             <InputRow>
                 <InputTextColumn
-                    field="factorIdRemoveTFactorsModal"
-                    showLabel
+                    field="factorIdEditTFactorModal"
                     useForm={form}
                     strings={strings}
                     fullRow={false}
+                    showLabel
                 />
-                <div></div>
-                <div></div>
+                <InputTextColumn
+                    field="factorDescription1EditTFactorModal"
+                    useForm={form}
+                    strings={strings}
+                    fullRow={false}
+                    showLabel
+                />
             </InputRow>
         </Modal>
     );
 }
 
-export default RemoveTFactorsModal;
+export default EditTFactorModal;

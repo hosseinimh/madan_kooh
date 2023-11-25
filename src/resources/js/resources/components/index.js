@@ -34,6 +34,7 @@ import CustomLink from "./Link/CustomLink";
 import TopLoadingBar from "./Loading/TopLoadingBar";
 
 // Modal
+import EditTFactorModal from "./Modal/EditTFactorModal";
 import ErrorModal from "./Modal/ErrorModal";
 import Modal from "./Modal/Modal";
 import ProfileModal from "./Modal/ProfileModal";
@@ -86,6 +87,7 @@ export {
     PageLayout,
     CustomLink,
     TopLoadingBar,
+    EditTFactorModal,
     ErrorModal,
     Modal,
     ProfileModal,

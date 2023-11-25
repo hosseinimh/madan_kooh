@@ -51,6 +51,12 @@ const menuItems = {
         icon: "icon-truck3",
         label: strings.tfactors,
     },
+    EDIT_TFACTOR: {
+        page: "EditTFactor",
+        path: `${BASE_PATH}/tfactors/edit`,
+        icon: "icon-receipt-edit4",
+        label: strings.editTFactor,
+    },
 };
 
 function Sidebar() {
@@ -107,6 +113,10 @@ function Sidebar() {
                     userState?.user?.permissions?.includes(
                         PERMISSIONS.READ_WB_2
                     )) && <>{renderMenuItem(menuItems.TFACTORS)}</>}
+                {(userState?.user?.roles?.includes(ROLES.ADMIN) ||
+                    userState?.user?.permissions?.includes(
+                        PERMISSIONS.EDIT_FACTOR_DESCRIPTION
+                    )) && <>{renderMenuItem(menuItems.EDIT_TFACTOR)}</>}
             </ul>
         </>
     );

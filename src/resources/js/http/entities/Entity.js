@@ -122,7 +122,7 @@ class Entity {
         try {
             utils.clearLS();
 
-            post(`${BASE_URL}/u/users/logout`);
+            post(`${BASE_URL}/api/users/logout`);
             window.location.href = `${BASE_PATH}/users/login`;
         } catch (error) {
             console.log(error);

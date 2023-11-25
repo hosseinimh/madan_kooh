@@ -19,6 +19,7 @@ import { setShownModalAction } from "../../../../state/layout/layoutActions";
 import { setPagePropsAction } from "../../../../state/page/pageActions";
 import utils from "../../../../utils/Utils";
 import { weightBridges } from "../../../../constants/lists";
+import { clearMessageAction } from "../../../../state/message/messageActions";
 
 export class PageUtils extends BasePageUtils {
     constructor() {
@@ -50,6 +51,7 @@ export class PageUtils extends BasePageUtils {
         this.onRemoveTFactorsModal = this.onRemoveTFactorsModal.bind(this);
         this.handleRemoveTFactorsSubmit =
             this.handleRemoveTFactorsSubmit.bind(this);
+        this.handleEditTFactorSubmit = this.handleEditTFactorSubmit.bind(this);
     }
 
     onLoad() {
@@ -119,6 +121,17 @@ export class PageUtils extends BasePageUtils {
         this.dispatch(
             setShownModalAction("removeTFactorsModal", {
                 onSubmit: this.handleRemoveTFactorsSubmit,
+            })
+        );
+    }
+
+    showEditTFactorModal(e, item) {
+        this.dispatch(clearMessageAction());
+        e.stopPropagation();
+        this.dispatch(
+            setShownModalAction("editTFactorModal", {
+                tfactor: item,
+                onSubmit: this.handleEditTFactorSubmit,
             })
         );
     }
@@ -303,20 +316,29 @@ export class PageUtils extends BasePageUtils {
         this.fillForm(this.getSearchFields());
     }
 
+    onReset() {
+        super.onReset();
+        this.useForm.setValue("repetitionType", REPETITION_TYPES.ALL);
+    }
+
     async handleRemoveTFactorsSubmit(result, data) {
         if (result === true) {
-            const { factorId } = data;
-            if (!isNaN(factorId)) {
-                const result = await this.entity.deleteTFactors(factorId);
-                if (result) {
-                    this.fillForm(this.getSearchFields(), false, 1);
-                }
+            const result = await this.entity.deleteTFactors(data.factorId);
+            if (result) {
+                this.fillForm(this.getSearchFields(), false, 1);
             }
         }
     }
 
-    onReset() {
-        super.onReset();
-        this.useForm.setValue("repetitionType", REPETITION_TYPES.ALL);
+    async handleEditTFactorSubmit(result, data) {
+        if (result === true) {
+            const result = await this.entity.update(
+                data.factorId,
+                data.factorDescription1
+            );
+            if (result) {
+                this.fillForm(this.getSearchFields(), false, 1);
+            }
+        }
     }
 }

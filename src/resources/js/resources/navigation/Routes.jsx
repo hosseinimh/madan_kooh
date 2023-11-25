@@ -79,6 +79,15 @@ function AppRoutes() {
                         element={<Pages.TFactors />}
                     />
                 )}
+                {(userState?.user?.roles?.includes(ROLES.ADMIN) ||
+                    userState?.user?.permissions?.includes(
+                        PERMISSIONS.EDIT_FACTOR_DESCRIPTION
+                    )) && (
+                    <Route
+                        path={`${BASE_PATH}/tfactors/edit`}
+                        element={<Pages.EditTFactor />}
+                    />
+                )}
                 {userState?.user && renderAuthRoutes()}
             </Routes>
         </Router>

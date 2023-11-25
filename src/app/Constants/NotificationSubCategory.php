@@ -11,6 +11,7 @@ abstract class NotificationSubCategory
     const LOGOUT = 113;
     const SEARCH_TFACTORS = 211;
     const DELETE_TFACTORS = 212;
+    const EDIT_FACTOR_DESCRIPTION = 213;
 
     public static function toArray()
     {

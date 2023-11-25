@@ -9,8 +9,4 @@ export class Dashboard extends Entity {
     async index() {
         return await this.handlePost(`${BASE_URL}/api/dashboard`);
     }
-
-    async indexWithAdmin() {
-        return await this.handlePost(`${BASE_URL}/api/dashboard/admin`);
-    }
 }

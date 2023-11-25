@@ -28,6 +28,13 @@ const getSubCategoryText = (item, locale) => {
         return item.subCategoryText
             .replace(":field1", messageFields[0])
             .replace(":field2", messageFields[1]);
+    } else if (
+        item.subCategory === NOTIFICATION_SUB_CATEGORIES.EDIT_FACTOR_DESCRIPTION
+    ) {
+        const messageFields = item.messageFields?.split("|");
+        return item.subCategoryText
+            .replace(":field1", messageFields[0])
+            .replace(":field2", messageFields[1]);
     }
 };
 

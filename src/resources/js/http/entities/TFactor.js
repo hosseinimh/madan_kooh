@@ -108,6 +108,13 @@ export class TFactor extends Entity {
             : await this.handlePost(`${BASE_URL}/api/tfactors`, data);
     }
 
+    async update(factorId, factorDescription1) {
+        return await this.handlePost(`${BASE_URL}/api/tfactors/update`, {
+            factor_id: factorId,
+            factor_description1: factorDescription1,
+        });
+    }
+
     async deleteTFactors(factorId) {
         return await this.handlePost(`${BASE_URL}/api/tfactors/delete`, {
             factor_id: factorId,

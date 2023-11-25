@@ -70,9 +70,70 @@ class TFactorService
         return DB::select(DB::raw($sql))[0];
     }
 
-    public static function deleteTFactors($factorId): bool
+    public function store(string $weightBridge, ?string $factorId, ?string $carCode, ?string $carNumber1, ?string $carNumber2, ?string $driver, ?string $currentWaghit, ?string $prevWaghit, ?string $currentDate, ?string $currentTime, ?string $prevDate, ?string $prevTime, ?string $goodsCode, ?string $goodsName, ?string $unitPrice, ?string $purchCode, ?string $purchName, ?string $salerCode, ?string $salerName, ?string $userId, ?string $userName, ?string $userFamily, ?string $currentRow, ?string $prevRow, ?string $factorDesc1, ?string $factorDesc2, ?string $factorDesc3, ?string $factorDesc4, ?string $factorDesc5, ?string $factorDesc6, ?string $factorDesc7, ?string $factorDesc8, ?string $factorDesc9, ?string $formType, ?string $printLocation, ?string $tozinCost, ?string $pNo, ?string $costId, ?string $factorMod, ?string $digree, ?string $maliat, ?string $userEditId): mixed
     {
-        return DB::statement("DELETE FROM `tbl_tfactors` WHERE `factor_id`>=$factorId");
+        $currentTimestamp = Helper::getTimestamp($currentDate, $currentTime);
+        $prevTimestamp = Helper::getTimestamp($prevDate, $prevTime);
+        $data = [
+            'weight_bridge' => $weightBridge,
+            'factor_id' => $factorId,
+            'car_code' => $carCode ?? '',
+            'car_number1' => $carNumber1 ?? '',
+            'car_number2' => $carNumber2 ?? '',
+            'driver' => $driver ?? '',
+            'current_weight' => $currentWaghit ?? 0,
+            'prev_weight' => $prevWaghit ?? 0,
+            'current_date' => $currentDate ?? '',
+            'current_time' => $currentTime ?? '',
+            'current_timestamp' => $currentTimestamp,
+            'prev_date' => $prevDate ?? '',
+            'prev_time' => $prevTime ?? '',
+            'prev_timestamp' => $prevTimestamp,
+            'goods_code' => $goodsCode ?? 0,
+            'goods_name' => $goodsName ?? '',
+            'unit_price' => $unitPrice ?? 0,
+            'buyer_code' => $purchCode ?? 0,
+            'buyer_name' => $purchName ?? '',
+            'seller_code' => $salerCode ?? 0,
+            'seller_name' => $salerName ?? '',
+            'user_id' => $userId ?? 0,
+            'user_name' => $userName ?? '',
+            'user_family' => $userFamily ?? '',
+            'current_row' => $currentRow ?? 0,
+            'prev_row' => $prevRow ?? 0,
+            'factor_description1' => $factorDesc1 ?? '',
+            'factor_description2' => $factorDesc2 ?? '',
+            'factor_description3' => $factorDesc3 ?? '',
+            'factor_description4' => $factorDesc4 ?? '',
+            'factor_description5' => $factorDesc5 ?? '',
+            'factor_description6' => $factorDesc6 ?? '',
+            'factor_description7' => $factorDesc7 ?? '',
+            'factor_description8' => $factorDesc8 ?? '',
+            'factor_description9' => $factorDesc9 ?? '',
+            'form_type' => $formType ?? 0,
+            'print_location' => $printLocation ?? 0,
+            'tozin_cost' => $tozinCost ?? 0,
+            'p_no' => $pNo ?? 0,
+            'cost_id' => $costId ?? 0,
+            'factor_mode' => $factorMod ?? 0,
+            'degree' => $digree ?? '',
+            'tax' => $maliat ?? 0,
+            'user_edit_id' => $userEditId ?? 0,
+        ];
+        return Model::create($data);
+    }
+
+    public function update(string $factorId, string $factorDescription1): bool
+    {
+        $data = [
+            'factor_description1' => $factorDescription1
+        ];
+        return Model::where('factor_id', $factorId)->update($data);
+    }
+
+    public static function deleteTFactors(string $factorId): bool
+    {
+        return Model::where('factor_id', $factorId)->delete();
     }
 
     private function select(?string $weightBridge, string $fromDate, string $toDate, ?string $goodsName, ?string $driver, ?string $buyersName, ?string $sellersName, ?string $users, ?string $factorId, ?string $factorDescription1, string $repetitionType): string

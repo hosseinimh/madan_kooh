@@ -1,4 +1,3 @@
-import { ROLES } from "../../../constants";
 import { dashboardPage as strings } from "../../../constants/strings/fa";
 import { Dashboard as Entity } from "../../../http/entities";
 import {
@@ -13,8 +12,8 @@ export class PageUtils extends BasePageUtils {
         super("Dashboard", strings, useForm);
         this.entity = new Entity();
         this.initialPageProps = {
-            weightSumWB1: null,
-            weightSumWB2: null,
+            wb1: null,
+            wb2: null,
         };
     }
 
@@ -32,9 +31,7 @@ export class PageUtils extends BasePageUtils {
 
     async fetchData() {
         try {
-            let result = this.userState?.user?.roles?.includes(ROLES.ADMIN)
-                ? await this.entity.indexWithAdmin()
-                : await this.entity.index();
+            let result = await this.entity.index();
             this.handleFetchResult(
                 result,
                 this.propsIfOK(result),
@@ -51,8 +48,8 @@ export class PageUtils extends BasePageUtils {
             })
         );
         return {
-            weightSumWB1: result.weightSumWB1,
-            weightSumWB2: result.weightSumWB2,
+            wb1: result.wb1,
+            wb2: result.wb2,
         };
     }
 }

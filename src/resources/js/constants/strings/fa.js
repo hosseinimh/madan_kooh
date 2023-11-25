@@ -132,8 +132,16 @@ export const errorModal = {
     messageErrorModal: "متن خطا",
 };
 
+export const editTFactorModal = {
+    _title: "ویرایش فاکتور صادره",
+    factorIdEditTFactorModal: "شماره قبض",
+    factorIdEditTFactorModalPlaceholder: "شماره قبض",
+    factorDescription1EditTFactorModal: "شماره بارنامه",
+    factorDescription1EditTFactorModalPlaceholder: "شماره بارنامه",
+};
+
 export const removeTFactorsModal = {
-    removeTFactorsModalTitle: "حذف فاکتورهای صادره",
+    _title: "حذف فاکتورهای صادره",
     factorIdRemoveTFactorsModal: "شماره قبض",
     factorIdRemoveTFactorsModalPlaceholder: "شماره قبض",
 };
@@ -155,6 +163,7 @@ export const sidebar = {
     errors: "خطاها",
     quickItems: "دسترسی سریع",
     tfactors: "فاکتورهای صادره",
+    editTFactor: "ویرایش فاکتور صادره",
     systemItems: "امکانات",
     users: "کاربران",
     notifications: "اعلان‌ها",
@@ -327,4 +336,14 @@ export const tfactorsPage = {
     confirmModalTitle: "آیا مطمئن به حذف  فاکتور های صادره می‌باشید؟",
     confirmConfirm: "بله",
     confirmCancel: "انصراف",
+};
+
+export const editTFactorPage = {
+    _title: "ویرایش فاکتور صادره",
+    _subTitle: "مشخصات فاکتور صادره را ویرایش کنید.",
+    factorId: "شماره قبض",
+    factorIdPlaceholder: "شماره قبض",
+    factorDescription1: "شماره بارنامه",
+    factorDescription1Placeholder: "شماره بارنامه",
+    submitted: "ویرایش فاکتور صادره با موفقیت انجام شد.",
 };

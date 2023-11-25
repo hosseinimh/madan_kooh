@@ -6,6 +6,7 @@ use App\Constants\NotificationCategory;
 use App\Constants\NotificationPriority;
 use App\Constants\NotificationSubCategory;
 use App\Constants\NotificationType;
+use App\Models\TFactor;
 use App\Models\User;
 use App\Services\NotificationService;
 
@@ -46,5 +47,12 @@ class Notification
         $service = new NotificationService();
         $messageFields = $user->username . '|' . $factorId;
         $service->store($user->id, NotificationType::USER, NotificationCategory::TFACTOR, NotificationSubCategory::DELETE_TFACTORS, $messageFields, NotificationPriority::NORMAL, date('Y-m-d H:i:s'));
+    }
+
+    public function onEditTFactor(User $user, string $factorId): void
+    {
+        $service = new NotificationService();
+        $messageFields = $factorId . '|' . $user->username;
+        $service->store($user->id, NotificationType::USER, NotificationCategory::TFACTOR, NotificationSubCategory::EDIT_FACTOR_DESCRIPTION, $messageFields, NotificationPriority::NORMAL, date('Y-m-d H:i:s'));
     }
 }

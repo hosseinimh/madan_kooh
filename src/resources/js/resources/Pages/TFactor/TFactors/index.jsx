@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import {
+    CustomLink,
+    EditTFactorModal,
     InputDatePickerColumn,
     InputReactSelectColumn,
     InputRow,
@@ -19,11 +21,12 @@ import {
     tfactorsPage as strings,
 } from "../../../../constants/strings/fa";
 import { repetitionTypes } from "../../../../constants/lists";
-import { WEIGHT_BRIDGES } from "../../../../constants";
+import { ROLES, WEIGHT_BRIDGES } from "../../../../constants";
 import utils from "../../../../utils/Utils";
 
 const TFactors = () => {
     const layoutState = useSelector((state) => state.layoutReducer);
+    const userState = useSelector((state) => state.userReducer);
     const pageState = useSelector((state) => state.pageReducer);
     const columnsCount = 12;
     const pageUtils = new PageUtils();
@@ -231,9 +234,22 @@ const TFactors = () => {
                 <td>{item.sellerName?.length > 0 ? item.sellerName : "-"}</td>
                 <td>{item.goodsName}</td>
                 <td>
-                    {item.factorDescription1?.length > 0
-                        ? item.factorDescription1
-                        : "-"}
+                    {userState?.user?.roles?.includes(ROLES.ADMIN) && (
+                        <CustomLink
+                            onClick={(e) =>
+                                pageUtils.showEditTFactorModal(e, item)
+                            }
+                            disabled={layoutState?.loading}
+                        >
+                            {item.factorDescription1?.length > 0
+                                ? item.factorDescription1
+                                : "-"}
+                        </CustomLink>
+                    )}
+                    {!userState?.user?.roles?.includes(ROLES.ADMIN) &&
+                        (item.factorDescription1?.length > 0
+                            ? item.factorDescription1
+                            : "-")}
                 </td>
             </tr>
         ));
@@ -254,6 +270,7 @@ const TFactors = () => {
             hasAdd={false}
         >
             <RemoveTFactorsModal />
+            <EditTFactorModal />
         </ListPage>
     );
 };

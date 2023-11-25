@@ -18,9 +18,8 @@ const Dashboard = () => {
                 {strings.no}:{" "}
                 <span className="text">
                     {utils.addCommasPersianIfNum(
-                        pageUtils?.pageState?.props?.weightSumWB1?.itemsCount +
-                            pageUtils?.pageState?.props?.weightSumWB2
-                                ?.itemsCount
+                        pageUtils?.pageState?.props?.wb1?.itemsCount +
+                            pageUtils?.pageState?.props?.wb2?.itemsCount
                     )}
                 </span>
             </p>
@@ -28,10 +27,8 @@ const Dashboard = () => {
                 {strings.currentWeight}:{" "}
                 <span className="text">
                     {utils.addCommasPersianIfNum(
-                        pageUtils?.pageState?.props?.weightSumWB1
-                            ?.prevWeightSum +
-                            pageUtils?.pageState?.props?.weightSumWB2
-                                ?.prevWeightSum
+                        pageUtils?.pageState?.props?.wb1?.prevWeightSum +
+                            pageUtils?.pageState?.props?.wb2?.prevWeightSum
                     )}
                 </span>
             </p>
@@ -39,10 +36,8 @@ const Dashboard = () => {
                 {strings.netWeight}:{" "}
                 <span className="text">
                     {utils.addCommasPersianIfNum(
-                        pageUtils?.pageState?.props?.weightSumWB1
-                            ?.currentWeightSum +
-                            pageUtils?.pageState?.props?.weightSumWB2
-                                ?.currentWeightSum
+                        pageUtils?.pageState?.props?.wb1?.currentWeightSum +
+                            pageUtils?.pageState?.props?.wb2?.currentWeightSum
                     )}
                 </span>
             </p>
@@ -56,7 +51,7 @@ const Dashboard = () => {
                 {strings.no}:{" "}
                 <span className="text">
                     {utils.addCommasPersianIfNum(
-                        pageUtils?.pageState?.props?.weightSumWB1?.itemsCount
+                        pageUtils?.pageState?.props?.wb1?.itemsCount
                     )}
                 </span>
             </p>
@@ -64,7 +59,7 @@ const Dashboard = () => {
                 {strings.currentWeight}:{" "}
                 <span className="text">
                     {utils.addCommasPersianIfNum(
-                        pageUtils?.pageState?.props?.weightSumWB1?.prevWeightSum
+                        pageUtils?.pageState?.props?.wb1?.prevWeightSum
                     )}
                 </span>
             </p>
@@ -72,8 +67,7 @@ const Dashboard = () => {
                 {strings.netWeight}:{" "}
                 <span className="text">
                     {utils.addCommasPersianIfNum(
-                        pageUtils?.pageState?.props?.weightSumWB1
-                            ?.currentWeightSum
+                        pageUtils?.pageState?.props?.wb1?.currentWeightSum
                     )}
                 </span>
             </p>
@@ -87,7 +81,7 @@ const Dashboard = () => {
                 {strings.no}:{" "}
                 <span className="text">
                     {utils.addCommasPersianIfNum(
-                        pageUtils?.pageState?.props?.weightSumWB2?.itemsCount
+                        pageUtils?.pageState?.props?.wb2?.itemsCount
                     )}
                 </span>
             </p>
@@ -95,7 +89,7 @@ const Dashboard = () => {
                 {strings.currentWeight}:{" "}
                 <span className="text">
                     {utils.addCommasPersianIfNum(
-                        pageUtils?.pageState?.props?.weightSumWB2?.prevWeightSum
+                        pageUtils?.pageState?.props?.wb2?.prevWeightSum
                     )}
                 </span>
             </p>
@@ -103,8 +97,7 @@ const Dashboard = () => {
                 {strings.netWeight}:{" "}
                 <span className="text">
                     {utils.addCommasPersianIfNum(
-                        pageUtils?.pageState?.props?.weightSumWB2
-                            ?.currentWeightSum
+                        pageUtils?.pageState?.props?.wb2?.currentWeightSum
                     )}
                 </span>
             </p>

@@ -9,6 +9,7 @@ import ChangePasswordCurrentUser from "./User/ChangePasswordUser/ChangePasswordC
 import ChangePasswordUser from "./User/ChangePasswordUser/ChangePasswordUser";
 import Users from "./User/Users";
 import TFactors from "./TFactor/TFactors";
+import EditTFactor from "./TFactor/EditTFactor";
 
 export {
     Dashboard,
@@ -22,4 +23,5 @@ export {
     ChangePasswordUser,
     Users,
     TFactors,
+    EditTFactor,
 };
